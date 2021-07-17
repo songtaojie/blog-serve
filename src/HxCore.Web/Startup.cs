@@ -51,6 +51,7 @@ namespace HxCore.Web
             #endregion
             #region 数据库链接，上下文
             ConsoleHelper.WriteWarningLine(Hx.Sdk.ConfigureOptions.AppSettings.GetConfig("ConnectionStrings:MySqlConnectionString"));
+            ConsoleHelper.WriteWarningLine(Hx.Sdk.ConfigureOptions.AppSettings.GetConfig("Startup:ApiName"));
             services.AddDatabaseAccessor(service =>
             {
                 service.AddDbPool<Entity.Context.DefaultContext>();
