@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="Consul" Version="1.6.10.2" />
+    <PackageReference Include="Hx.Sdk.DependencyInjection" Version="1.0.1.2" />
+    <PackageReference Include="Hx.Sdk.Swagger" Version="1.0.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HxCore.Services\HxCore.Services.csproj" />
+  </ItemGroup>
+
+</Project>

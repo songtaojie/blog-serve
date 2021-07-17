@@ -1,0 +1,208 @@
+﻿using Hx.Sdk.DatabaseAccessor;
+using HxCore.Entity.Entities;
+using HxCore.IServices.Admin;
+using HxCore.Model.Admin.User;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using Hx.Sdk.Extensions;
+using Hx.Sdk.Common.Extensions;
+using Hx.Sdk.FriendlyException;
+using HxCore.Entity.Enum;
+using Microsoft.AspNetCore.Http;
+using Hx.Sdk.Entity.Page;
+using HxCore.Entity;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Hx.Sdk.Common.Helper;
+
+namespace HxCore.Services.Admin
+{
+    public class UserService : BaseStatusService<T_User>, IUserService
+    {
+        public UserService(IRepository<T_User> userDal) : base(userDal)
+        {
+        }
+
+        #region 新增编辑
+        /// <inheritdoc cref="IUserService.AddAsync"/>
+        public async Task<bool> AddAsync(UserCreateModel createModel)
+        {
+            createModel.VerifyParam();
+            //var existEmail = await this.ExistAsync(u => u.Email == createModel.Email);
+            //if (existEmail) throw new UserFriendlyException("邮箱已存在", ErrorCodeEnum.AddError);
+            var entity = this.Mapper.Map<T_User>(createModel);
+            entity.PassWord = createModel.PassWord.MD5TwoEncrypt();
+            return await this.InsertAsync(entity);
+        }
+        /// <inheritdoc cref="IUserService.UpdateAsync"/>
+        public async Task<bool> UpdateAsync(UserUpdateModel model)
+        {
+            model.VerifyParam();
+            var user = await this.Repository.FindAsync(model.Id);
+            if (user == null) throw new UserFriendlyException("未找到用户信息", ErrorCodeEnum.DataNull);
+            var entity = this.Mapper.Map(model, user);
+            entity.SetModifier(UserContext.UserId, UserContext.UserName);
+            return await this.UpdatePartialAsync(entity,new string[] { "UserName", "NickName", "Email", "AvatarUrl", "Lock",
+                "LastModifierId", "LastModifier", "LastModifyTime"});
+        }
+
+        /// <inheritdoc cref="IUserService.UpdateLoginInfoAsync"/>
+        public async Task<bool> UpdateLoginInfoAsync(string userId)
+        {
+            var user = await this.FindAsync(userId);
+            user.LoginIp = UserContext.HttpContext.GetRemoteIpAddressToIPv4();
+            user.LastLoginTime = DateTime.Now;
+            return await this.UpdatePartialAsync(user, "LoginIp", "LastLoginTime");
+        }
+
+        /// <inheritdoc cref="IUserService.ChangePwdAsync"/>
+        public async Task<bool> ChangePwdAsync(ChangePwdModel model)
+        {
+            var user = await this.FindAsync(model.Id);
+            if (user == null) throw new UserFriendlyException("用户不存在", ErrorCodeEnum.DataNull);
+            user.PassWord = model.NewPassWord.MD5TwoEncrypt();
+            return await this.UpdatePartialAsync(user, "PassWord");
+        }
+
+        /// <inheritdoc cref="IUserService.ChangeMyPwdAsync"/>
+        public async Task<bool> ChangeMyPwdAsync(ChangeMyPwdModel model)
+        {
+            var user = await this.FindAsync(UserContext.UserId);
+            if (user == null) throw new UserFriendlyException("用户不存在", ErrorCodeEnum.DataNull);
+            var pwd = model.PassWord.MD5TwoEncrypt();
+            if(!pwd.Equals(user.PassWord)) throw new UserFriendlyException("用户密码错误", ErrorCodeEnum.UpdateError);
+            user.PassWord = model.NewPassWord.MD5TwoEncrypt();
+            return await this.UpdatePartialAsync(user, "PassWord");
+        }
+
+        /// <inheritdoc cref="IUserService.AssignRoleAsync"/>
+        public async Task<bool> AssignRoleAsync(AssignRoleModel model)
+        {
+            model.VerifyParam();
+            var user = await this.Db.Set<T_User>().FindAsync(model.UserId);
+            if (user == null) throw new UserFriendlyException("用户不存在", ErrorCodeEnum.DataNull);
+            try
+            {
+                //先删除用户原来的角色
+                var userRoleList = await this.Db.Set<T_UserRole>().Where(ur => ur.UserId == model.UserId).ToListAsync();
+                if (userRoleList.Any())
+                {
+                    this.Db.Set<T_UserRole>().RemoveRange(userRoleList);
+                }
+                //再添加新的
+                var addUserRoleList = model.RoleIds.Where(r => !string.IsNullOrEmpty(r))
+                    .Distinct()
+                    .Select(r => new T_UserRole
+                    {
+                        Id = Helper.GetSnowId(),
+                        UserId = model.UserId,
+                        RoleId = r
+                    });
+                await this.Db.Set<T_UserRole>().AddRangeAsync(addUserRoleList);
+                return await this.Repository.SaveNowAsync() > 1;
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        #endregion
+
+        #region 查询
+
+        /// <inheritdoc cref="HxCore.IServices.Admin.IUserService.GetAsync"/>
+        public async Task<UserDetailModel> GetAsync(string id)
+        {
+            var userDetail = await this.Repository.Where(u => u.Id == id)
+                .Select(u => this.Mapper.Map<T_User, UserDetailModel>(u))
+                .FirstOrDefaultAsync();
+            if (userDetail == null) throw new UserFriendlyException("用户信息不存在", ErrorCodeEnum.DataNull);
+            return userDetail;
+        }
+
+        /// <inheritdoc cref="HxCore.IServices.Admin.IUserService.QueryUserPageAsync"/>
+        public async Task<PageModel<UserQueryModel>> QueryUserPageAsync(UserQueryParam param)
+        {
+            var query = from u in this.Repository.DetachedEntities
+                        where u.Deleted == ConstKey.No
+                        select this.Mapper.Map<UserQueryModel>(u);
+            var result = await query.ToPageListAsync(param);
+            //获取角色信息
+            if (result.Items.Any())
+            {
+                var userIds = result.Items.Select(u => u.Id).ToArray();
+                var roles = await (from r in this.Db.Set<T_Role>()
+                                   join ur in this.Db.Set<T_UserRole>() on r.Id equals ur.RoleId
+                                   where userIds.Contains(ur.UserId)
+                                   select new
+                                   {
+                                       ur.UserId,
+                                       ur.RoleId,
+                                       RoleName = r.Name
+                                   }).ToListAsync();
+                result.Items.ForEach(u =>
+                {
+                    var roleNames = roles.Where(r => r.UserId == u.Id).Select(r=>r.RoleName);
+                    if(roleNames.Any()) u.UserRoleName = string.Join(",", roleNames);
+                });
+            }
+            return result;
+
+        }
+
+        public Task<UserDetailModel> GetRoleByIdAsync(string userId)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+        #region 检测
+        /// <inheritdoc cref="HxCore.IServices.Admin.IUserService.CheckUserNameAsync"/>
+        public async Task<bool> CheckUserNameAsync(string userName)
+        {
+            if (string.IsNullOrEmpty(userName)) 
+                throw new UserFriendlyException("请输入用户名", ErrorCodeEnum.ParamsInValidError)
+                    .SetUnifyResultStatusCode(ErrorCodeEnum.SystemError.GetHashCode());
+            var user = await this.Repository.FirstOrDefaultAsync(u => u.UserName == userName);
+            if (user != null) 
+                throw new UserFriendlyException("已存在该用户名", ErrorCodeEnum.SystemError)
+                    .SetUnifyResultStatusCode(ErrorCodeEnum.SystemError.GetHashCode());
+            return true;
+        }
+        /// <inheritdoc cref="HxCore.IServices.Admin.IUserService.CheckEmailAsync"/>
+        public async Task<bool> CheckEmailAsync(string email)
+        {
+            if(string.IsNullOrEmpty(email)) 
+                throw new UserFriendlyException("请输入邮箱", ErrorCodeEnum.ParamsInValidError)
+                    .SetUnifyResultStatusCode(ErrorCodeEnum.SystemError.GetHashCode());
+            var user = await this.Repository.FirstOrDefaultAsync(u => u.Email == email);
+            if(user!=null) 
+                throw new UserFriendlyException("已存在该邮箱", ErrorCodeEnum.SystemError)
+                    .SetUnifyResultStatusCode(ErrorCodeEnum.SystemError.GetHashCode());
+            return true;
+        }
+        #endregion
+
+        /// <summary>
+        /// 重写插入的虚方法
+        /// </summary>
+        /// <param name="entity">实体</param>
+        /// <returns></returns>
+        public override T_User BeforeInsert(T_User entity)
+        {
+            if (entity != null)
+            {
+                entity.Id = Guid.NewGuid().ToString();
+                if (UserContext != null && UserContext.IsAuthenticated)
+                {
+                    entity.SetCreater(UserContext.UserId, UserContext.UserName);
+                }
+            }
+            return entity;
+        }
+
+      
+    }
+}

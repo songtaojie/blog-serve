@@ -1,0 +1,24 @@
+﻿{
+  "SwaggerSettings": {
+    "DocumentTitle": "Swagger Document",
+    "GroupOpenApiInfos": [
+      {
+        "Group": "Admin",
+        "Title": "管理后台APi",
+        "Description": "管理后台APi接口。",
+        "Version": "1.0.0",
+        "TermsOfService": "https://gitee.com/songtaojie",
+        "Contact": {
+          "Name": "songtaojie",
+          "Url": "https://gitee.com/songtaojie",
+          "Email": "stjworkemail@163.com"
+        }
+      },
+      {
+        "Group": "Client",
+        "Title": "客户端Api",
+        "Order": 1
+      }
+    ]
+  }
+}

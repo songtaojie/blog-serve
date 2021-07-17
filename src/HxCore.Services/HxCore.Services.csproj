@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Hx.Sdk.Cache" Version="1.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HxCore.IServices\HxCore.IServices.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Ids4\" />
+  </ItemGroup>
+
+</Project>

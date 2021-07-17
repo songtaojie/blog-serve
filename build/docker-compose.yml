@@ -1,0 +1,17 @@
+﻿version: '3.7'
+
+services:
+  hx.blog:
+    container_name: hx.blog
+    image: registry.cn-hangzhou.aliyuncs.com/songtaojie_centos/hx.blog
+    labels: 
+      hx.blog: "mvc"
+    build:
+      context: ../
+      dockerfile: src/HxCore.Web/Dockerfile
+    environment:
+      - ConnectionStrings__MySqlConnectionString=Data Source=localhost;Database=hxcoreblog;User ID=root;Password=song123;CharSet=utf8
+      - ConnectionStrings__IdsConnectionString=Data Source=localhost;Database=hxidentityserver;User ID=root;Password=song123;CharSet=utf8
+    ports:
+      - 5003:5003
+ 

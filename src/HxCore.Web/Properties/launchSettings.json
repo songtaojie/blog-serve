@@ -1,0 +1,14 @@
+﻿{
+  "profiles": {
+    "SelfHost": {
+      "commandName": "Project",
+      //"commandLineArgs": "/seed",
+      "launchBrowser": true,
+      "launchUrl": "swagger/index.html",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:5003"
+    }
+  }
+}
