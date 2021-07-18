@@ -24,4 +24,5 @@ RUN dotnet publish "HxCore.Web.csproj" -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+CMD ["dotnet","HxCore.Web.dll","/seed"]
 ENTRYPOINT ["dotnet", "HxCore.Web.dll"]
