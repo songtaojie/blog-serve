@@ -19,14 +19,16 @@ namespace HxCore.Web
     {
         
         private IHostEnvironment Environment { get; }
+        private IConfiguration Configuration { get; }
 
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="_env">环境</param>
-        public Startup(IHostEnvironment _env)
+        public Startup(IHostEnvironment _env,IConfiguration configuration)
         {
             Environment = _env;
+            Configuration = configuration;
         }
         /// <summary>
         /// 服务
@@ -52,6 +54,9 @@ namespace HxCore.Web
             #region 数据库链接，上下文
             ConsoleHelper.WriteWarningLine(Hx.Sdk.ConfigureOptions.AppSettings.GetConfig("ConnectionStrings:MySqlConnectionString"));
             ConsoleHelper.WriteWarningLine(Hx.Sdk.ConfigureOptions.AppSettings.GetConfig("Startup:ApiName"));
+
+            ConsoleHelper.WriteWarningLine(Configuration["ConnectionStrings:MySqlConnectionString"]);
+            ConsoleHelper.WriteWarningLine(Configuration["Startup:ApiName"]);
             services.AddDatabaseAccessor(service =>
             {
                 service.AddDbPool<Entity.Context.DefaultContext>();

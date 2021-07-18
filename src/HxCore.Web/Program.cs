@@ -3,6 +3,7 @@ using System.Linq;
 using Hx.Sdk.Core;
 using HxCore.Entity.Data;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using NLog.Web;
 
@@ -57,6 +58,10 @@ namespace HxCore.Web
         /// <returns></returns>
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((_,config) => 
+            {
+                config.AddEnvironmentVariables();
+            })
             .ConfigureHxWebHostDefaults(builder =>
             {
                 builder.UseNLog()
