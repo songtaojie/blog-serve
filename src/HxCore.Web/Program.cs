@@ -62,6 +62,11 @@ namespace HxCore.Web
             Host.CreateDefaultBuilder(args)
             .ConfigureHxWebHostDefaults(builder =>
             {
+                builder.ConfigureAppConfiguration((_, c) =>
+                {
+                    c.AddEnvironmentVariables();
+                });
+
                 builder.UseNLog()
                 .UseStartup<Startup>()
                 .UseUrls("http://*:5003");
