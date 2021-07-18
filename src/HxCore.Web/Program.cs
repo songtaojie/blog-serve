@@ -35,7 +35,7 @@ namespace HxCore.Web
                 //    return 1;
                 //}
                 var host = CreateHostBuilder(args).Build();
-                //SeedData.EnsureSeedData(host.Services);
+                SeedData.EnsureSeedData(host.Services);
                 host.Run();
                 ConsoleHelper.WriteSuccessLine("program success", true);
                 return 1;
