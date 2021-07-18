@@ -23,19 +23,21 @@ namespace HxCore.Web
             var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
             {
-                var seed = args.Contains("/seed");
-                if (seed)
-                {
-                    args = args.Except(new[] { "/seed" }).ToArray();
-                }
+                //var seed = args.Contains("/seed");
+                //if (seed)
+                //{
+                //    args = args.Except(new[] { "/seed" }).ToArray();
+                //}
+                //var host = CreateHostBuilder(args).Build();
+                //if (seed)
+                //{
+                //    SeedData.EnsureSeedData(host.Services);
+                //    return 1;
+                //}
                 var host = CreateHostBuilder(args).Build();
-                if (seed)
-                {
-                    SeedData.EnsureSeedData(host.Services);
-                    return 1;
-                }
-                ConsoleHelper.WriteSuccessLine("program success",true);
+                SeedData.EnsureSeedData(host.Services);
                 host.Run();
+                ConsoleHelper.WriteSuccessLine("program success", true);
                 return 1;
             }
             catch (Exception ex)
