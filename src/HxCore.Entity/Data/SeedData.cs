@@ -31,6 +31,7 @@ namespace HxCore.Entity.Data
             using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<Context.DefaultContext>();
+                ConsoleHelper.WriteInfoLine(context.Database.GetDbConnection().ConnectionString);
                 context.Database.Migrate();
                 EnsureSeedData(context);
             }
