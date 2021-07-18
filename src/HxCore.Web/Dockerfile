@@ -20,7 +20,6 @@ RUN dotnet build "HxCore.Web.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "HxCore.Web.csproj" -c Release -o /app/publish
-RUN dotnet run HxCore.Web.dll /seed
 
 FROM base AS final
 WORKDIR /app
