@@ -68,6 +68,7 @@ namespace HxCore.Web
             #endregion
 
             #region 跨域CORS
+            ConsoleHelper.WriteWarningLine(Hx.Sdk.ConfigureOptions.AppSettings.GetConfig("CorsAccessorSettings:WithOrigins"));
             services.AddCorsAccessor();
             #endregion
 
