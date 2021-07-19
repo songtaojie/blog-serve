@@ -9,6 +9,8 @@ using System;
 using Hx.Sdk.Core;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using Hx.Sdk.ConfigureOptions;
 
 namespace HxCore.Web
 {
@@ -50,7 +52,7 @@ namespace HxCore.Web
             services.AddAutoMapperSetup();
             #endregion
             #region 数据库链接，上下文
-            ConsoleHelper.WriteWarningLine(Hx.Sdk.ConfigureOptions.AppSettings.GetConfig("ConnectionStrings:MySqlConnectionString"));
+            ConsoleHelper.WriteInfoLine(AppSettings.GetConfig("ConnectionStrings:MySqlConnectionString"));
             services.AddDatabaseAccessor(service =>
             {
                 service.AddDbPool<Entity.Context.DefaultContext>();
@@ -68,7 +70,8 @@ namespace HxCore.Web
             #endregion
 
             #region 跨域CORS
-            ConsoleHelper.WriteWarningLine(Hx.Sdk.ConfigureOptions.AppSettings.GetConfig("CorsAccessorSettings:WithOrigins"));
+            var origins = AppSettings.GetConfig<List<string>>("CorsAccessorSettings:WithOrigins");
+            ConsoleHelper.WriteInfoLine(string.Join(",", origins));
             services.AddCorsAccessor();
             #endregion
 
