@@ -18,7 +18,7 @@ namespace HxCore.Entity.Data
         private static readonly string UserId = Guid.NewGuid().ToString();
         private static readonly string UserName = "SuperAdmin";
         /// <summary>
-        /// 初始化数据
+        /// 执行迁移文件并初始化数据
         /// </summary>
         /// <param name="serviceProvider"></param>
         public static void EnsureSeedData(IServiceProvider serviceProvider)
@@ -31,10 +31,22 @@ namespace HxCore.Entity.Data
             using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var context = scope.ServiceProvider.GetRequiredService<Context.DefaultContext>();
-                ConsoleHelper.WriteInfoLine(context.Database.GetDbConnection().ConnectionString);
+                ConsoleHelper.WriteInfoLine($"数据库连接：{context.Database.GetDbConnection().ConnectionString}");
                 context.Database.Migrate();
-                EnsureSeedData(context);
+                EnsureAllSeedData(context);
             }
+            ConsoleHelper.WriteSuccessLine("Done seeding database.");
+        }
+
+        /// <summary>
+        /// 初始化数据
+        /// </summary>
+        /// <param name="context"></param>
+        public static void EnsureSeedData(DbContext context)
+        {
+            ConsoleHelper.WriteSuccessLine("Seeding database...");
+            ConsoleHelper.WriteInfoLine($"数据库连接：{context.Database.GetDbConnection().ConnectionString}");
+            EnsureAllSeedData(context);
             ConsoleHelper.WriteSuccessLine("Done seeding database.");
         }
 
@@ -42,7 +54,7 @@ namespace HxCore.Entity.Data
         /// 客户端授权数据
         /// </summary>
         /// <param name="context"></param>
-        private static void EnsureSeedData(DbContext context)
+        private static void EnsureAllSeedData(DbContext context)
         {
             var userInfoDb = context.Set<T_User>();
             if (!userInfoDb.Any())

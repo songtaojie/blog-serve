@@ -23,19 +23,16 @@ namespace HxCore.Web
             var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
             try
             {
-                //var seed = args.Contains("/seed");
-                //if (seed)
-                //{
-                //    args = args.Except(new[] { "/seed" }).ToArray();
-                //}
-                //var host = CreateHostBuilder(args).Build();
-                //if (seed)
-                //{
-                //    SeedData.EnsureSeedData(host.Services);
-                //    return 1;
-                //}
+                var seed = args.Contains("/seed");
+                if (seed)
+                {
+                    args = args.Except(new[] { "/seed" }).ToArray();
+                }
                 var host = CreateHostBuilder(args).Build();
-                SeedData.EnsureSeedData(host.Services);
+                host.MigrateDbContext<Entity.Context.DefaultContext>((db,_) => 
+                {
+                    if (seed)SeedData.EnsureSeedData(db);
+                });
                 host.Run();
                 ConsoleHelper.WriteSuccessLine("program success", true);
                 return 1;
@@ -43,7 +40,6 @@ namespace HxCore.Web
             catch (Exception ex)
             {
                 ConsoleHelper.WriteErrorLine(string.Format("Error Nessage：{0}", ex.Message));
-                ConsoleHelper.WriteErrorLine(string.Format("Error StackTrace：{0}", ex.StackTrace));
                 logger.Error(ex, "stopped program");
                 return 1;
             }
