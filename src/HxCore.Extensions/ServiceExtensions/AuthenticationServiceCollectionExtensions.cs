@@ -144,7 +144,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     //    var token = context.Request.Headers[HeaderNames.Authorization];
                     //    return Task.CompletedTask;
                     //},
-                    //OnTokenValidated = context => TokenValidatedFailed(context),
+                    //OnTokenValidated = context => TokenValidated(context),
                     OnAuthenticationFailed = context => AuthenticationFailed(context)
                 };
             })
@@ -191,8 +191,12 @@ namespace Microsoft.Extensions.DependencyInjection
             await Task.CompletedTask;
         }
 
-
-        public static async Task TokenValidatedFailed(TokenValidatedContext context)
+        /// <summary>
+        /// 验证token时的事件
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static async Task TokenValidated(TokenValidatedContext context)
         {
             string token = context.Request.Headers[HeaderNames.Authorization];
             if (token.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
