@@ -151,10 +151,19 @@ namespace HxCore.Services.Admin
             return result;
 
         }
-
-        public Task<UserDetailModel> GetRoleByIdAsync(string userId)
+        /// <inheritdoc cref="HxCore.IServices.Admin.IUserService.GetRoleByIdAsync"/>
+        public async Task<List<UserRoleModel>> GetRoleByIdAsync(string userId)
         {
-            throw new NotImplementedException();
+            var roles = await(from r in this.Db.Set<T_Role>()
+                              join ur in this.Db.Set<T_UserRole>() on r.Id equals ur.RoleId
+                              where ur.UserId == userId 
+                              && r.Deleted == ConstKey.No
+                              select new UserRoleModel
+                              {
+                                  RoleId = r.Id,
+                                  RoleName = r.Name
+                              }).ToListAsync();
+            return roles;
         }
         #endregion
 

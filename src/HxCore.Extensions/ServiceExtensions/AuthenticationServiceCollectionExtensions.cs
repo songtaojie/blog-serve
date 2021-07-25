@@ -170,6 +170,10 @@ namespace Microsoft.Extensions.DependencyInjection
                     var cacheToken = redisCache.StringGet(string.Format(CacheKeyConfig.AuthTokenKey, userId));
                     if (!string.IsNullOrEmpty(cacheToken))
                     {
+                        TokenValidationParameters tokenValidationParameters = context.Options.TokenValidationParameters.Clone();
+                        var securityTokenValidator = new MyJwtSecurityTokenHandler(redisCache);
+                        var principal = securityTokenValidator.ValidateToken(token, tokenValidationParameters, out SecurityToken securityToken);
+                        context.Principal = principal;
                         context.Success();
                         existCacheToken = true;
                     }

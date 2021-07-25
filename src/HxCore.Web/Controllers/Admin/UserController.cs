@@ -49,11 +49,11 @@ namespace HxCore.Web.Controllers.Admin
         }
 
         /// <summary>
-        /// 获取接口列表
+        ///  获取用户所拥有的的角色信息
         /// </summary>
         /// <returns></returns>
         [HttpGet("{userId}")]
-        public async Task<UserDetailModel> GetRoleByIdAsync(string userId)
+        public async Task<List<UserRoleModel>> GetRoleByIdAsync(string userId)
         {
             var result = await _service.GetRoleByIdAsync(userId);
             return result;

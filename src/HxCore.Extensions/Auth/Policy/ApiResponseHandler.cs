@@ -90,7 +90,6 @@ namespace HxCore.Extensions.Auth
         public MyJwtSecurityTokenHandler(IRedisCache redisCache)
         {
             _redisCache = redisCache;
-            _redisCache.SetRedisDbNum(1);
         }
         protected override void ValidateLifetime(DateTime? notBefore, DateTime? expires, JwtSecurityToken jwtToken, TokenValidationParameters validationParameters)
         {

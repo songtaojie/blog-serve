@@ -23,7 +23,7 @@ namespace HxCore.IServices.Admin
         /// </summary>
         /// <param name="userId">用户标识</param>
         /// <returns></returns>
-        Task<UserDetailModel> GetRoleByIdAsync(string userId);
+        Task<List<UserRoleModel>> GetRoleByIdAsync(string userId);
 
         /// <summary>
         /// 获取用户列表数据

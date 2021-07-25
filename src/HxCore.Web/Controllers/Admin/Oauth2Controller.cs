@@ -91,7 +91,7 @@ namespace HxCore.Web.Controllers.Admin
         /// <param name="token">旧的token</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<LoginVm> RefreshToken(string token)
+        public async Task<LoginVm> RefreshToken([FromForm]string token)
         {
             if (string.IsNullOrEmpty(token)) throw new UserFriendlyException("token无效，请重新登录！", ErrorCodeEnum.NoAccessError);
             var tokenModel = JwtHelper.SerializeJwt(token);
@@ -109,7 +109,7 @@ namespace HxCore.Web.Controllers.Admin
                 UserId = userInfo.Id,
                 NickName = userInfo.NickName,
                 UserName = userInfo.UserName,
-                Expiration = TimeSpan.FromSeconds(60 * 60),
+                Expiration = TimeSpan.FromSeconds(1 * 60),
             };
             var roleList = await _roleService.GetListByUserAsync(userInfo.Id);
             if (roleList.Count > 0)

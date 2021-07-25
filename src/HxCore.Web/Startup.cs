@@ -51,6 +51,7 @@ namespace HxCore.Web
             #region AutoMapper
             services.AddAutoMapperSetup();
             #endregion
+
             #region 数据库链接，上下文
             ConsoleHelper.WriteInfoLine(AppSettings.GetConfig("ConnectionStrings:MySqlConnectionString"));
             services.AddDatabaseAccessor(service =>
@@ -59,6 +60,7 @@ namespace HxCore.Web
                 service.AddDbPool<Entity.Context.IdsDbContext, Entity.Context.IdsDbContextLocator>();
             }, "HxCore.Entity");
             #endregion
+
             #region MVC，路由配置
             services.AddControllers()
                 //.AddUnifyResult()
@@ -70,8 +72,6 @@ namespace HxCore.Web
             #endregion
 
             #region 跨域CORS
-            var origins = AppSettings.GetConfig<List<string>>("CorsAccessorSettings:WithOrigins");
-            ConsoleHelper.WriteInfoLine(string.Join(",", origins));
             services.AddCorsAccessor();
             #endregion
 
