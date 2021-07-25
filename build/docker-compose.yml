@@ -10,8 +10,15 @@ services:
       context: ../
       dockerfile: src/HxCore.Web/Dockerfile
     environment:
-      - ConnectionStrings__MySqlConnectionString=Data Source=localhost;Database=hxcoreblog;User ID=root;Password=song123;CharSet=utf8
-      - ConnectionStrings__IdsConnectionString=Data Source=localhost;Database=hxidentityserver;User ID=root;Password=song123;CharSet=utf8
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+      - Logging__LogLevel__Default=${DEFAULTLOGLEVEL}
+      - ConnectionStrings__MySqlConnectionString=Server=${DB_SERVER};Port=${DB_PORT};Database=hxcoreblog;Uid=${DB_UID};Pwd=${DB_PWD};CharSet=utf8
+      - ConnectionStrings__IdsConnectionString=Server=${DB_SERVER};Port=${DB_PORT};Database=hxidentityserver;Uid=${DB_UID};Pwd=${DB_PWD};CharSet=utf8
+      - RedisCache__Configuration=${REDIS_SERVER}:${REDIS_PORT},password=${REDIS_PASSWORD},defaultDatabase=${REDIS_DEFAULTDATABASE}
+      - RedisCache__InstanceName=${REDIS_INSTANCE}
+      - CorsAccessorSettings__WithOrigins__0=http://${LOCAL_SERVICE_IP}:8000/
+      - CorsAccessorSettings__WithOrigins__1=http://${LOCAL_SERVICE_IP}
+      - CorsAccessorSettings__WithOrigins__2=http://${LOCAL_SERVICE_IP}:8000
     ports:
       - 5003:5003
  

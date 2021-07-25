@@ -1,5 +1,5 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
+#这里我生成了自己的asp.net镜像，放在阿里云仓储，使用微软的也可以，只是拉取时比较慢
 FROM registry.cn-hangzhou.aliyuncs.com/songtaojie_centos/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
