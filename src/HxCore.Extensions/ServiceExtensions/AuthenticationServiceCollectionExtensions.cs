@@ -32,8 +32,8 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddAuthentication(o =>
             {
                 o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                o.DefaultChallengeScheme = nameof(ApiResponseHandler);
-                o.DefaultForbidScheme = nameof(ApiResponseHandler);
+                o.DefaultChallengeScheme = nameof(MyJwtBearerHandler);
+                o.DefaultForbidScheme = nameof(MyJwtBearerHandler);
             })
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,options =>
             {
@@ -82,7 +82,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 };
                 //options.Audience = AppSettings.Get(new string[] { "Startup", "IdentityServer4", "Audience" });
             })
-            .AddScheme<AuthenticationSchemeOptions, ApiResponseHandler>(nameof(ApiResponseHandler), o => { });
+            .AddScheme<AuthenticationSchemeOptions, MyJwtBearerHandler>(nameof(MyJwtBearerHandler), o => { });
         }
 
         /// <summary>
@@ -125,8 +125,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 //c.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 //c.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 c.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                c.DefaultChallengeScheme = nameof(ApiResponseHandler);
-                c.DefaultForbidScheme = nameof(ApiResponseHandler);
+                c.DefaultChallengeScheme = nameof(MyJwtBearerHandler);
+                c.DefaultForbidScheme = nameof(MyJwtBearerHandler);
             })
             // 添加JwtBearer服务
             .AddJwtBearer(c =>
@@ -148,7 +148,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     OnAuthenticationFailed = context => AuthenticationFailed(context)
                 };
             })
-            .AddScheme<AuthenticationSchemeOptions, ApiResponseHandler>(nameof(ApiResponseHandler), o => { });
+            .AddScheme<AuthenticationSchemeOptions, MyJwtBearerHandler>(nameof(MyJwtBearerHandler), o => { });
         }
 
         public static async Task AuthenticationFailed(AuthenticationFailedContext context)

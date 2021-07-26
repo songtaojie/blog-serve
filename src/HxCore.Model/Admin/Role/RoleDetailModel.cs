@@ -35,5 +35,10 @@ namespace HxCore.Model.Admin.Role
         /// 是否启用
         /// </summary>
         public bool IsEnabled { get; set; }
+
+        /// <summary>
+        /// 所拥有的的菜单的权限id
+        /// </summary>
+        public List<string> MenuIds { get; set; }
     }
 }

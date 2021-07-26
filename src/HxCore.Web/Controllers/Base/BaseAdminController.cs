@@ -15,7 +15,7 @@ namespace HxCore.Web.Controllers.Base
     /// </summary>
     [Route("admin/api/[controller]/[action]")]
     [ApiController]
-    [Authorize(Policy = ConstInfo.SuperAdminPolicy)]
+    [Authorize]
     [ApiDescriptionSettings(GroupName = "Admin", Groups = new string[] { "Admin" })]
     public class BaseAdminController : ControllerBase
     {

@@ -19,7 +19,7 @@ namespace HxCore.Entity.Entities
         /// </summary>
         [Key]
         [MaxLength(36)]
-        public string Id { get; set; }
+        public string Id { get; set; } = Hx.Sdk.Common.Helper.Helper.GetSnowId();
 
         /// <summary>
         /// 角色ID
