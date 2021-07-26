@@ -163,30 +163,17 @@ namespace HxCore.Services.Admin
         }
 
         /// <inheritdoc cref="IRoleService.GetAllRoleMenusAsync"/>
-        public async Task<List<RoleQueryModel>> GetAllRoleMenusAsync()
+        public async Task<List<RoleMenuModel>> GetAllRoleMenusAsync()
         {
             var query = from r in this.Repository.DetachedEntities
                         join rm in this.Db.Set<T_RoleMenu>() on r.Id equals rm.RoleId
                         join m in this.Db.Set<T_Menu>() on rm.PermissionId equals m.Id
                         where r.Deleted == ConstKey.No
                         && m.Deleted == ConstKey.No
-                        select new 
-
-            var query = from r in this.Repository.DetachedEntities
-                        join ru in this.Repository.Context.Set<T_UserRole>() on r.Id equals ru.RoleId
-                        where ru.UserId == userId
-                        && r.Deleted == ConstKey.No
-                        && r.Disabled == ConstKey.No
-                        select new RoleQueryModel
+                        select new RoleMenuModel
                         {
-                            Id = r.Id,
-                            Name = r.Name,
-                            Code = r.Code,
-                            Description = r.Description,
-                            OrderSort = r.OrderSort,
-                            CreateTime = r.CreateTime,
-                            Creater = r.Creater,
-                            IsEnabled = r.Disabled == ConstKey.No
+                            RoleId = r.Id,
+                            MenuId = rm.PermissionId
                         };
             return await query.ToListAsync();
         }

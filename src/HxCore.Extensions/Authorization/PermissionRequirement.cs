@@ -83,6 +83,6 @@ namespace Microsoft.AspNetCore.Authorization
         /// <summary>
         /// 请求Url
         /// </summary>
-        public virtual string Url { get; set; }
+        public virtual string Menu { get; set; }
     }
 }

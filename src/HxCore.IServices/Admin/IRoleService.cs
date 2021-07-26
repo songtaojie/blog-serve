@@ -51,6 +51,6 @@ namespace HxCore.IServices.Admin
         /// 获取所有的角色菜单
         /// </summary>
         /// <returns></returns>
-        Task GetAllRoleMenusAsync();
+        Task<List<RoleMenuModel>> GetAllRoleMenusAsync();
     }
 }
