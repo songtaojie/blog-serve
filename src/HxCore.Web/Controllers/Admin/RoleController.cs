@@ -56,18 +56,6 @@ namespace HxCore.Web.Controllers.Admin
             return await _service.GetAsync(id);
         }
 
-        /// <summary>
-        /// 获取某个角色的菜单按钮列表
-        /// </summary>
-        /// <param name="roleId"></param>
-        /// <returns></returns>
-        /// <remarks>编辑角色时候调用</remarks>
-        [HttpGet("{roleId}")]
-        public async Task<List<string>> GetSelectMenuListAsync(string roleId)
-        {
-            return await _service.GetSelectMenuListAsync(roleId);
-        }
-
         #endregion
 
         #region 操作

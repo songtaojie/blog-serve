@@ -48,10 +48,9 @@ namespace HxCore.IServices.Admin
         Task<List<RoleQueryModel>> GetListByUserAsync(string userId);
 
         /// <summary>
-        /// 获取某个角色的菜单列表
+        /// 获取所有的角色菜单
         /// </summary>
-        /// <param name="roleId">角色id</param>
         /// <returns></returns>
-        Task<List<string>> GetSelectMenuListAsync(string roleId);
+        Task GetAllRoleMenusAsync();
     }
 }

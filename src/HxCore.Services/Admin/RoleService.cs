@@ -28,6 +28,16 @@ namespace HxCore.Services.Admin
             var entity = this.Mapper.Map<T_Role>(createModel);
             var disabled = createModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
             entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
+            //添加菜单
+            if (createModel.MenuIds.Any())
+            {
+                List<T_RoleMenu> menuList = createModel.MenuIds.Select(m => new T_RoleMenu
+                {
+                    RoleId = entity.Id,
+                    PermissionId = m
+                }).ToList();
+                await this.Db.Set<T_RoleMenu>().AddRangeAsync(menuList);
+            }
             return await this.InsertAsync(entity);
         }
 
@@ -40,6 +50,20 @@ namespace HxCore.Services.Admin
             entity = this.Mapper.Map(createModel, entity);
             var disabled = createModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
             entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
+            //先删除原来的菜单
+            var roleMenuRep = this.Repository.Change<T_RoleMenu>();
+            var removeEntitys = await roleMenuRep.Where(rm => rm.RoleId == entity.Id).ToListAsync();
+            await roleMenuRep.DeleteAsync(removeEntitys);
+            //添加菜单
+            if (createModel.MenuIds.Any())
+            {
+                List<T_RoleMenu> menuList = createModel.MenuIds.Select(m => new T_RoleMenu
+                {
+                    RoleId = entity.Id,
+                    PermissionId = m
+                }).ToList();
+                await roleMenuRep.InsertAsync(menuList);
+            }
             return await this.UpdateAsync(entity);
         }
         #endregion
@@ -72,6 +96,11 @@ namespace HxCore.Services.Admin
             if (detail == null) throw new UserFriendlyException("未找到角色信息");
             RoleDetailModel detailModel = this.Mapper.Map<RoleDetailModel>(detail);
             detailModel.IsEnabled = Helper.IsNo(detail.Disabled);
+            //获取当前角色的菜单
+            detailModel.MenuIds = await this.Db.Set<T_RoleMenu>()
+                .Where(rm => rm.RoleId == id)
+                .Select(rm => rm.PermissionId)
+                .ToListAsync();
             return detailModel;
         }
 
@@ -133,6 +162,34 @@ namespace HxCore.Services.Admin
                  .ToListAsync();
         }
 
+        /// <inheritdoc cref="IRoleService.GetAllRoleMenusAsync"/>
+        public async Task<List<RoleQueryModel>> GetAllRoleMenusAsync()
+        {
+            var query = from r in this.Repository.DetachedEntities
+                        join rm in this.Db.Set<T_RoleMenu>() on r.Id equals rm.RoleId
+                        join m in this.Db.Set<T_Menu>() on rm.PermissionId equals m.Id
+                        where r.Deleted == ConstKey.No
+                        && m.Deleted == ConstKey.No
+                        select new 
+
+            var query = from r in this.Repository.DetachedEntities
+                        join ru in this.Repository.Context.Set<T_UserRole>() on r.Id equals ru.RoleId
+                        where ru.UserId == userId
+                        && r.Deleted == ConstKey.No
+                        && r.Disabled == ConstKey.No
+                        select new RoleQueryModel
+                        {
+                            Id = r.Id,
+                            Name = r.Name,
+                            Code = r.Code,
+                            Description = r.Description,
+                            OrderSort = r.OrderSort,
+                            CreateTime = r.CreateTime,
+                            Creater = r.Creater,
+                            IsEnabled = r.Disabled == ConstKey.No
+                        };
+            return await query.ToListAsync();
+        }
         #endregion
 
     }

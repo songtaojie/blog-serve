@@ -22,9 +22,9 @@ using System.Threading.Tasks;
 
 namespace HxCore.Extensions.Auth
 {
-    public class ApiResponseHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+    public class MyJwtBearerHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
-        public ApiResponseHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) 
+        public MyJwtBearerHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) 
             : base(options, logger, encoder, clock)
         {
         }
@@ -43,7 +43,7 @@ namespace HxCore.Extensions.Auth
         {
             Response.ContentType = "application/json";
             Response.StatusCode = StatusCodes.Status200OK;
-            base.Response.Headers.Append(HeaderNames.WWWAuthenticate, nameof(ApiResponseHandler));
+            base.Response.Headers.Append(HeaderNames.WWWAuthenticate, nameof(MyJwtBearerHandler));
             Newtonsoft.Json.JsonSerializerSettings setting = new Newtonsoft.Json.JsonSerializerSettings()
             {
                 ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
@@ -63,7 +63,7 @@ namespace HxCore.Extensions.Auth
         {
             base.Response.ContentType = "application/json";
             base.Response.StatusCode = StatusCodes.Status200OK;
-            base.Response.Headers.Append(HeaderNames.WWWAuthenticate, nameof(ApiResponseHandler));
+            base.Response.Headers.Append(HeaderNames.WWWAuthenticate, nameof(MyJwtBearerHandler));
             Newtonsoft.Json.JsonSerializerSettings setting = new Newtonsoft.Json.JsonSerializerSettings()
             {
                 ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
@@ -81,31 +81,5 @@ namespace HxCore.Extensions.Auth
     }
 
 
-    /// <summary>
-    /// token处理
-    /// </summary>
-    public class MyJwtSecurityTokenHandler : JwtSecurityTokenHandler
-    {
-        private IRedisCache _redisCache;
-        public MyJwtSecurityTokenHandler(IRedisCache redisCache)
-        {
-            _redisCache = redisCache;
-        }
-        protected override void ValidateLifetime(DateTime? notBefore, DateTime? expires, JwtSecurityToken jwtToken, TokenValidationParameters validationParameters)
-        {
-            try
-            {
-                base.ValidateLifetime(notBefore, expires, jwtToken, validationParameters);
-            }
-            catch (SecurityTokenExpiredException ex)
-            {
-                var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-                var cacheToken = _redisCache.StringGet(string.Format(CacheKeyConfig.AuthTokenKey, userId));
-                if (string.IsNullOrEmpty(cacheToken))
-                {
-                    throw ex;
-                }
-            }
-        }
-    }
+    
 }
