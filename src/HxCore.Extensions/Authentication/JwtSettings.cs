@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HxCore.Extensions.Auth
+namespace HxCore.Extensions.Authentication
 {
     /// <summary>
     /// jwt的配置

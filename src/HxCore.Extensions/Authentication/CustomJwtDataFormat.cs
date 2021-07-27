@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace HxCore.Extensions.Auth
+namespace HxCore.Extensions.Authentication
 {
     /// <summary>
     /// validate jwt in cookie

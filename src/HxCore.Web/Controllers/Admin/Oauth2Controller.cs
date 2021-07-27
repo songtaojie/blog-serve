@@ -1,7 +1,6 @@
 ﻿using Hx.Sdk.Cache;
 using Hx.Sdk.Common.Extensions;
 using HxCore.Entity.Entities;
-using HxCore.Extensions.Auth;
 using HxCore.IServices;
 using HxCore.Model.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +16,7 @@ using Hx.Sdk.Core;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using HxCore.Extensions.Common;
+using HxCore.Extensions.Authentication;
 
 namespace HxCore.Web.Controllers.Admin
 {

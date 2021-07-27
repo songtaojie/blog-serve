@@ -45,6 +45,7 @@ namespace HxCore.Web
 
             #region Authorize 权限三步走
             services.AddAuthoriationSetup();
+            services.AddAuthenticationSetup();
             //services.AddSingleton<IAuthorizationHandler, PermissionHandler>();
             #endregion
 

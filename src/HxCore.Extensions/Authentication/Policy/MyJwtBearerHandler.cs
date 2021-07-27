@@ -20,7 +20,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
-namespace HxCore.Extensions.Auth
+namespace HxCore.Extensions.Authentication
 {
     public class MyJwtBearerHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {

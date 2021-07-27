@@ -66,11 +66,11 @@ namespace HxCore.Web
                 builder.UseNLog()
                 .UseStartup<Startup>()
                 .UseUrls("http://*:5003");
-                ////.ConfigureLogging(logging =>
-                ////{
-                ////    logging.ClearProviders();
-                ////    logging.SetMinimumLevel(LogLevel.Warning);
-                ////})
+                //.ConfigureLogging(logging =>
+                //{
+                //    logging.ClearProviders();
+                //    logging.SetMinimumLevel(LogLevel.Warning);
+                //})
                 //.UseNLog();
             });
 

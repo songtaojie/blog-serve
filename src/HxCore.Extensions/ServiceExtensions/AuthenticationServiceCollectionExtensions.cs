@@ -2,7 +2,7 @@
 using Hx.Sdk.Common.Extensions;
 using Hx.Sdk.ConfigureOptions;
 using HxCore.Entity;
-using HxCore.Extensions.Auth;
+using HxCore.Extensions.Authentication;
 using HxCore.Extensions.Common;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,6 +19,20 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class AuthenticationServiceCollectionExtensions
     {
+
+
+        public static void AddAuthenticationSetup(this IServiceCollection services)
+        {
+            if (App.Settings.UseIdentityServer4 == true)
+            {
+                services.AddIds4Authentication();
+            }
+            else
+            {
+                services.AddJwtAuthentication();
+            }
+        }
+
         /// <summary>
         /// 添加IdentityServer4认证 
         /// </summary>
@@ -37,8 +51,8 @@ namespace Microsoft.Extensions.DependencyInjection
             })
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,options =>
             {
-                var authority = AppSettings.GetConfig(new string[] { "Startup", "IdentityServer4", "Authority" });
-                var audience = AppSettings.GetConfig(new string[] { "Startup", "IdentityServer4", "Audience" });
+                var authority = AppSettings.GetConfig(new string[] { "Ids4Settings", "Authority" });
+                var audience = AppSettings.GetConfig(new string[] { "Ids4Settings", "Audience" });
                 options.Audience = audience;
                 options.Authority = authority;
                 options.RequireHttpsMetadata = false;

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace HxCore.Extensions.Auth
+namespace HxCore.Extensions.Authentication
 {
     /// <summary>
     /// 权限授权处理器

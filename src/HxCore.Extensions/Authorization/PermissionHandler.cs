@@ -4,10 +4,13 @@ using HxCore.IServices.Admin;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -57,8 +60,10 @@ namespace Microsoft.AspNetCore.Authorization
             }
             if (!_userContext.IsSuperAdmin && httpContext != null)
             {
+                var c = context.Resource as HttpContext;
+                var endpoint = httpContext.GetEndpoint();
+                var actionDescriptor = endpoint.Metadata.GetMetadata<ControllerActionDescriptor>();
                 var questUrl = httpContext.Request.Path.Value.ToLower();
-
                 // 整体结构类似认证中间件UseAuthentication的逻辑，具体查看开源地址
                 // https://github.com/dotnet/aspnetcore/blob/master/src/Security/Authentication/Core/src/AuthenticationMiddleware.cs
                 httpContext.Features.Set<IAuthenticationFeature>(new AuthenticationFeature

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
-namespace HxCore.Extensions.Auth
+namespace HxCore.Extensions.Authentication
 {
     /// <summary>
     /// token处理
