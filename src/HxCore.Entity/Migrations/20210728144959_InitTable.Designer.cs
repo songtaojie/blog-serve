@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HxCore.Entity.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    [Migration("20210623125242_InitTable")]
+    [Migration("20210728144959_InitTable")]
     partial class InitTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -578,6 +578,10 @@ namespace HxCore.Entity.Migrations
                     b.Property<string>("Disabled")
                         .HasColumnType("char(1)");
 
+                    b.Property<string>("HttpMethod")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
+
                     b.Property<string>("LastModifier")
                         .HasColumnType("varchar(36)")
                         .HasMaxLength(36);
@@ -589,21 +593,67 @@ namespace HxCore.Entity.Migrations
                     b.Property<DateTime?>("LastModifyTime")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("LinkUrl")
-                        .HasColumnType("varchar(100)")
-                        .HasMaxLength(100);
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
+                        .HasColumnType("varchar(200)")
+                        .HasMaxLength(200);
 
                     b.Property<int>("OrderSort")
                         .HasColumnType("int");
 
+                    b.Property<string>("RouteUrl")
+                        .HasColumnType("varchar(100)")
+                        .HasMaxLength(100);
+
                     b.HasKey("Id");
 
                     b.ToTable("T_Module");
+                });
+
+            modelBuilder.Entity("HxCore.Entity.Entities.T_OperateLog", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(36)")
+                        .HasMaxLength(36);
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Creater")
+                        .HasColumnType("varchar(36)")
+                        .HasMaxLength(36);
+
+                    b.Property<string>("CreaterId")
+                        .HasColumnType("varchar(36)")
+                        .HasMaxLength(36);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("varchar(2000)")
+                        .HasMaxLength(2000);
+
+                    b.Property<string>("IPAddress")
+                        .HasColumnType("varchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("LastModifier")
+                        .HasColumnType("varchar(36)")
+                        .HasMaxLength(36);
+
+                    b.Property<string>("LastModifierId")
+                        .HasColumnType("varchar(36)")
+                        .HasMaxLength(36);
+
+                    b.Property<DateTime?>("LastModifyTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Route")
+                        .HasColumnType("varchar(200)")
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("T_OperateLog");
                 });
 
             modelBuilder.Entity("HxCore.Entity.Entities.T_Role", b =>
@@ -792,6 +842,27 @@ namespace HxCore.Entity.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("T_UserRole");
+                });
+
+            modelBuilder.Entity("HxCore.Entity.T_MenuModule", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(36)")
+                        .HasMaxLength(36);
+
+                    b.Property<string>("ModuleId")
+                        .IsRequired()
+                        .HasColumnType("varchar(36)")
+                        .HasMaxLength(36);
+
+                    b.Property<string>("PermissionId")
+                        .IsRequired()
+                        .HasColumnType("varchar(36)")
+                        .HasMaxLength(36);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("T_MenuModule");
                 });
 #pragma warning restore 612, 618
         }

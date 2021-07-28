@@ -16,12 +16,20 @@ namespace HxCore.IServices.Admin
         /// <param name="createModel">用户提交数据</param>
         /// <returns></returns>
         Task<bool> AddAsync(ModuleCreateModel createModel);
+
+        /// <summary>
+        /// 批量插入数据
+        /// </summary>
+        /// <param name="createModel">用户提交数据</param>
+        /// <returns></returns>
+        Task<bool> BatchAddOrUpdateAsync(List<ModuleCreateModel> createModel);
+
         /// <summary>
         /// 更新数据
         /// </summary>
         /// <param name="createModel">用户提交数据</param>
         /// <returns></returns>
-        Task<bool> UpdateAsync(ModuleCreateModel createModel);
+        Task<bool> UpdateAsync(ModuleUpdateModel createModel);
         /// <summary>
         /// 获取接口列表数据
         /// </summary>
@@ -32,12 +40,5 @@ namespace HxCore.IServices.Admin
         /// </summary>
         /// <returns></returns>
         Task<ModuleDetailModel> GetAsync(string id);
-
-        /// <summary>
-        /// 同步接口数据
-        /// </summary>
-        /// <returns></returns>
-        Task<bool> SyncInterface();
-
     }
 }

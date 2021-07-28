@@ -10,7 +10,7 @@ namespace HxCore.Entity.Entities
         /// <summary>
         /// 接口的全名称
         /// </summary>
-        [MaxLength(50)]
+        [MaxLength(200)]
         [Required]
         public string Name { get; set; }
         /// <summary>

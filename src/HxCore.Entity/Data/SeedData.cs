@@ -24,9 +24,9 @@ namespace HxCore.Entity.Data
         public static void EnsureSeedData(IServiceProvider serviceProvider)
         {
             //迁移，在解决方案文件路径中执行迁移，指定启动项目路径为HxCore.Web，迁移文件项目为HxCore.Entity
-            //dotnet ef -s HxCore.Web  -p  HxCore.Entity  migrations add InitTable  -c DefaultContext
-            //dotnet ef -s HxCore.Web  -p  HxCore.Entity migrations remove  -c DefaultContext
-            //dotnet run -p HxCore.Web /seed
+            //dotnet ef -s src/HxCore.Web  -p  src/HxCore.Entity  migrations add InitTable  -c DefaultContext
+            //dotnet ef -s src/HxCore.Web  -p  src/HxCore.Entity migrations remove  -c DefaultContext
+            //dotnet run -p src/HxCore.Web /seed
             ConsoleHelper.WriteSuccessLine("Seeding database...");
             using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {

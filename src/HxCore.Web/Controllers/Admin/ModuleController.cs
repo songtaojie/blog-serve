@@ -6,10 +6,17 @@ using HxCore.Model.Admin.Module;
 using HxCore.Web.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.XPath;
+using System.Reflection;
 
 namespace HxCore.Web.Controllers.Admin
 {
@@ -73,7 +80,7 @@ namespace HxCore.Web.Controllers.Admin
         /// <param name="createModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<bool> UpdateAsync(ModuleCreateModel createModel)
+        public async Task<bool> UpdateAsync(ModuleUpdateModel createModel)
         {
             return await _service.UpdateAsync(createModel);
         }
@@ -94,15 +101,61 @@ namespace HxCore.Web.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [HttpGet]
         [AllowAnonymous]
         public async Task<bool> SyncInterface()
         {
+            List<ModuleCreateModel> moduleCreates = GetActionDescription();
+            return await this._service.BatchAddOrUpdateAsync(moduleCreates);
+        }
+
+
+        /// <summary>
+        /// 获取action的信息
+        /// </summary>
+        /// <returns></returns>
+        private  List<ModuleCreateModel> GetActionDescription()
+        {
             var type = this.GetType();
             var xmlName = string.Format("{0}.xml", type.Assembly.GetName().Name);
+            string MemberXPath = "/doc/members/member[@name='{0}']";
+            string SummaryTag = "summary";
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, xmlName);
-            DocumentHelper.GetActionDescription(path, _actionProvider);
-            return await Task.FromResult(true);
+            if (!System.IO.File.Exists(path)) return new List<ModuleCreateModel>();
+            XPathDocument xmlDoc = new XPathDocument(path);
+            XPathNavigator _xmlNavigator = xmlDoc.CreateNavigator();
+            var actionNamesAndTypes = _actionProvider.ActionDescriptors.Items
+                .Cast<ControllerActionDescriptor>()
+                .SkipWhile(actionDesc => actionDesc == null)
+                .Select(actionDesc => new ModuleCreateModel
+                {
+                    RouteUrl = actionDesc.AttributeRouteInfo.Template,
+                    Controller = actionDesc.ControllerName,
+                    Action = actionDesc.ActionName,
+                    MethodInfo = actionDesc.MethodInfo
+                }).ToList();
+            var httpMethodType = typeof(HttpMethodAttribute);
+            foreach (var action in actionNamesAndTypes)
+            {
+                var httpMethodAttributes = action.MethodInfo.GetCustomAttributes<HttpMethodAttribute>();
+                if (httpMethodAttributes.Any())
+                {
+                    var httpMethods = httpMethodAttributes.SelectMany(r => r.HttpMethods);
+                    action.HttpMethod = string.Join(",", string.Join(",", httpMethods));
+                }
+                action.Name = string.Format("{0}.{1}", action.MethodInfo.DeclaringType.FullName, action.MethodInfo.Name);
+                var methodMemberName = XmlCommentsNodeNameHelper.GetMemberNameForMethod(action.MethodInfo);
+                var methodNode = _xmlNavigator.SelectSingleNode(string.Format(MemberXPath, methodMemberName));
+
+                if (methodNode != null)
+                {
+                    var summaryNode = methodNode.SelectSingleNode(SummaryTag);
+                    if (summaryNode != null)
+                    {
+                        action.Description = XmlCommentsTextHelper.Humanize(summaryNode.InnerXml);
+                    }
+                }
+            }
+            return actionNamesAndTypes;
         }
         #endregion
     }

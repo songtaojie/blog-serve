@@ -13,10 +13,6 @@ namespace HxCore.Model.Admin.Module
     public class ModuleCreateModel:IAutoMapper<T_Module>
     {
         /// <summary>
-        /// 接口的id
-        /// </summary>
-        public string Id { get; set; }
-        /// <summary>
         /// 名称
         /// </summary>
         public string Name { get; set; }

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,8 +37,39 @@ namespace HxCore.Services.Admin
             return await this.InsertAsync(entity);
         }
 
+        /// <inheritdoc cref="IModuleService.BatchAddOrUpdateAsync"/>
+        public async Task<bool> BatchAddOrUpdateAsync(List<ModuleCreateModel> createModels)
+        {
+            string userId = UserContext.UserId;
+            string userName = UserContext.UserName;
+            List<T_Module> addEntitys = new List<T_Module>();
+            List<T_Module> updateEntitys = new List<T_Module>();
+            var names = createModels.Select(m => m.Name).ToArray();
+            var modules = this.Repository.Where(m => names.Contains(m.Name)).ToList();
+            createModels.ForEach(cm =>
+            {
+                var module = modules.FirstOrDefault(m => m.Name == cm.Name);
+                if (module == null)
+                {
+                    module = this.Mapper.Map<T_Module>(cm);
+                    this.BeforeInsert(module);
+                    module.SetDisable(StatusEntityEnum.No, userId, userName);
+                    addEntitys.Add(module);
+                }
+                else
+                {
+                    module = this.Mapper.Map(cm, module);
+                    this.BeforeUpdate(module);
+                    updateEntitys.Add(module);
+                }
+            });
+            if(addEntitys.Any()) await Repository.InsertAsync(addEntitys);
+            if (updateEntitys.Any()) await Repository.UpdateAsync(updateEntitys);
+            return await this.Repository.SaveNowAsync() > 0;
+        }
+
         /// <inheritdoc cref="IModuleService.UpdateAsync"/>
-        public async Task<bool> UpdateAsync(ModuleCreateModel createModel)
+        public async Task<bool> UpdateAsync(ModuleUpdateModel createModel)
         {
             if (string.IsNullOrEmpty(createModel.Id)) throw new UserFriendlyException("无效的标识");
             var entity = await this.FindAsync(createModel.Id);
@@ -47,43 +79,6 @@ namespace HxCore.Services.Admin
             entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
             return await this.UpdateAsync(entity);
         }
-
-        /// <inheritdoc cref="IModuleService.SyncInterface"/>
-        public async Task<bool> SyncInterface()
-        {
-            // 获取所有的控制器和动作方法
-            var actionDescs = _actionProvider.ActionDescriptors.Items.Cast<ControllerActionDescriptor>().Select(x => new
-            {
-                ControllerName = x.ControllerName,
-                ActionName = x.ActionName,
-                DisplayName = x.DisplayName,
-                RouteTemplate = x.AttributeRouteInfo.Template,
-                Attributes = x.MethodInfo.CustomAttributes.Select(z => new {
-                    TypeName = z.AttributeType.FullName,
-                    ConstructorArgs = z.ConstructorArguments.Select(v => new {
-                        ArgumentValue = v.Value
-                    }),
-                    NamedArguments = z.NamedArguments.Select(v => new {
-                        v.MemberName,
-                        TypedValue = v.TypedValue.Value,
-                    }),
-                }),
-                ActionId = x.Id,
-                x.RouteValues,
-                Parameters = x.Parameters.Select(z => new {
-                    z.Name,
-                    TypeName = z.ParameterType.Name,
-                })
-            });
-
-            if (actionDescs.Any())
-            { 
-                
-            }
-
-            return await Task.FromResult(true);
-        }
-
         #endregion
 
         #region 查询
@@ -97,7 +92,7 @@ namespace HxCore.Services.Admin
                         {
                             Id = m.Id,
                             Name = m.Name,
-                            LinkUrl = m.LinkUrl,
+                            RouteUrl = m.RouteUrl,
                             Description = m.Description,
                             OrderSort = m.OrderSort,
                             CreateTime = m.CreateTime,

@@ -214,6 +214,19 @@ namespace HxCore.Entity.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "T_MenuModule",
+                columns: table => new
+                {
+                    Id = table.Column<string>(maxLength: 36, nullable: false),
+                    ModuleId = table.Column<string>(maxLength: 36, nullable: false),
+                    PermissionId = table.Column<string>(maxLength: 36, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_T_MenuModule", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "T_Module",
                 columns: table => new
                 {
@@ -226,17 +239,38 @@ namespace HxCore.Entity.Migrations
                     LastModifierId = table.Column<string>(maxLength: 36, nullable: true),
                     Deleted = table.Column<string>(type: "char(1)", nullable: true),
                     Disabled = table.Column<string>(type: "char(1)", nullable: true),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
-                    LinkUrl = table.Column<string>(maxLength: 100, nullable: true),
+                    Name = table.Column<string>(maxLength: 200, nullable: false),
+                    RouteUrl = table.Column<string>(maxLength: 100, nullable: true),
                     Area = table.Column<string>(maxLength: 100, nullable: true),
                     Controller = table.Column<string>(maxLength: 100, nullable: true),
                     Action = table.Column<string>(maxLength: 100, nullable: true),
+                    HttpMethod = table.Column<string>(maxLength: 50, nullable: true),
                     Description = table.Column<string>(maxLength: 200, nullable: true),
                     OrderSort = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_T_Module", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "T_OperateLog",
+                columns: table => new
+                {
+                    Id = table.Column<string>(maxLength: 36, nullable: false),
+                    CreateTime = table.Column<DateTime>(nullable: false),
+                    CreaterId = table.Column<string>(maxLength: 36, nullable: true),
+                    Creater = table.Column<string>(maxLength: 36, nullable: true),
+                    LastModifyTime = table.Column<DateTime>(nullable: true),
+                    LastModifier = table.Column<string>(maxLength: 36, nullable: true),
+                    LastModifierId = table.Column<string>(maxLength: 36, nullable: true),
+                    Route = table.Column<string>(maxLength: 200, nullable: true),
+                    IPAddress = table.Column<string>(maxLength: 200, nullable: true),
+                    Description = table.Column<string>(maxLength: 2000, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_T_OperateLog", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -348,7 +382,13 @@ namespace HxCore.Entity.Migrations
                 name: "T_Menu");
 
             migrationBuilder.DropTable(
+                name: "T_MenuModule");
+
+            migrationBuilder.DropTable(
                 name: "T_Module");
+
+            migrationBuilder.DropTable(
+                name: "T_OperateLog");
 
             migrationBuilder.DropTable(
                 name: "T_Role");
