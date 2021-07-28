@@ -1,15 +1,11 @@
-﻿using Hx.Sdk.Entity;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace HxCore.Entity
 {
     /// <summary>
     /// 菜单与接口关系表
     /// </summary>
-    public class T_MenuModule : IEntity
+    public class T_MenuModule : Hx.Sdk.DatabaseAccessor.IEntity
     {
         /// <summary>
         /// 主键

@@ -2,6 +2,7 @@
 using HxCore.Entity.Entities;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace HxCore.Model.Admin.Module
@@ -20,9 +21,9 @@ namespace HxCore.Model.Admin.Module
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// 接口的地址
+        /// 接口的地址,即路由地址
         /// </summary>
-        public string LinkUrl { get; set; }
+        public string RouteUrl { get; set; }
         /// <summary>
         /// 控制器名称
         /// </summary>
@@ -31,6 +32,10 @@ namespace HxCore.Model.Admin.Module
         /// Action名称
         /// </summary>
         public string Action { get; set; }
+        /// <summary>
+        /// 该接口的请求方式
+        /// </summary>
+        public string HttpMethod { get; set; }
         /// <summary>
         /// /描述
         /// </summary>
@@ -43,6 +48,11 @@ namespace HxCore.Model.Admin.Module
         /// <summary>
         /// 是否启用
         /// </summary>
-        public bool IsEnabled { get; set; }
+        public bool IsEnabled { get; set; } = true;
+
+        /// <summary>
+        /// 接口的详细信息
+        /// </summary>
+        public MethodInfo MethodInfo { get; set; }
     }
 }

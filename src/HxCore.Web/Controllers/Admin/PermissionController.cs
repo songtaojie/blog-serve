@@ -1,6 +1,7 @@
 ﻿using HxCore.IServices.Admin;
 using HxCore.Model.Admin;
 using HxCore.Web.Controllers.Base;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -39,6 +40,8 @@ namespace HxCore.Web.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Entity.Permission.Permission("Permission.Router")]
+        [Authorize()]
         public async Task<List<RouterQueryModel>> GetRouters()
         {
             return  await _service.GetRoutersAsync();

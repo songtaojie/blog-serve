@@ -33,5 +33,11 @@ namespace HxCore.IServices.Admin
         /// <returns></returns>
         Task<ModuleDetailModel> GetAsync(string id);
 
+        /// <summary>
+        /// 同步接口数据
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> SyncInterface();
+
     }
 }

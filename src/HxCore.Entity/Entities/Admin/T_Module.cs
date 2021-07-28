@@ -8,7 +8,7 @@ namespace HxCore.Entity.Entities
     public class T_Module : Hx.Sdk.DatabaseAccessor.StatusEntityBase
     {
         /// <summary>
-        /// 名称
+        /// 接口的全名称
         /// </summary>
         [MaxLength(50)]
         [Required]
@@ -17,7 +17,7 @@ namespace HxCore.Entity.Entities
         /// 接口的地址
         /// </summary>
         [MaxLength(100)]
-        public string LinkUrl { get; set; }
+        public string RouteUrl { get; set; }
         /// <summary>
         /// 区域名称
         /// </summary>
@@ -33,6 +33,13 @@ namespace HxCore.Entity.Entities
         /// </summary>
         [MaxLength(100)]
         public string Action { get; set; }
+
+        /// <summary>
+        /// 该接口的请求方式
+        /// </summary>
+        [MaxLength(50)]
+        public string HttpMethod { get; set; }
+
         /// <summary>
         /// /描述
         /// </summary>

@@ -1,5 +1,7 @@
-﻿using Hx.Sdk.ConfigureOptions;
+﻿using Hx.Sdk.Cache;
+using Hx.Sdk.ConfigureOptions;
 using Hx.Sdk.Core;
+using HxCore.Entity.Permission;
 using HxCore.IServices.Admin;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -18,6 +20,8 @@ using System.Threading.Tasks;
 
 namespace Microsoft.AspNetCore.Authorization
 {
+    //Infrastructure.OperationAuthorizationRequirement
+    //Infrastructure.RolesAuthorizationRequirement
     /// <summary>
     /// 权限授权处理器
     /// </summary>
@@ -29,6 +33,7 @@ namespace Microsoft.AspNetCore.Authorization
         public IAuthenticationSchemeProvider Schemes { get; set; }
         private readonly IRoleService _roleService;
         private readonly IUserContext _userContext;
+        private readonly IRedisCache _redisCache;
 
         /// <summary>
         /// 构造函数注入
@@ -36,16 +41,23 @@ namespace Microsoft.AspNetCore.Authorization
         /// <param name="schemes"></param>
         /// <param name="roleService"></param>
         /// <param name="accessor"></param>
-        public PermissionHandler(IAuthenticationSchemeProvider schemes, IRoleService roleService, IUserContext userContext)
+        public PermissionHandler(IAuthenticationSchemeProvider schemes, IRoleService roleService, IUserContext userContext,IRedisCache redisCache)
         {
             _userContext = userContext;
             Schemes = schemes;
             _roleService = roleService;
+            _redisCache = redisCache;
         }
 
         // 重写异步处理程序
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {
+
+            if (_userContext.IsSuperAdmin) 
+            { 
+                
+            }
+
             var httpContext = _userContext.HttpContext;
             var isUserIds4 = App.Settings.UseIdentityServer4 ?? false;
             // 获取系统中所有的角色和菜单的关系集合
@@ -97,54 +109,26 @@ namespace Microsoft.AspNetCore.Authorization
                         var currentUserRoles = _userContext.GetClaimValueByType("roleId");
                         var isMatchRole = false;
                         var permisssionRoles = requirement.Permissions.Where(w => currentUserRoles.Contains(w.Role));
-                        foreach (var item in permisssionRoles)
-                        {
-                            try
-                            {
-                                if (Regex.Match(questUrl, item.Menu.ToLower())?.Value == questUrl)
-                                {
-                                    isMatchRole = true;
-                                    break;
-                                }
-                            }
-                            catch (Exception)
-                            {
-                                // ignored
-                            }
-                        }
 
-                        //验证权限
-                        if (currentUserRoles.Count <= 0 || !isMatchRole)
-                        {
-                            context.Fail();
-                            return;
-                        }
 
-                        var isExp = false;
-                        // ids4和jwt切换
-                        // ids4
-                        if (isUserIds4)
-                        {
-                            var exp = httpContext.User.Claims.SingleOrDefault(s => s.Type == "exp")?.Value;
-                            exp = exp.Substring(0, 10);
-                            long timestamp = Convert.ToInt64(exp);
-                            var datetime = DateTimeOffset.FromUnixTimeSeconds(timestamp).DateTime;
-                            isExp = (httpContext.User.Claims.SingleOrDefault(s => s.Type == "exp")?.Value) != null && datetime >= DateTime.Now;
-                        }
-                        else
-                        {
-                            // jwt
-                            isExp = (httpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Expiration)?.Value) != null && DateTime.Parse(httpContext.User.Claims.SingleOrDefault(s => s.Type == ClaimTypes.Expiration)?.Value) >= DateTime.Now;
-                        }
-                        if (isExp)
-                        {
-                            context.Succeed(requirement);
-                        }
-                        else
-                        {
-                            context.Fail();
-                            return;
-                        }
+                        var permissionAttr = endpoint.Metadata.GetMetadata<PermissionAttribute>();
+
+                        ////验证权限
+                        //if (currentUserRoles.Count <= 0 || !isMatchRole)
+                        //{
+                        //    context.Fail();
+                        //    return;
+                        //}
+                       
+                        //if (isExp)
+                        //{
+                        //    context.Succeed(requirement);
+                        //}
+                        //else
+                        //{
+                        //    context.Fail();
+                        //    return;
+                        //}
                         return;
                     }
                 }

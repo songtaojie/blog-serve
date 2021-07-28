@@ -13,6 +13,7 @@ namespace Microsoft.AspNetCore.Authorization
     /// </summary>
     public class PermissionRequirement : IAuthorizationRequirement
     {
+        
         /// <summary>
         /// 一个网站的认证发行中，也有很多权限详情(这里是Role和URL的关系)
         /// </summary>
