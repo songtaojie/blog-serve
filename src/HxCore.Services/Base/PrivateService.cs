@@ -11,13 +11,27 @@ using System.Linq;
 
 namespace HxCore.Services.Internal
 {
-    public abstract class PrivateService<T> where T :class, Hx.Sdk.Entity.IEntity, new()
+    public abstract class PrivateService<T, TDbContextLocator>
+        where T :class, Hx.Sdk.Entity.IEntity, new()
+        where TDbContextLocator : class, IDbContextLocator
     {
-        protected IRepository<T> Repository { get; }
+        /// <summary>
+        /// 仓储
+        /// </summary>
+        protected IRepository<T, TDbContextLocator> Repository { get; }
+        /// <summary>
+        /// 用户上下文
+        /// </summary>
         protected IUserContext UserContext { get; }
+        /// <summary>
+        /// AutoMapper映射对象
+        /// </summary>
         protected IMapper Mapper { get; }
+        /// <summary>
+        /// 数据库上下文
+        /// </summary>
         protected Microsoft.EntityFrameworkCore.DbContext Db { get; }
-        public PrivateService(IRepository<T> repository)
+        public PrivateService(IRepository<T, TDbContextLocator> repository)
         {
             this.Repository = repository;
             this.Mapper = repository.ServiceProvider.GetRequiredService<IMapper>();

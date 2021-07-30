@@ -7,11 +7,28 @@ using Hx.Sdk.DependencyInjection;
 
 namespace HxCore.Services
 {
-    public abstract class BaseService<T>: HxCore.Services.Internal.PrivateService<T>,IScopedDependency
-        where T:Hx.Sdk.DatabaseAccessor.EntityBase, new()
+    /// <summary>
+    /// 基础服务的实现类
+    /// 使用默认的数据库上下文定位器
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public abstract class BaseService<T> : BaseService<T, MasterDbContextLocator>
+        where T : Hx.Sdk.DatabaseAccessor.EntityBase, new()
     {
-        //protected Microsoft.EntityFrameworkCore.DbContext Db { get; }
-        public BaseService(IRepository<T> repository):base(repository)
+        public BaseService(IRepository<T, MasterDbContextLocator> repository) : base(repository)
+        {
+        }
+    }
+    /// <summary>
+    /// 基础服务实现基础类
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+    public abstract class BaseService<T, TDbContextLocator> : Internal.PrivateService<T, TDbContextLocator>, IScopedDependency
+        where T:Hx.Sdk.DatabaseAccessor.EntityBase, new()
+        where TDbContextLocator : class, IDbContextLocator
+    {
+        public BaseService(IRepository<T, TDbContextLocator> repository):base(repository)
         {
         }
 

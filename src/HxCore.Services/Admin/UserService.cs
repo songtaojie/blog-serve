@@ -21,7 +21,7 @@ namespace HxCore.Services.Admin
 {
     public class UserService : BaseStatusService<T_User>, IUserService
     {
-        public UserService(IRepository<T_User> userDal) : base(userDal)
+        public UserService(IRepository<T_User,MasterDbContextLocator> userDal) : base(userDal)
         {
         }
 

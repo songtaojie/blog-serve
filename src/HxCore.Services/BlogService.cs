@@ -25,7 +25,7 @@ namespace HxCore.Services
     public class BlogService : BaseStatusService<T_Blog>, IBlogService
     {
         private IRepository<T_BlogExtend> ExtendRepository { get; }
-        public BlogService(IRepository<T_Blog> dal, IRepository<T_BlogExtend> extendRepository)
+        public BlogService(IRepository<T_Blog,MasterDbContextLocator> dal, IRepository<T_BlogExtend> extendRepository)
             : base(dal)
         {
             this.ExtendRepository = extendRepository;

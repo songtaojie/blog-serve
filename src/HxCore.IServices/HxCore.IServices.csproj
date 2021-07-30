@@ -8,8 +8,4 @@
     <ProjectReference Include="..\HxCore.Model\HxCore.Model.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Ids4\" />
-  </ItemGroup>
-
 </Project>

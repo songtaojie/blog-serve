@@ -13,8 +13,4 @@
     <ProjectReference Include="..\HxCore.IServices\HxCore.IServices.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Ids4\" />
-  </ItemGroup>
-
 </Project>

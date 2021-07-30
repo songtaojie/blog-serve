@@ -52,5 +52,19 @@ namespace HxCore.IServices.Admin
         /// </summary>
         /// <returns></returns>
         Task<List<RoleMenuModel>> GetAllRoleMenusAsync();
+
+        /// <summary>
+        /// 获取用户角色信息
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<List<Model.Admin.User.UserRoleModel>> GetUserRoleAsync(string userId);
+
+        /// <summary>
+        /// 检查用户是否是超级管理员
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<bool> CheckIsSuperAdminAsync(string userId);
     }
 }

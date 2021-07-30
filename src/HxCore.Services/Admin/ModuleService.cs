@@ -1,5 +1,4 @@
 ﻿using Hx.Sdk.Common.Helper;
-using Hx.Sdk.ConfigureOptions;
 using Hx.Sdk.DatabaseAccessor;
 using Hx.Sdk.Entity;
 using Hx.Sdk.Entity.Page;
@@ -8,11 +7,7 @@ using HxCore.Entity;
 using HxCore.Entity.Entities;
 using HxCore.IServices.Admin;
 using HxCore.Model.Admin.Module;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,10 +16,8 @@ namespace HxCore.Services.Admin
 {
     public class ModuleService : BaseStatusService<T_Module>, IModuleService
     {
-        private IActionDescriptorCollectionProvider _actionProvider;
-        public ModuleService(IRepository<T_Module> userDal, IActionDescriptorCollectionProvider actionProvider) : base(userDal)
+        public ModuleService(IRepository<T_Module,MasterDbContextLocator> userDal) : base(userDal)
         {
-            _actionProvider = actionProvider;
         }
 
         #region 新增编辑

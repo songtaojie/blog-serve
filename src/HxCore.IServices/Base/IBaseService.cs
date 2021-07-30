@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hx.Sdk.DatabaseAccessor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -6,8 +7,13 @@ using System.Threading.Tasks;
 
 namespace HxCore.IServices
 {
-    public interface IBaseService<T>
+    public interface IBaseService<T> : IBaseService<T, MasterDbContextLocator>
+        where T : Hx.Sdk.Entity.IEntity
+    { }
+
+    public interface IBaseService<T, TDbContextLocator>
         where T: Hx.Sdk.Entity.IEntity
+        where TDbContextLocator : class, IDbContextLocator
     {
         #region 查询
         /// <summary>

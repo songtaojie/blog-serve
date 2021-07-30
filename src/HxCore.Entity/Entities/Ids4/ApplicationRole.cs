@@ -7,13 +7,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace HxCore.Entity.Entities
+namespace HxCore.Entity.Entities.Ids4
 {
     /// <summary>
     /// 以下model 来自ids4项目，多库模式，为了调取ids4数据
     /// 角色表
     /// </summary>
-    public class ApplicationRole : IdentityUser, IEntity<IdsDbContextLocator>
+    public class ApplicationRole : IdentityRole, IEntity<IdsDbContextLocator>
     {
         /// <summary>
         /// 是否删除

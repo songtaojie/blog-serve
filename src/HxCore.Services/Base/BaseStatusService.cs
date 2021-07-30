@@ -9,10 +9,29 @@ using System.Threading.Tasks;
 
 namespace HxCore.Services
 {
-    public abstract class BaseStatusService<T> : HxCore.Services.Internal.PrivateService<T>, IScopedDependency
+    /// <summary>
+    /// 基础的实现类，带状态
+    /// 使用默认的数据库上下文定位器
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public abstract class BaseStatusService<T> : BaseStatusService<T, MasterDbContextLocator>
         where T : Hx.Sdk.DatabaseAccessor.StatusEntityBase, new()
     {
-        public BaseStatusService(IRepository<T> repository):base(repository)
+        public BaseStatusService(IRepository<T, MasterDbContextLocator> repository) : base(repository)
+        {
+        }
+    }
+
+    /// <summary>
+    /// 基础的实现类，带状态
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
+    public abstract class BaseStatusService<T, TDbContextLocator> : HxCore.Services.Internal.PrivateService<T, TDbContextLocator>, IScopedDependency
+        where T : Hx.Sdk.DatabaseAccessor.StatusEntityBase, new()
+        where TDbContextLocator : class, IDbContextLocator
+    {
+        public BaseStatusService(IRepository<T, TDbContextLocator> repository):base(repository)
         {
         }
 

@@ -53,7 +53,11 @@ namespace Microsoft.AspNetCore.Authorization
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {
 
-            if (_userContext.IsSuperAdmin) 
+            if (_userContext.IsSuperAdmin)
+            {
+                context.Succeed(requirement);
+            }
+            else
             { 
                 
             }

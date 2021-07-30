@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -42,12 +43,18 @@ namespace HxCore.Model.Admin
         /// <summary>
         /// Meta数据
         /// </summary>
-        public RouterQueryMetaModel Meta { get; set; }
+        public RouterMetaModel Meta { get; set; }
+
+        /// <summary>
+        /// 接口信息
+        /// </summary>
+        [JsonIgnore]
+        public RouterModuleModel Module { get; set; }
     }
     /// <summary>
     /// Meta数据model
     /// </summary>
-    public class RouterQueryMetaModel
+    public class RouterMetaModel
     {
         /// <summary>
         /// 是否需要权限
@@ -71,5 +78,24 @@ namespace HxCore.Model.Admin
         /// 不显示左侧菜单栏
         /// </summary>
         public bool NoTab { get; set; }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class RouterModuleModel
+    {
+        /// <summary>
+        /// 接口的全名称
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// 接口的地址
+        /// </summary>
+        public string RouteUrl { get; set; }
+        /// <summary>
+        /// 该接口的请求方式
+        /// </summary>
+        public string HttpMethod { get; set; }
     }
 }

@@ -18,5 +18,10 @@ namespace HxCore.Entity
         /// N
         /// </summary>
         public const string No = "N";
+
+        /// <summary>
+        /// SuperAdminCode
+        /// </summary>
+        public const string SuperAdminCode = "SuperAdmin";
     }
 }

@@ -11,18 +11,19 @@ using Hx.Sdk.Extensions;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using HxCore.IServices.Admin;
+using Hx.Sdk.ConfigureOptions;
 
 namespace HxCore.Services.Admin
 {
 
     public class RoleService : BaseStatusService<T_Role>, IRoleService
     {
-        public RoleService(IRepository<T_Role> userDal) : base(userDal)
+        public RoleService(IRepository<T_Role,MasterDbContextLocator> userDal) : base(userDal)
         {
         }
 
         #region 新增编辑
-        /// <inheritdoc cref="IRoleService.AddAsync(RoleCreateModel)"/>
+        /// <inheritdoc cref="IRoleService.AddAsync"/>
         public async Task<bool> AddAsync(RoleCreateModel createModel)
         {
             var entity = this.Mapper.Map<T_Role>(createModel);
@@ -41,7 +42,7 @@ namespace HxCore.Services.Admin
             return await this.InsertAsync(entity);
         }
 
-        /// <inheritdoc cref="IRoleService.InsertAsync(RoleCreateModel)"/>
+        /// <inheritdoc cref="IRoleService.UpdateAsync"/>
         public async Task<bool> UpdateAsync(RoleCreateModel createModel)
         {
             if (string.IsNullOrEmpty(createModel.Id)) throw new UserFriendlyException("无效的标识");
@@ -69,7 +70,7 @@ namespace HxCore.Services.Admin
         #endregion
 
         #region 查询
-        /// <inheritdoc cref="IRoleService.QueryRolePageAsync(RoleQueryParam)"/>
+        /// <inheritdoc cref="IRoleService.QueryRolePageAsync"/>
         public Task<PageModel<RoleQueryModel>> QueryRolePageAsync(RoleQueryParam param)
         {
             var query = from r in this.Repository.DetachedEntities
@@ -89,7 +90,7 @@ namespace HxCore.Services.Admin
             return query.ToOrderAndPageListAsync(param);
         }
 
-        /// <inheritdoc cref="IRoleService.GetAsync(string)"/>
+        /// <inheritdoc cref="IRoleService.GetAsync"/>
         public async Task<RoleDetailModel> GetAsync(string id)
         {
             var detail = await this.FindAsync(id);
@@ -105,7 +106,7 @@ namespace HxCore.Services.Admin
         }
 
 
-        /// <inheritdoc cref="IRoleService.GetListByUserAsync(string)"/>
+        /// <inheritdoc cref="IRoleService.GetListByUserAsync"/>
         public async Task<List<RoleQueryModel>> GetListByUserAsync(string userId)
         {
             var query = from r in this.Repository.DetachedEntities
@@ -174,6 +175,33 @@ namespace HxCore.Services.Admin
                         {
                             RoleId = r.Id,
                             MenuId = rm.PermissionId
+                        };
+            return await query.ToListAsync();
+        }
+
+        /// <inheritdoc cref="IRoleService.CheckIsSuperAdminAsync"/>
+        public async Task<bool> CheckIsSuperAdminAsync(string userId)
+        {
+            var query = from r in this.Repository.DetachedEntities
+                        join ur in Db.Set<T_UserRole>() on r.Id equals ur.RoleId
+                        where r.Deleted == ConstKey.No
+                        && ur.UserId == userId
+                        && r.Name == ConstKey.SuperAdminCode
+                        select r.Id;
+            return await query.AnyAsync();
+        }
+
+        /// <inheritdoc cref="IRoleService.GetUserRoleAsync"/>
+        public async Task<List<Model.Admin.User.UserRoleModel>> GetUserRoleAsync(string userId)
+        {
+            var query = from r in this.Repository.DetachedEntities
+                        join ur in this.Db.Set<T_UserRole>().AsNoTracking() on r.Id equals ur.RoleId
+                        where r.Deleted == ConstKey.No
+                        && ur.UserId == userId
+                        select new Model.Admin.User.UserRoleModel
+                        {
+                            RoleId = r.Id,
+                            RoleName = r.Name
                         };
             return await query.ToListAsync();
         }
