@@ -40,13 +40,24 @@ namespace HxCore.Web.Controllers.Admin
 
         #region 查询
         /// <summary>
-        /// 获取接口列表
+        /// 获取接口分页列表
         /// </summary>
         /// <returns></returns>
         [HttpPost]
         public async Task<PageModel<ModuleQueryModel>> GetPageAsync(ModuleQueryParam param)
         {
             var result = await _service.QueryModulePageAsync(param);
+            return result;
+        }
+
+        /// <summary>
+        /// 获取接口列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<List<ModuleQueryModel>> GetListAsync(ModuleQueryParam param)
+        {
+            var result = await _service.GetListAsync(param);
             return result;
         }
 
@@ -101,7 +112,7 @@ namespace HxCore.Web.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<bool> SyncInterface()
         {
             List<ModuleCreateModel> moduleCreates = GetActionDescription();

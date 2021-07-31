@@ -36,6 +36,11 @@ namespace HxCore.IServices.Admin
         /// <returns></returns>
         Task<PageModel<ModuleQueryModel>> QueryModulePageAsync(ModuleQueryParam param);
         /// <summary>
+        /// 获取接口列表数据
+        /// </summary>
+        /// <returns></returns>
+        Task<List<ModuleQueryModel>> GetListAsync(ModuleQueryParam param);
+        /// <summary>
         /// 获取接口管理详情数据
         /// </summary>
         /// <returns></returns>

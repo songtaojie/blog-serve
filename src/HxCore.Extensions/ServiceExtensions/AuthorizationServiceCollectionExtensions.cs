@@ -2,6 +2,7 @@
 using HxCore.Extensions.Authentication;
 using HxCore.Extensions.Common;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -36,9 +37,7 @@ namespace Microsoft.Extensions.DependencyInjection
             SymmetricSecurityKey signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSetting.SecretKey));
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
             // 角色与接口的权限要求参数
-            var permissionRequirement = new AspNetCore.Authorization.PermissionRequirement(
-                "/api/denied",// 拒绝授权的跳转地址（目前无用）
-                new List<PermissionItem>(),
+            var permissionRequirement = new RouteAuthorizationRequirement(
                 ClaimTypes.Role,//基于角色的授权
                 jwtSetting.Issuer,//发行人
                 jwtSetting.Audience,//听众
@@ -53,7 +52,7 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             // 注入权限处理器
-            services.AddScoped<IAuthorizationHandler, AspNetCore.Authorization.PermissionHandler>();
+            services.AddScoped<IAuthorizationHandler, RouteAuthorizationHandler>();
             services.AddSingleton(permissionRequirement);
         }
     }

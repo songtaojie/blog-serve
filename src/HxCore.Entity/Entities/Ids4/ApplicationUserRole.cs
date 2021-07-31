@@ -3,6 +3,8 @@ using HxCore.Entity.Context;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace HxCore.Entity.Entities.Ids4
@@ -13,5 +15,15 @@ namespace HxCore.Entity.Entities.Ids4
     /// </summary>
     public class ApplicationUserRole : IdentityUserRole<string>, IEntity<IdsDbContextLocator>
     {
+        /// <summary>
+        /// 主键
+        /// </summary>
+        [Key]
+        [MaxLength(36)]
+        public string Id
+        {
+            get;
+            set;
+        }
     }
 }

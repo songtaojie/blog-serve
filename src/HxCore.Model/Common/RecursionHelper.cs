@@ -17,10 +17,10 @@ namespace HxCore.Model
         /// <param name="allMenus">要递归的类集合</param>
         /// <param name="parentId">递归的根节点</param>
         /// <returns>递归后的集合</returns>
-        public static List<T> HandleTreeChildren<T>(List<T> allMenus, string parentId = null) where T : BaseTreeModel<T>
+        public static List<T> HandleTreeChildren<T>(IEnumerable<T> allMenus, string parentId = null) where T : BaseTreeModel<T>
         {
 
-            if (allMenus == null || allMenus.Count == 0) return new List<T>();
+            if (allMenus == null || !allMenus.Any()) return new List<T>();
             List<T> parentMenus = new List<T>();
             if (string.IsNullOrEmpty(parentId))
             {

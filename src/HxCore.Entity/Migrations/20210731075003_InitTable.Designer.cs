@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HxCore.Entity.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    [Migration("20210728144959_InitTable")]
+    [Migration("20210731075003_InitTable")]
     partial class InitTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -466,6 +466,11 @@ namespace HxCore.Entity.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("varchar(36)")
                         .HasMaxLength(36);
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Component")
                         .HasColumnType("varchar(50)")

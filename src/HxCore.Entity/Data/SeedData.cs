@@ -99,7 +99,7 @@ namespace HxCore.Entity.Data
                 var role = new T_Role
                 {
                     Id = roleId,
-                    Code = "SuperAdmin",
+                    Code = ConstKey.SuperAdminCode,
                     Name = "超级管理员",
                     Description = "超级管理员权限",
                     Deleted = ConstKey.No,
@@ -239,6 +239,7 @@ namespace HxCore.Entity.Data
                 var menu = new T_Menu
                 {
                     Id = Helper.GetSnowId(),
+                    Code= "permission",
                     Path = "/permission",
                     Component = "/permission/index.vue",
                     Name = "菜单管理",

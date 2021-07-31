@@ -6,13 +6,18 @@ using Hx.Sdk.Extensions;
 using Hx.Sdk.Entity.Dependency;
 using HxCore.Entity.Entities;
 
-namespace HxCore.Model.Admin
+namespace HxCore.Model.Admin.Menu
 {
     /// <summary>
     /// 菜单按权限查询数据model
     /// </summary>
     public class MenuQueryModel:BaseTreeModel<MenuQueryModel>,IAutoMapper<T_Menu>
     {
+        /// <summary>
+        /// 权限的code
+        /// </summary>
+        public string Code { get; set; }
+
         /// <summary>
         /// 名称
         /// </summary>
@@ -55,6 +60,11 @@ namespace HxCore.Model.Admin
         /// 菜单图标
         /// </summary>
         public string Icon { get; set; }
+
+        /// <summary>
+        /// 请求的接口
+        /// </summary>
+        public string RouteUrl { get; set; }
 
         /// <summary>
         /// 是否启用

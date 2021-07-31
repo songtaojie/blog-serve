@@ -186,7 +186,7 @@ namespace HxCore.Services.Admin
                         join ur in Db.Set<T_UserRole>() on r.Id equals ur.RoleId
                         where r.Deleted == ConstKey.No
                         && ur.UserId == userId
-                        && r.Name == ConstKey.SuperAdminCode
+                        && r.Code == ConstKey.SuperAdminCode
                         select r.Id;
             return await query.AnyAsync();
         }

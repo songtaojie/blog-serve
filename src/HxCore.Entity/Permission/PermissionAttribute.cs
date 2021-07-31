@@ -8,11 +8,21 @@ using System.Text;
 
 namespace HxCore.Entity.Permission
 {
+    /// <summary>
+    /// 权限特性
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
     public class PermissionAttribute : Attribute//, IAuthorizationFilter
     {
+        /// <summary>
+        /// 权限code
+        /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="name"></param>
         public PermissionAttribute(string name)
         {
             Name = name;

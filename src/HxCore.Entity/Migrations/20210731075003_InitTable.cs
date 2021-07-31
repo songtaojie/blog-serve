@@ -199,6 +199,7 @@ namespace HxCore.Entity.Migrations
                     Disabled = table.Column<string>(type: "char(1)", nullable: true),
                     ParentId = table.Column<string>(maxLength: 36, nullable: true),
                     Path = table.Column<string>(maxLength: 100, nullable: false),
+                    Code = table.Column<string>(maxLength: 50, nullable: false),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
                     Component = table.Column<string>(maxLength: 50, nullable: true),
                     MenuType = table.Column<int>(nullable: false),

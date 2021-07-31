@@ -18,6 +18,7 @@ using HxCore.Model;
 using HxCore.IServices.Admin;
 using Hx.Sdk.ConfigureOptions;
 using HxCore.IServices.Ids4;
+using HxCore.Model.Admin.Menu;
 
 namespace HxCore.Services.Admin
 {
@@ -35,27 +36,52 @@ namespace HxCore.Services.Admin
         }
 
         #region 新增编辑
-        /// <inheritdoc cref="HxCore.IServices.IPermissionService.AddAsync(MenuCreateModel)"/>
+        /// <inheritdoc cref="IPermissionService.AddAsync(MenuCreateModel)"/>
         public async Task<bool> AddAsync(MenuCreateModel createModel)
         {
             var entity = this.Mapper.Map<T_Menu>(createModel);
             var disabled = createModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
             entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
             if (entity.MenuType == T_Menu_Enum.Button) entity.Path = string.Empty;
-
+            //添加接口
+            if (!string.IsNullOrEmpty(createModel.ModuleId))
+            {
+                this.Db.Set<T_MenuModule>().Add(new T_MenuModule
+                {
+                    Id = Helper.GetSnowId(),
+                    PermissionId = entity.Id,
+                    ModuleId = createModel.ModuleId
+                });
+            }
             return await this.InsertAsync(entity);
         }
 
-        /// <inheritdoc cref="HxCore.IServices.IPermissionService.InsertAsync(MenuCreateModel)"/>
-        public async Task<bool> UpdateAsync(MenuCreateModel createModel)
+        /// <inheritdoc cref="IPermissionService.UpdateAsync(MenuUpdateModel)"/>
+        public async Task<bool> UpdateAsync(MenuUpdateModel model)
         {
-            if (string.IsNullOrEmpty(createModel.Id)) throw new Hx.Sdk.FriendlyException.UserFriendlyException("无效的标识", ErrorCodeEnum.UpdateError);
-            var entity = await this.FindAsync(createModel.Id);
+            if (string.IsNullOrEmpty(model.Id)) throw new Hx.Sdk.FriendlyException.UserFriendlyException("无效的标识", ErrorCodeEnum.UpdateError);
+            var entity = await this.FindAsync(model.Id);
             if (entity == null) throw new Hx.Sdk.FriendlyException.UserFriendlyException("未找到角色信息", ErrorCodeEnum.DataNull);
-            entity = this.Mapper.Map(createModel, entity);
-            var disabled = createModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
+            entity = this.Mapper.Map(model, entity);
+            var disabled = model.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
             entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
             if (entity.MenuType == T_Menu_Enum.Button) entity.Path = string.Empty;
+            //先删除原来关联的接口
+            var removeList = this.Db.Set<T_MenuModule>().Where(r => r.PermissionId == entity.Id).ToList();
+            if (removeList.Any())
+            {
+                this.Db.Set<T_MenuModule>().RemoveRange(removeList);
+            }
+            //再添加
+            if (!string.IsNullOrEmpty(model.ModuleId))
+            {
+                this.Db.Set<T_MenuModule>().Add(new T_MenuModule
+                {
+                    Id = Helper.GetSnowId(),
+                    PermissionId = entity.Id,
+                    ModuleId = model.ModuleId
+                });
+            }
             return await this.UpdateAsync(entity);
         }
         #endregion
@@ -65,15 +91,20 @@ namespace HxCore.Services.Admin
         public async Task<List<MenuQueryModel>> GetListAsync()
         {
             List<MenuQueryModel> menuList = null;
-
-            if (UserContext.IsSuperAdmin)
+            var isSuperAdmin = await CheckIsSuperAdminAsync(UserContext.UserId);
+            if (isSuperAdmin)
             {
                 var query = from m in this.Repository.DetachedEntities
+                            join mm in this.Db.Set<T_MenuModule>().AsNoTracking() on m.Id equals mm.PermissionId into mm_temp
+                            from mm in mm_temp.DefaultIfEmpty()
+                            join md in this.Db.Set<T_Module>().AsNoTracking() on mm.ModuleId equals md.Id into md_temp
+                            from md in md_temp.DefaultIfEmpty()
                             where m.Deleted == ConstKey.No
                             orderby m.OrderSort, m.CreateTime descending
                             select this.Mapper.Map(m, new MenuQueryModel
                             {
-                                IsEnabled = m.Disabled == ConstKey.No
+                                IsEnabled = m.Disabled == ConstKey.No,
+                                RouteUrl = md.RouteUrl
                             });
                 menuList = await query.ToListAsync();
             }
@@ -82,12 +113,17 @@ namespace HxCore.Services.Admin
                 var roleIds = UserContext.GetClaimValueByType("roleId").ToArray();
                 var query = from m in this.Repository.DetachedEntities
                             join rm in this.Db.Set<T_RoleMenu>().AsNoTracking() on m.Id equals rm.PermissionId
+                            join mm in this.Db.Set<T_MenuModule>().AsNoTracking() on m.Id equals mm.PermissionId into mm_temp
+                            from mm in mm_temp.DefaultIfEmpty()
+                            join md in this.Db.Set<T_Module>().AsNoTracking() on mm.ModuleId equals md.Id into md_temp
+                            from md in md_temp.DefaultIfEmpty()
                             where m.Deleted == ConstKey.No
                             && roleIds.Contains(rm.RoleId)
                             orderby m.OrderSort descending
                             select this.Mapper.Map(m, new MenuQueryModel
                             {
-                                IsEnabled = m.Disabled == ConstKey.No
+                                IsEnabled = m.Disabled == ConstKey.No,
+                                RouteUrl = md.RouteUrl
                             });
                 menuList = await query.ToListAsync();
             }
@@ -103,10 +139,8 @@ namespace HxCore.Services.Admin
         public async Task<List<MenuPullDownModel>> GetUserMenuTreeAsync()
         {
             List<MenuPullDownModel> menuList = new List<MenuPullDownModel>();
-            var cacheKey = string.Format(CacheKeyConfig.AuthRouterKey, UserContext.UserId);
-            menuList = await _redisCache.GetAsync<List<MenuPullDownModel>>(cacheKey);
-            if (menuList != null && menuList.Any()) return menuList;
-            if (UserContext.IsSuperAdmin)
+            bool isSuperAdmin = await CheckIsSuperAdminAsync(UserContext.UserId);
+            if (isSuperAdmin)
             {
                 menuList = await (from m in this.Repository.DetachedEntities
                                   where m.Deleted == ConstKey.No
@@ -151,25 +185,43 @@ namespace HxCore.Services.Admin
         /// <inheritdoc cref="IPermissionService.GetRoutersAsync()"/>
         public async Task<List<RouterQueryModel>> GetRoutersAsync()
         {
-            List<RouterQueryModel> menuList;
+            List<RouterQueryModel> routerList;
             var cacheKey = string.Format(CacheKeyConfig.AuthRouterKey, UserContext.UserId);
-            menuList = await _redisCache.GetAsync<List<RouterQueryModel>>(cacheKey);
-            if (menuList != null && menuList.Any()) return menuList;
+            var cacheData = await _redisCache.GetAsync<UserPermissionCached>(cacheKey);
+            if (cacheData != null)
+            {
+                routerList = cacheData.Routers.Where(m => m.MenuType != T_Menu_Enum.Button).ToList();
+                routerList = RecursionHelper.HandleTreeChildren(routerList);
+                return routerList;
+            }
             var isSuperAdmin = await CheckIsSuperAdminAsync(UserContext.UserId);
+            List<RouterQueryModel> menuList;
+            var roleIds = new List<string>();
             if (isSuperAdmin)
             {
                 menuList = await GetAllMenu();
             }
             else
             {
-                menuList = await GetUserMenu();
+                (menuList, roleIds) = await GetUserMenu();
             }
-            menuList = RecursionHelper.HandleTreeChildren(menuList);
+            
+            //缓存数据
             if (menuList.Any())
             {
-                await _redisCache.SetAsync(cacheKey, menuList, TimeSpan.FromMinutes(5));
+                var cacheValue = new UserPermissionCached
+                {
+                    IsSuperAdmin = isSuperAdmin,
+                    RoleIds = roleIds,
+                    Routers = menuList,
+                    Modules = menuList.Select(m=>m.Module).ToList()
+                };
+                await _redisCache.SetAsync(cacheKey, cacheValue, TimeSpan.FromMinutes(10));
             }
-            return menuList;
+            //返回数据
+            routerList = menuList.Where(m => m.MenuType != T_Menu_Enum.Button).ToList();
+            routerList = RecursionHelper.HandleTreeChildren(routerList);
+            return routerList;
         }
         /// <summary>
         /// 获取所有的菜单
@@ -199,6 +251,13 @@ namespace HxCore.Services.Admin
                                                  Title = m.Name,
                                                  IskeepAlive = m.IskeepAlive,
                                                  Icon = m.Icon
+                                             },
+                                             Module = new RouterModuleModel
+                                             {
+                                                 PermissionId = m.Id,
+                                                 Name = md.Name,
+                                                 RouteUrl = md.RouteUrl,
+                                                 HttpMethod = md.HttpMethod
                                              }
                                          }).ToListAsync();
             return permissionTrees;
@@ -208,13 +267,16 @@ namespace HxCore.Services.Admin
         /// 获取某个用户的菜单
         /// </summary>
         /// <returns></returns>
-        private async Task<List<RouterQueryModel>> GetUserMenu()
+        private async Task<(List<RouterQueryModel>, List<string>)> GetUserMenu()
         {
             List<RouterQueryModel> permissionTrees = new List<RouterQueryModel>();
             var roleIds = UserContext.GetClaimValueByType("roleId");
             if (roleIds.Any())
             {
-                var menuIds = await this.Db.Set<T_RoleMenu>().Where(rm => roleIds.Contains(rm.RoleId)).Select(rm => rm.PermissionId).ToArrayAsync();
+                var menuIds =  await this.Db.Set<T_RoleMenu>()
+                    .Where(rm => roleIds.Contains(rm.RoleId))
+                    .Select(rm => rm.PermissionId)
+                    .ToArrayAsync();
                 if (menuIds.Any())
                 {
                     permissionTrees = (from m in this.Repository.DetachedEntities
@@ -243,39 +305,16 @@ namespace HxCore.Services.Admin
                                            },
                                            Module = new RouterModuleModel
                                            {
+                                               PermissionId = m.Id,
                                                Name = md.Name,
                                                RouteUrl = md.RouteUrl,
                                                HttpMethod = md.HttpMethod
                                            }
                                        }).ToList();
-                    //var query = from r in this.Db.Set<T_Role>()
-                    //    from m in this.Repository.DetachedEntities
-                    //            where m.Deleted == ConstKey.No
-                    //            && m.MenuType != T_Menu_Enum.Button
-                    //            && menuIds.Contains(m.Id)
-                    //            orderby m.OrderSort
-                    //            select new RouterQueryModel
-                    //            {
-                    //                Id = m.Id,
-                    //                Name = m.Name,
-                    //                Path = m.Path,
-                    //                ParentId = m.ParentId,
-                    //                Component = m.Component,
-                    //                OrderSort = m.OrderSort,
-                    //                Hidden = m.IsHide,
-                    //                MenuType = m.MenuType,
-                    //                Meta = new RouterQueryMetaModel
-                    //                {
-                    //                    Title = m.Name,
-                    //                    IskeepAlive = m.IskeepAlive,
-                    //                    Icon = m.Icon
-                    //                }
-                    //            }
-
 
                 }
             }
-            return permissionTrees;
+            return (permissionTrees,roleIds);
         }
 
         /// <inheritdoc cref="IPermissionService.GetAsync"/>
@@ -288,6 +327,11 @@ namespace HxCore.Services.Admin
             return detailModel;
         }
 
+        /// <summary>
+        /// 检查是否是SuperAdmin，这里直接用接口检查而不是使用声明中获取的，相对安全些
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         private async Task<bool> CheckIsSuperAdminAsync(string userId)
         {
             if (App.Settings.UseIdentityServer4 ?? false)

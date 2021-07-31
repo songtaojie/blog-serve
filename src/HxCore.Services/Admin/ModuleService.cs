@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace HxCore.Services.Admin
 {
@@ -95,7 +96,7 @@ namespace HxCore.Services.Admin
             return query.ToOrderAndPageListAsync(param);
         }
 
-        /// <inheritdoc cref="HxCore.IServices.IModuleService.GetAsync(string)"/>
+        /// <inheritdoc cref="IModuleService.GetAsync(string)"/>
         public async Task<ModuleDetailModel> GetAsync(string id)
         {
             var module = await this.FindAsync(id);
@@ -103,6 +104,29 @@ namespace HxCore.Services.Admin
             ModuleDetailModel detailModel = this.Mapper.Map<ModuleDetailModel>(module);
             detailModel.IsEnabled = Helper.IsNo(module.Disabled);
             return detailModel;
+        }
+        /// <inheritdoc cref="IModuleService.GetListAsync"/>
+        public Task<List<ModuleQueryModel>> GetListAsync(ModuleQueryParam param)
+        {
+            var query = from m in this.Repository.DetachedEntities
+                        where m.Deleted == ConstKey.No
+                        orderby m.CreateTime descending
+                        select new ModuleQueryModel
+                        {
+                            Id = m.Id,
+                            Name = m.Name,
+                            RouteUrl = m.RouteUrl,
+                            Description = m.Description,
+                            OrderSort = m.OrderSort,
+                            CreateTime = m.CreateTime,
+                            Creater = m.Creater,
+                            IsEnabled = m.Disabled == ConstKey.No
+                        };
+            if (!string.IsNullOrEmpty(param.Name))
+            {
+                query = query.Where(m => m.Name.Contains(param.Name) || m.Description.Contains(param.Name));
+            }
+            return query.Take(50).ToListAsync();
         }
         #endregion
     }

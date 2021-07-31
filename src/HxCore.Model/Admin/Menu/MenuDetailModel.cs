@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HxCore.Model.Admin
+namespace HxCore.Model.Admin.Menu
 {
     /// <summary>
     /// 菜单按钮
@@ -13,9 +13,13 @@ namespace HxCore.Model.Admin
     public class MenuDetailModel:IAutoMapper<T_Menu>
     {
         /// <summary>
-        /// 接口的id
+        /// 菜单的id
         /// </summary>
         public string Id { get; set; }
+        /// <summary>
+        /// 权限的code
+        /// </summary>
+        public string Code { get; set; }
         /// <summary>
         /// 名称
         /// </summary>
@@ -24,6 +28,10 @@ namespace HxCore.Model.Admin
         /// 菜单路由
         /// </summary>
         public string Path { get; set; }
+        /// <summary>
+        /// 菜单路由组件路径
+        /// </summary>
+        public string Component { get; set; }
         /// <summary>
         /// /描述
         /// </summary>

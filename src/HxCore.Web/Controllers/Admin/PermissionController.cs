@@ -1,7 +1,8 @@
 ﻿using HxCore.IServices.Admin;
-using HxCore.Model.Admin;
+using HxCore.Model.Admin.Menu;
 using HxCore.Web.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -40,8 +41,7 @@ namespace HxCore.Web.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Entity.Permission.Permission("Permission.Router")]
-        [Authorize()]
+        [SkipRouteAuthorization]
         public async Task<List<RouterQueryModel>> GetRouters()
         {
             return  await _service.GetRoutersAsync();
@@ -86,12 +86,12 @@ namespace HxCore.Web.Controllers.Admin
         /// <summary>
         /// 更新
         /// </summary>
-        /// <param name="createModel"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<bool> Update(MenuCreateModel createModel)
+        public async Task<bool> Update(MenuUpdateModel model)
         {
-            return await _service.UpdateAsync(createModel);
+            return await _service.UpdateAsync(model);
         }
 
         /// <summary>

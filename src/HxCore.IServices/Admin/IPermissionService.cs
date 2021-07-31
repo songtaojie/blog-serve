@@ -1,9 +1,6 @@
-﻿using Hx.Sdk.Entity.Page;
-using HxCore.Entity.Entities;
-using HxCore.Model.Admin;
-using System;
+﻿using HxCore.Entity.Entities;
+using HxCore.Model.Admin.Menu;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HxCore.IServices.Admin
@@ -21,7 +18,7 @@ namespace HxCore.IServices.Admin
         /// </summary>
         /// <param name="createModel">用户提交数据</param>
         /// <returns></returns>
-        Task<bool> UpdateAsync(MenuCreateModel createModel);
+        Task<bool> UpdateAsync(MenuUpdateModel createModel);
         /// <summary>
         /// 获取角色详情数据
         /// </summary>

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HxCore.Model.Admin
+namespace HxCore.Model.Admin.Menu
 {
     /// <summary>
     /// 路由查询model
@@ -85,6 +85,10 @@ namespace HxCore.Model.Admin
     /// </summary>
     public class RouterModuleModel
     {
+        /// <summary>
+        /// 菜单id
+        /// </summary>
+        public string PermissionId { get; set; } 
         /// <summary>
         /// 接口的全名称
         /// </summary>

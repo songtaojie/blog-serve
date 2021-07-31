@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HxCore.Model.Admin
+namespace HxCore.Model.Admin.Menu
 {
     /// <summary>
     /// 菜单按钮权限查询参数

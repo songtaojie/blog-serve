@@ -10,5 +10,9 @@ namespace HxCore.Model.Admin.Module
     /// </summary>
     public class ModuleQueryParam:BasePageParam
     {
+        /// <summary>
+        /// 接口名称
+        /// </summary>
+        public string Name { get; set; }
     }
 }

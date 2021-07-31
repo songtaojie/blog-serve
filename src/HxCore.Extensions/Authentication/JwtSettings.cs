@@ -36,6 +36,8 @@ namespace HxCore.Extensions.Authentication
         {
             get;set;
         }
+
+        public List<string> AllowRoutes { get; set; }
     }
     /// <summary>
     /// jwt的模型

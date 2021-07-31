@@ -465,6 +465,11 @@ namespace HxCore.Entity.Migrations
                         .HasColumnType("varchar(36)")
                         .HasMaxLength(36);
 
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
+
                     b.Property<string>("Component")
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);

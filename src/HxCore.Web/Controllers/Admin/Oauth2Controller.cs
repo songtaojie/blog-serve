@@ -76,7 +76,7 @@ namespace HxCore.Web.Controllers.Admin
         [Authorize]
         public async Task<bool> Logout()
         {
-            var userId = HttpContext.User.Claims.FirstOrDefault(c=>c.Type == ClaimTypes.NameIdentifier);
+            var userId = HttpContext.User.Claims.FirstOrDefault(c=>c.Type == ClaimTypes.NameIdentifier)?.Value;
             var tokenKey = string.Format(CacheKeyConfig.AuthTokenKey, userId);
             await _redisCache.RemoveAsync(tokenKey);
             //移除菜单缓存

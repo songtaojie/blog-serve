@@ -11,13 +11,14 @@ using HxCore.Entity;
 using Microsoft.EntityFrameworkCore;
 using HxCore.Model.Admin.User;
 using HxCore.Entity.Entities.Ids4;
+using Hx.Sdk.DependencyInjection;
 
 namespace HxCore.Services.Ids4
 {
     /// <summary>
     /// IDS4角色管理
     /// </summary>
-    public class Ids4RoleService:Internal.PrivateService<ApplicationRole, IdsDbContextLocator>, IIds4RoleService
+    public class Ids4RoleService:Internal.PrivateService<ApplicationRole, IdsDbContextLocator>, IIds4RoleService, IScopedDependency
     {
         public Ids4RoleService(IRepository<ApplicationRole, IdsDbContextLocator> roleDal) : base(roleDal)
         {

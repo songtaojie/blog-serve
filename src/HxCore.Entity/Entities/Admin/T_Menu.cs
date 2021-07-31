@@ -31,7 +31,12 @@ namespace HxCore.Entity.Entities
         [MaxLength(100)]
         [Required]
         public string Path { get; set; }
-
+        /// <summary>
+        /// 菜单编号
+        /// </summary>
+        [MaxLength(50)]
+        [Required]
+        public string Code { get; set; }
         /// <summary>
         /// 菜单显示名（如左侧导航菜单名、或者按钮名称：编辑(按钮)、删除(按钮)）
         /// </summary>

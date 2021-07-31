@@ -64,11 +64,15 @@ namespace HxCore.Web
 
             #region MVC，路由配置
             services.AddControllers()
-                //.AddUnifyResult()
-                .AddJsonOptions(json => {
-                    json.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
-                    json.JsonSerializerOptions.Converters.Add(new DateTimeNullConverter());
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
                 })
+                //.AddUnifyResult()
+                //.AddJsonOptions(json => {
+                //    json.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+                //    json.JsonSerializerOptions.Converters.Add(new DateTimeNullConverter());
+                //})
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             #endregion
 

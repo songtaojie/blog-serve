@@ -5,22 +5,23 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HxCore.Model.Admin
+namespace HxCore.Model.Admin.Menu
 {
     /// <summary>
     /// 菜单按钮权限创建更新model
     /// </summary>
     public class MenuCreateModel:IAutoMapper<T_Menu>
     {
-        /// <summary>
-        /// 接口的id
-        /// </summary>
-        public string Id { get; set; }
-
+      
         /// <summary>
         /// 父级菜单的id
         /// </summary>
         public string ParentId { get; set; }
+
+        /// <summary>
+        /// 权限的code
+        /// </summary>
+        public string Code { get; set; }
 
         /// <summary>
         /// 名称
@@ -64,5 +65,21 @@ namespace HxCore.Model.Admin
         /// 菜单图标
         /// </summary>
         public string Icon { get; set; }
+
+        /// <summary>
+        /// 接口id
+        /// </summary>
+        public string ModuleId { get; set; }
+    }
+
+    /// <summary>
+    /// 菜单按钮权限更新model
+    /// </summary>
+    public class MenuUpdateModel : MenuCreateModel
+    {
+        /// <summary>
+        /// 菜单的id
+        /// </summary>
+        public string Id { get; set; }
     }
 }

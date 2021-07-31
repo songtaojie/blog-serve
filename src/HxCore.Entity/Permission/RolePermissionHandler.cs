@@ -5,8 +5,17 @@ using System.Text;
 
 namespace HxCore.Entity.Permission
 {
+    /// <summary>
+    /// 角色权限处理程序
+    /// </summary>
     public class RolePermissionHandler : IPermissionHandler
     {
+        /// <summary>
+        /// 是否有权限
+        /// </summary>
+        /// <param name="principal"></param>
+        /// <param name="permissionName"></param>
+        /// <returns></returns>
         public bool HasPermission(ClaimsPrincipal principal, string permissionName)
         {
 
