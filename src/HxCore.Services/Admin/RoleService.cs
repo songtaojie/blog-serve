@@ -29,6 +29,8 @@ namespace HxCore.Services.Admin
             var entity = this.Mapper.Map<T_Role>(createModel);
             var disabled = createModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
             entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
+            this.BeforeInsert(entity);
+           
             //添加菜单
             if (createModel.MenuIds.Any())
             {
@@ -39,7 +41,9 @@ namespace HxCore.Services.Admin
                 }).ToList();
                 await this.Db.Set<T_RoleMenu>().AddRangeAsync(menuList);
             }
-            return await this.InsertAsync(entity);
+            await Repository.InsertAsync(entity);
+            var result = await Repository.SaveNowAsync();
+            return result > 0;
         }
 
         /// <inheritdoc cref="IRoleService.UpdateAsync"/>
@@ -75,7 +79,7 @@ namespace HxCore.Services.Admin
         {
             var query = from r in this.Repository.DetachedEntities
                         where r.Deleted == ConstKey.No
-                        orderby r.CreateTime descending
+                        orderby r.OrderSort descending,r.CreateTime descending
                         select new RoleQueryModel
                         {
                             Id = r.Id,

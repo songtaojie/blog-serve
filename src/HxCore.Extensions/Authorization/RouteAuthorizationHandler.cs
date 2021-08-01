@@ -117,16 +117,31 @@ namespace Microsoft.AspNetCore.Authorization
                         //if (!isTestCurrent)
                         httpContext.User = result.Principal;
                         // 获取当前用户的角色信息
-                        var isMatch = cacheData.Modules.Any(m => m.RouteUrl.Equals(questUrl, StringComparison.OrdinalIgnoreCase));
+                        var isMatch = cacheData.Modules.Any(m => FixRoute(questUrl).Equals(FixRoute(m.RouteUrl), StringComparison.OrdinalIgnoreCase));
                         if (isMatch)
                         {
                             context.Succeed(requirement);
-                            return;
+                        }
+                        else
+                        {
+                            context.Fail();
                         }
                     }
                 }
 
             }
+        }
+
+        /// <summary>
+        /// 修复路由
+        /// </summary>
+        /// <param name="route"></param>
+        /// <returns></returns>
+        private string FixRoute(string route)
+        {
+            if (string.IsNullOrEmpty(route)) return string.Empty;
+            if (route.StartsWith("/")) return route[1..];
+            return route;
         }
     }
 }

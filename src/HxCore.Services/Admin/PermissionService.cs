@@ -42,6 +42,7 @@ namespace HxCore.Services.Admin
             var entity = this.Mapper.Map<T_Menu>(createModel);
             var disabled = createModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
             entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
+            this.BeforeInsert(entity);
             if (entity.MenuType == T_Menu_Enum.Button) entity.Path = string.Empty;
             //添加接口
             if (!string.IsNullOrEmpty(createModel.ModuleId))
@@ -53,7 +54,9 @@ namespace HxCore.Services.Admin
                     ModuleId = createModel.ModuleId
                 });
             }
-            return await this.InsertAsync(entity);
+            await Repository.InsertAsync(entity);
+            var result = await Repository.SaveNowAsync();
+            return result > 0;
         }
 
         /// <inheritdoc cref="IPermissionService.UpdateAsync(MenuUpdateModel)"/>
@@ -280,9 +283,9 @@ namespace HxCore.Services.Admin
                 if (menuIds.Any())
                 {
                     permissionTrees = (from m in this.Repository.DetachedEntities
-                                       join pm in this.Db.Set<T_MenuModule>() on m.Id equals pm.PermissionId into pm_temp
-                                       from pm in pm_temp.DefaultIfEmpty()
-                                       join md in this.Db.Set<T_Module>() on pm.ModuleId equals md.Id into md_temp
+                                       join mm in this.Db.Set<T_MenuModule>() on m.Id equals mm.PermissionId into mm_temp
+                                       from mm in mm_temp.DefaultIfEmpty()
+                                       join md in this.Db.Set<T_Module>() on mm.ModuleId equals md.Id into md_temp
                                        from md in md_temp.DefaultIfEmpty()
                                        where m.Deleted == ConstKey.No
                                            && menuIds.Contains(m.Id)

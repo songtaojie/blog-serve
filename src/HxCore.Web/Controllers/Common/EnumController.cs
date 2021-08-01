@@ -5,6 +5,7 @@ using HxCore.Entity;
 using HxCore.Entity.Entities;
 using HxCore.Model;
 using HxCore.Web.Controllers.Base;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HxCore.Web.Controllers
@@ -12,6 +13,7 @@ namespace HxCore.Web.Controllers
     /// <summary>
     /// 枚举的控制器
     /// </summary>
+    //[SkipRouteAuthorization]
     public class EnumController : BaseAdminController
     {
         private IRepository<T_BlogType> _repository;
