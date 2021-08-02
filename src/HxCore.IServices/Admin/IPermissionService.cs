@@ -42,5 +42,11 @@ namespace HxCore.IServices.Admin
         /// </summary>
         /// <returns></returns>
         Task<List<MenuPullDownModel>> GetUserMenuTreeAsync();
+
+        /// <summary>
+        /// 获取用户权限数据
+        /// </summary>
+        /// <returns></returns>
+        Task<UserPermissionCached> GetUserPermissionAsync();
     }
 }

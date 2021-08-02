@@ -17,6 +17,10 @@ namespace HxCore.Model.Admin.Menu
         /// </summary>
         public string Id { get; set; }
         /// <summary>
+        /// 父级菜单的id
+        /// </summary>
+        public string ParentId { get; set; }
+        /// <summary>
         /// 权限的code
         /// </summary>
         public string Code { get; set; }

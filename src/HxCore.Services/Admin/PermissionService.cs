@@ -188,15 +188,26 @@ namespace HxCore.Services.Admin
         /// <inheritdoc cref="IPermissionService.GetRoutersAsync()"/>
         public async Task<List<RouterQueryModel>> GetRoutersAsync()
         {
-            List<RouterQueryModel> routerList;
-            var cacheKey = string.Format(CacheKeyConfig.AuthRouterKey, UserContext.UserId);
-            var cacheData = await _redisCache.GetAsync<UserPermissionCached>(cacheKey);
+            var cacheData = await GetUserPermissionAsync();
             if (cacheData != null)
             {
-                routerList = cacheData.Routers.Where(m => m.MenuType != T_Menu_Enum.Button).ToList();
-                routerList = RecursionHelper.HandleTreeChildren(routerList);
+                List<RouterQueryModel> routerList = cacheData.Routers.Where(m => m.MenuType != T_Menu_Enum.Button).ToList();
+                 routerList = RecursionHelper.HandleTreeChildren(routerList);
                 return routerList;
             }
+            return new List<RouterQueryModel>();
+        }
+
+        /// <summary>
+        /// 获取用户权限数据
+        /// </summary>
+        /// <returns></returns>
+        public async Task<UserPermissionCached> GetUserPermissionAsync()
+        {
+            var cacheKey = string.Format(CacheKeyConfig.AuthRouterKey, UserContext.UserId);
+            UserPermissionCached cacheData = await _redisCache.GetAsync<UserPermissionCached>(cacheKey);
+            if (cacheData != null) return cacheData;
+
             var isSuperAdmin = await CheckIsSuperAdminAsync(UserContext.UserId);
             List<RouterQueryModel> menuList;
             var roleIds = new List<string>();
@@ -208,24 +219,20 @@ namespace HxCore.Services.Admin
             {
                 (menuList, roleIds) = await GetUserMenu();
             }
-            
+
             //缓存数据
+            cacheData = new UserPermissionCached();
             if (menuList.Any())
             {
-                var cacheValue = new UserPermissionCached
-                {
-                    IsSuperAdmin = isSuperAdmin,
-                    RoleIds = roleIds,
-                    Routers = menuList,
-                    Modules = menuList.Select(m=>m.Module).ToList()
-                };
-                await _redisCache.SetAsync(cacheKey, cacheValue, TimeSpan.FromMinutes(10));
+                cacheData.IsSuperAdmin = isSuperAdmin;
+                cacheData.RoleIds = roleIds;
+                cacheData.Routers = menuList;
+                cacheData.Modules = menuList.Select(m => m.Module).ToList();
+                await _redisCache.SetAsync(cacheKey, cacheData, TimeSpan.FromMinutes(10));
             }
-            //返回数据
-            routerList = menuList.Where(m => m.MenuType != T_Menu_Enum.Button).ToList();
-            routerList = RecursionHelper.HandleTreeChildren(routerList);
-            return routerList;
+            return cacheData;
         }
+
         /// <summary>
         /// 获取所有的菜单
         /// </summary>

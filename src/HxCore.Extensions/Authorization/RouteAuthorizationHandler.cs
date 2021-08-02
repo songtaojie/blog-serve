@@ -36,7 +36,7 @@ namespace Microsoft.AspNetCore.Authorization
         /// </summary>
         public IAuthenticationSchemeProvider Schemes { get; set; }
         private readonly IUserContext _userContext;
-        private readonly IRedisCache _redisCache;
+        private readonly IPermissionService _service;
 
         /// <summary>
         /// 构造函数注入
@@ -44,11 +44,11 @@ namespace Microsoft.AspNetCore.Authorization
         /// <param name="schemes"></param>
         /// <param name="roleService"></param>
         /// <param name="accessor"></param>
-        public RouteAuthorizationHandler(IAuthenticationSchemeProvider schemes, IUserContext userContext, IRedisCache redisCache)
+        public RouteAuthorizationHandler(IAuthenticationSchemeProvider schemes, IUserContext userContext, IPermissionService service)
         {
             Schemes = schemes;
             _userContext = userContext;
-            _redisCache = redisCache;
+            _service = service;
         }
 
         // 重写异步处理程序
@@ -73,9 +73,9 @@ namespace Microsoft.AspNetCore.Authorization
             }
             //处理授权策略，判断该用户能否访问该接口
             var questUrl = httpContext.Request.Path.Value.ToLower();
-            var userId = _userContext.UserId;
-            var cacheKey = string.Format(CacheKeyConfig.AuthRouterKey, userId);
-            var cacheData = await _redisCache.GetAsync<UserPermissionCached>(cacheKey);
+            //var userId = _userContext.UserId;
+            //var cacheKey = string.Format(CacheKeyConfig.AuthRouterKey, userId);
+            var cacheData = await _service.GetUserPermissionAsync();
             if (cacheData == null)
             {
                 context.Fail();
