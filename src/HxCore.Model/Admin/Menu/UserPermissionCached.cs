@@ -20,7 +20,7 @@ namespace HxCore.Model.Admin.Menu
         /// <summary>
         /// 用户的菜单路由权限
         /// </summary>
-        public List<RouterQueryModel> Routers { get; set; } = new List<RouterQueryModel>();
+        public List<RouterModel> Routers { get; set; } = new List<RouterModel>();
 
         /// <summary>
         /// 菜单对应的接口数据

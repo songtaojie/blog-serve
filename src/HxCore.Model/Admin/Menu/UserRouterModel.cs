@@ -6,10 +6,31 @@ using System.Text;
 namespace HxCore.Model.Admin.Menu
 {
     /// <summary>
+    /// 用户router
+    /// </summary>
+    public class UserRouterModel
+    {
+        /// <summary>
+        /// 路由数据
+        /// </summary>
+        public List<RouterModel> Routers { get; set; } = new List<RouterModel>();
+
+        /// <summary>
+        /// 按钮的code集合
+        /// </summary>
+        public List<string> Buttons { get; set; } = new List<string>();
+    }
+
+
+    /// <summary>
     /// 路由查询model
     /// </summary>
-    public class RouterQueryModel: BaseTreeModel<RouterQueryModel>
+    public class RouterModel: BaseTreeModel<RouterModel>
     {
+        /// <summary>
+        /// 菜单code
+        /// </summary>
+        public string Code { get; set; }
 
         /// <summary>
         /// 页面的name

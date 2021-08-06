@@ -116,6 +116,20 @@ namespace Microsoft.AspNetCore.Authorization
                     {
                         //if (!isTestCurrent)
                         httpContext.User = result.Principal;
+                        var modules = cacheData.Modules;
+                        modules.ForEach(m =>
+                        {
+                            if (m.RouteUrl.Contains("{") && m.RouteUrl.Contains("}"))
+                            {
+                                var regex = new Regex("\\{[a-z]+\\}");
+                                var matchs = regex.Matches(m.RouteUrl);
+                                foreach (var route in matchs)
+                                {
+                                    var routeParam = route.ToString().Replace("{", "").Replace("}", "");
+                                    Console.WriteLine(m.ToString());
+                                }
+                            }
+                        });
                         // 获取当前用户的角色信息
                         var isMatch = cacheData.Modules.Any(m => FixRoute(questUrl).Equals(FixRoute(m.RouteUrl), StringComparison.OrdinalIgnoreCase));
                         if (isMatch)

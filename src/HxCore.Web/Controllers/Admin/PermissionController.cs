@@ -42,7 +42,7 @@ namespace HxCore.Web.Controllers.Admin
         /// <returns></returns>
         [HttpGet]
         [SkipRouteAuthorization]
-        public async Task<List<RouterQueryModel>> GetRouters()
+        public async Task<UserRouterModel> GetRouters()
         {
             return  await _service.GetRoutersAsync();
         }

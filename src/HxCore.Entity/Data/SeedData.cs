@@ -236,6 +236,8 @@ namespace HxCore.Entity.Data
             if (!menuDb.Any())
             {
                 ConsoleHelper.WriteSuccessLine("T_Menu being populated");
+                var addList = new List<T_Menu>();
+                //添加菜单
                 var menu = new T_Menu
                 {
                     Id = Helper.GetSnowId(),
@@ -243,13 +245,57 @@ namespace HxCore.Entity.Data
                     Path = "/permission",
                     Component = "/permission/index.vue",
                     Name = "菜单管理",
-                    MenuType = Enum.T_Menu_Enum.Catalog,
+                    MenuType = Enum.T_Menu_Enum.Menu,
                     Icon = "el-icon-menu",
                     Description = "菜单",
                     OrderSort = 0
                 };
                 menu.SetCreater(UserId, UserName);
-                menuDb.Add(menu);
+                addList.Add(menu);
+                
+                //添加按钮
+                var addBtn = new T_Menu
+                {
+                    Id = Helper.GetSnowId(),
+                    Code = "permission_add",
+                    Path = "-",
+                    Component = "-",
+                    Name = "添加",
+                    ParentId = menu.Id,
+                    MenuType = Enum.T_Menu_Enum.Button,
+                    Description = "添加菜单的按钮",
+                    OrderSort = 0
+                };
+                addList.Add(addBtn);
+                //添加按钮
+                var editBtn = new T_Menu
+                {
+                    Id = Helper.GetSnowId(),
+                    Code = "permission_edit",
+                    Path = "-",
+                    Component = "-",
+                    Name = "编辑",
+                    ParentId = menu.Id,
+                    MenuType = Enum.T_Menu_Enum.Button,
+                    Description = "编辑菜单的按钮",
+                    OrderSort = 1
+                };
+                addList.Add(editBtn);
+                //添加按钮
+                var delBtn = new T_Menu
+                {
+                    Id = Helper.GetSnowId(),
+                    Code = "permission_del",
+                    Path = "-",
+                    Component = "-",
+                    Name = "删除",
+                    ParentId = menu.Id,
+                    MenuType = Enum.T_Menu_Enum.Button,
+                    Description = "删除菜单的按钮",
+                    OrderSort = 2
+                };
+                addList.Add(delBtn);
+                menuDb.AddRange(addList);
                 context.SaveChanges();
             }
             else

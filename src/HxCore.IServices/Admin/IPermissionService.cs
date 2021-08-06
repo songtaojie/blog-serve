@@ -35,7 +35,7 @@ namespace HxCore.IServices.Admin
         /// 获取菜单路由树
         /// </summary>
         /// <returns></returns>
-        Task<List<RouterQueryModel>> GetRoutersAsync();
+        Task<UserRouterModel> GetRoutersAsync();
 
         /// <summary>
         /// 获取当前用户所拥有的的菜单列表
