@@ -12,6 +12,9 @@ using Microsoft.EntityFrameworkCore;
 using HxCore.Model.Admin.User;
 using HxCore.Entity.Entities.Ids4;
 using Hx.Sdk.DependencyInjection;
+using HxCore.Model.Admin.Role;
+using Hx.Sdk.Entity.Page;
+using Hx.Sdk.Extensions;
 
 namespace HxCore.Services.Ids4
 {
@@ -24,6 +27,29 @@ namespace HxCore.Services.Ids4
         {
         }
 
+        #region 查询
+        /// <inheritdoc cref="IIds4RoleService.QueryRolePageAsync"/>
+        public Task<PageModel<RoleQueryModel>> QueryRolePageAsync(RoleQueryParam param)
+        {
+            var query = from r in this.Repository.DetachedEntities
+                        where r.Deleted == ConstKey.No
+                        orderby r.OrderSort descending, r.CreateTime descending
+                        select new RoleQueryModel
+                        {
+                            Id = r.Id,
+                            Name = r.Description,
+                            Code = r.Name,
+                            Description = r.Description,
+                            OrderSort = r.OrderSort,
+                            CreateTime = r.CreateTime,
+                            Creater = r.Creater,
+                            IsEnabled = r.Enabled == ConstKey.Yes
+                        };
+            return query.ToOrderAndPageListAsync(param);
+        }
+        #endregion
+
+
         /// <inheritdoc cref="IIds4RoleService.CheckIsSuperAdminAsync"/>
         public async Task<bool> CheckIsSuperAdminAsync(string userId)
         {
@@ -35,6 +61,8 @@ namespace HxCore.Services.Ids4
                         select r.Id;
             return await query.AnyAsync();
         }
+
+       
 
         /// <inheritdoc cref="IIds4RoleService.GetUserRoleAsync"/>
         public async Task<List<UserRoleModel>> GetUserRoleAsync(string userId)
@@ -51,5 +79,6 @@ namespace HxCore.Services.Ids4
             return await query.ToListAsync();
         }
 
+       
     }
 }

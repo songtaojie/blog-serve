@@ -24,6 +24,13 @@ namespace HxCore.IServices.Admin
         /// <returns></returns>
         Task<bool> UpdateAsync(RoleCreateModel createModel);
         /// <summary>
+        /// 给角色分配权限
+        /// </summary>
+        /// <param name="model">用户提交数据</param>
+        /// <returns></returns>
+        Task<bool> AssignPermission(AssignPermissionModel model);
+
+        /// <summary>
         /// 获取角色列表数据
         /// </summary>
         /// <returns></returns>
@@ -33,6 +40,13 @@ namespace HxCore.IServices.Admin
         /// </summary>
         /// <returns></returns>
         Task<RoleDetailModel> GetAsync(string id);
+
+        /// <summary>
+        /// 获取角色的权限数据
+        /// </summary>
+        /// <param name="id">角色id</param>
+        /// <returns></returns>
+        Task<List<string>> GetPermissionsAsync(string id);
 
         /// <summary>
         /// 获取角色列表数据

@@ -37,7 +37,7 @@ namespace HxCore.Model.Admin.Role
         /// <summary>
         /// 创建时间
         /// </summary>
-        public virtual DateTime CreateTime { get; set; }
+        public  DateTime? CreateTime { get; set; }
         /// <summary>
         /// 创建人
         /// </summary>

@@ -12,7 +12,7 @@ namespace HxCore.Model.Admin.Role
     public class RoleCreateModel:IAutoMapper<T_Role>
     {
         /// <summary>
-        /// 接口的id
+        /// 角色的id
         /// </summary>
         public string Id { get; set; }
         /// <summary>
@@ -41,5 +41,32 @@ namespace HxCore.Model.Admin.Role
         /// 菜单id
         /// </summary>
         public List<string> MenuIds { get; set; }
+    }
+
+    /// <summary>
+    /// 给角色分配权限
+    /// </summary>
+    public class AssignPermissionModel
+    {
+        /// <summary>
+        /// 角色的id
+        /// </summary>
+        public string RoleId { get; set; }
+        /// <summary>
+        /// 菜单id
+        /// </summary>
+        public List<string> MenuIds { get; set; }
+
+        /// <summary>
+        /// 校验入参
+        /// </summary>
+        /// <returns></returns>
+        public virtual void VerifyParam()
+        {
+            if (string.IsNullOrWhiteSpace(RoleId))
+                throw new ArgumentException("角色标识不能为空");
+            if (MenuIds == null || MenuIds.Count == 0)
+                throw new ArgumentException("权限不能为空");
+        }
     }
 }

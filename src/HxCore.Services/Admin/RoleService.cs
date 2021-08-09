@@ -71,6 +71,25 @@ namespace HxCore.Services.Admin
             }
             return await this.UpdateAsync(entity);
         }
+
+        /// <inheritdoc cref="IRoleService.AssignPermission"/>
+        public async Task<bool> AssignPermission(AssignPermissionModel model)
+        {
+            model.VerifyParam();
+            //先删除原来的菜单
+            var roleMenuRep = this.Repository.Change<T_RoleMenu>();
+            var removeEntitys = await roleMenuRep.Where(rm => rm.RoleId == model.RoleId).ToListAsync();
+            if(removeEntitys.Any()) await roleMenuRep.DeleteAsync(removeEntitys);
+
+            //添加菜单
+            List<T_RoleMenu> menuList = model.MenuIds.Select(m => new T_RoleMenu
+            {
+                RoleId = model.RoleId,
+                PermissionId = m
+            }).ToList();
+            await roleMenuRep.InsertAsync(menuList);
+            return await roleMenuRep.SaveNowAsync() > 0;
+        }
         #endregion
 
         #region 查询
@@ -101,11 +120,6 @@ namespace HxCore.Services.Admin
             if (detail == null) throw new UserFriendlyException("未找到角色信息");
             RoleDetailModel detailModel = this.Mapper.Map<RoleDetailModel>(detail);
             detailModel.IsEnabled = Helper.IsNo(detail.Disabled);
-            //获取当前角色的菜单
-            detailModel.MenuIds = await this.Db.Set<T_RoleMenu>()
-                .Where(rm => rm.RoleId == id)
-                .Select(rm => rm.PermissionId)
-                .ToListAsync();
             return detailModel;
         }
 
@@ -208,6 +222,15 @@ namespace HxCore.Services.Admin
                             RoleName = r.Name
                         };
             return await query.ToListAsync();
+        }
+
+        /// <inheritdoc cref="IRoleService.GetPermissionsAsync"/>
+        public async Task<List<string>> GetPermissionsAsync(string id)
+        {
+            return await this.Db.Set<T_RoleMenu>()
+                .Where(rm => rm.RoleId == id)
+                .Select(rm => rm.PermissionId)
+                .ToListAsync(); 
         }
         #endregion
 
