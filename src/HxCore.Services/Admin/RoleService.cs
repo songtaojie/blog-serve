@@ -29,21 +29,7 @@ namespace HxCore.Services.Admin
             var entity = this.Mapper.Map<T_Role>(createModel);
             var disabled = createModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
             entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
-            this.BeforeInsert(entity);
-           
-            //添加菜单
-            if (createModel.MenuIds.Any())
-            {
-                List<T_RoleMenu> menuList = createModel.MenuIds.Select(m => new T_RoleMenu
-                {
-                    RoleId = entity.Id,
-                    PermissionId = m
-                }).ToList();
-                await this.Db.Set<T_RoleMenu>().AddRangeAsync(menuList);
-            }
-            await Repository.InsertAsync(entity);
-            var result = await Repository.SaveNowAsync();
-            return result > 0;
+            return await this.InsertAsync(entity);
         }
 
         /// <inheritdoc cref="IRoleService.UpdateAsync"/>
@@ -55,20 +41,6 @@ namespace HxCore.Services.Admin
             entity = this.Mapper.Map(createModel, entity);
             var disabled = createModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
             entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
-            //先删除原来的菜单
-            var roleMenuRep = this.Repository.Change<T_RoleMenu>();
-            var removeEntitys = await roleMenuRep.Where(rm => rm.RoleId == entity.Id).ToListAsync();
-            await roleMenuRep.DeleteAsync(removeEntitys);
-            //添加菜单
-            if (createModel.MenuIds.Any())
-            {
-                List<T_RoleMenu> menuList = createModel.MenuIds.Select(m => new T_RoleMenu
-                {
-                    RoleId = entity.Id,
-                    PermissionId = m
-                }).ToList();
-                await roleMenuRep.InsertAsync(menuList);
-            }
             return await this.UpdateAsync(entity);
         }
 

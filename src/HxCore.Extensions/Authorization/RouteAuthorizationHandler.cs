@@ -116,17 +116,17 @@ namespace Microsoft.AspNetCore.Authorization
                     {
                         //if (!isTestCurrent)
                         httpContext.User = result.Principal;
-                        var modules = cacheData.Modules;
-                        modules.ForEach(m =>
+                        cacheData.Modules.ForEach(m =>
                         {
-                            if (m.RouteUrl.Contains("{") && m.RouteUrl.Contains("}"))
+                            if (!string.IsNullOrEmpty(m.RouteUrl) && m.RouteUrl.Contains("{") && m.RouteUrl.Contains("}"))
                             {
                                 var regex = new Regex("\\{[a-z]+\\}");
                                 var matchs = regex.Matches(m.RouteUrl);
                                 foreach (var route in matchs)
                                 {
-                                    var routeParam = route.ToString().Replace("{", "").Replace("}", "");
-                                    Console.WriteLine(m.ToString());
+                                    var routeKey = route.ToString().Replace("{", "").Replace("}", "");
+                                    var routeValue = httpContext.Request.RouteValues[routeKey].ToString();
+                                    m.RouteUrl = m.RouteUrl.Replace("{" + routeKey + "}", routeValue);
                                 }
                             }
                         });
