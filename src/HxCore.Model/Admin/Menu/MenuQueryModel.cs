@@ -5,6 +5,7 @@ using System.Text;
 using Hx.Sdk.Extensions;
 using Hx.Sdk.Entity.Dependency;
 using HxCore.Entity.Entities;
+using Newtonsoft.Json;
 
 namespace HxCore.Model.Admin.Menu
 {

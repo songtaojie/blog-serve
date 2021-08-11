@@ -13,7 +13,7 @@ namespace HxCore.Web.Controllers
     /// <summary>
     /// 枚举的控制器
     /// </summary>
-    //[SkipRouteAuthorization]
+    [SkipRouteAuthorization]
     public class EnumController : BaseAdminController
     {
         private IRepository<T_BlogType> _repository;
@@ -29,7 +29,7 @@ namespace HxCore.Web.Controllers
         /// 获取博客类型的列表
         /// </summary>
         /// <returns></returns>
-        [HttpPost, HttpGet]
+        [HttpGet,HttpPost]
         public List<BlogTypeModel> GetBlogTypeList()
         {
             var list = _repository.Where(b => b.Deleted == ConstKey.No)
@@ -45,7 +45,7 @@ namespace HxCore.Web.Controllers
         /// 获取博客类型的列表
         /// </summary>
         /// <returns></returns>
-        [HttpPost, HttpGet]
+        [HttpGet, HttpPost]
         public List<CategoryModel> GetCategoryList()
         {
             var categoryRepository = _repository.Change<T_Category>();

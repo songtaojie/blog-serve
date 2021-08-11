@@ -22,7 +22,7 @@ namespace HxCore.Model.Admin.Module
         /// <summary>
         /// 接口的地址
         /// </summary>
-        public string LinkUrl { get; set; }
+        public string RouteUrl { get; set; }
 
         /// <summary>
         /// /描述

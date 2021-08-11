@@ -5,6 +5,7 @@ using HxCore.Model.Admin;
 using HxCore.Model.Admin.Blog;
 using HxCore.Web.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,7 @@ namespace HxCore.Web.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [SkipRouteAuthorization]
         public async Task<List<BlogManagePersonTag>> GetTagListAsync()
         {
             return await _blogService.GetTagListAsync();

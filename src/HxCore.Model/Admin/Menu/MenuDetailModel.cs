@@ -1,6 +1,7 @@
 ﻿using Hx.Sdk.Entity.Dependency;
 using HxCore.Entity.Entities;
 using HxCore.Entity.Enum;
+using HxCore.Model.Admin.Module;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -65,5 +66,15 @@ namespace HxCore.Model.Admin.Menu
         /// 菜单图标
         /// </summary>
         public string Icon { get; set; }
+
+        /// <summary>
+        /// 接口的id，多个以逗号隔开
+        /// </summary>
+        public List<string> ModuleIds { get; set; }
+
+        /// <summary>
+        /// 接口数据
+        /// </summary>
+        public List<ModuleDetailModel> ModuleList { get; set; }
     }
 }

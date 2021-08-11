@@ -67,9 +67,9 @@ namespace HxCore.Model.Admin.Menu
         public string Icon { get; set; }
 
         /// <summary>
-        /// 接口id
+        /// 接口id集合
         /// </summary>
-        public string ModuleId { get; set; }
+        public List<string> ModuleIds { get; set; }
     }
 
     /// <summary>

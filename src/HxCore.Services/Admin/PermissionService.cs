@@ -19,6 +19,7 @@ using HxCore.IServices.Admin;
 using Hx.Sdk.ConfigureOptions;
 using HxCore.IServices.Ids4;
 using HxCore.Model.Admin.Menu;
+using HxCore.Model.Admin.Module;
 
 namespace HxCore.Services.Admin
 {
@@ -44,15 +45,16 @@ namespace HxCore.Services.Admin
             entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
             this.BeforeInsert(entity);
             if (entity.MenuType == T_Menu_Enum.Button) entity.Path = string.Empty;
-            //添加接口
-            if (!string.IsNullOrEmpty(createModel.ModuleId))
+            //再添加
+            if (createModel.ModuleIds != null && createModel.ModuleIds.Any())
             {
-                this.Db.Set<T_MenuModule>().Add(new T_MenuModule
+                var addModules = createModel.ModuleIds.Select(m => new T_MenuModule
                 {
                     Id = Helper.GetSnowId(),
                     PermissionId = entity.Id,
-                    ModuleId = createModel.ModuleId
+                    ModuleId = m
                 });
+                await this.Db.Set<T_MenuModule>().AddRangeAsync(addModules);
             }
             await Repository.InsertAsync(entity);
             var result = await Repository.SaveNowAsync();
@@ -76,14 +78,15 @@ namespace HxCore.Services.Admin
                 this.Db.Set<T_MenuModule>().RemoveRange(removeList);
             }
             //再添加
-            if (!string.IsNullOrEmpty(model.ModuleId))
+            if (model.ModuleIds != null && model.ModuleIds.Any())
             {
-                this.Db.Set<T_MenuModule>().Add(new T_MenuModule
+                var addModules = model.ModuleIds.Select(m => new T_MenuModule
                 {
                     Id = Helper.GetSnowId(),
                     PermissionId = entity.Id,
-                    ModuleId = model.ModuleId
+                    ModuleId = m
                 });
+                await this.Db.Set<T_MenuModule>().AddRangeAsync(addModules);
             }
             return await this.UpdateAsync(entity);
         }
@@ -130,6 +133,13 @@ namespace HxCore.Services.Admin
                             });
                 menuList = await query.ToListAsync();
             }
+            //处理一个菜单多个接口的数据，把多个接口合并到一个数据上
+            menuList = menuList.GroupBy(m => m.Id).Select(m =>
+            {
+                var model = m.First();
+                model.RouteUrl = string.Join(",", m.Select(r => r.RouteUrl));
+                return model;
+            }).ToList();
             return RecursionHelper.HandleTreeChildren(menuList);
         }
 
@@ -192,9 +202,10 @@ namespace HxCore.Services.Admin
             var result = new UserRouterModel();
             if (cacheData != null)
             {
-                List<RouterModel> routerList = cacheData.Routers.Where(m => m.MenuType != T_Menu_Enum.Button).ToList();
+                List<RouterModel> routerList = cacheData.Routers.Where(m => m.MenuType != T_Menu_Enum.Button)
+                    .GroupBy(m => m.Id).Select(m => m.First()).ToList();
                 result.Routers = RecursionHelper.HandleTreeChildren(routerList);
-                result.Buttons = cacheData.Routers.Where(m => m.MenuType == T_Menu_Enum.Button).Select(m => m.Code).ToList();
+                result.Buttons = cacheData.Routers.Where(m => m.MenuType == T_Menu_Enum.Button).Select(m => m.Code).Distinct().ToList();
             }
             return result;
         }
@@ -285,7 +296,7 @@ namespace HxCore.Services.Admin
             var roleIds = UserContext.GetClaimValueByType("roleId");
             if (roleIds.Any())
             {
-                var menuIds =  await this.Db.Set<T_RoleMenu>()
+                var menuIds = await this.Db.Set<T_RoleMenu>()
                     .Where(rm => roleIds.Contains(rm.RoleId))
                     .Select(rm => rm.PermissionId)
                     .ToArrayAsync();
@@ -327,16 +338,27 @@ namespace HxCore.Services.Admin
 
                 }
             }
-            return (permissionTrees,roleIds);
+            return (permissionTrees, roleIds);
         }
 
         /// <inheritdoc cref="IPermissionService.GetAsync"/>
         public async Task<MenuDetailModel> GetAsync(string id)
         {
-            var detail = await this.FindAsync(id);
-            if (detail == null) throw new Hx.Sdk.FriendlyException.UserFriendlyException("未找到角色信息", ErrorCodeEnum.DataNull);
-            MenuDetailModel detailModel = this.Mapper.Map<MenuDetailModel>(detail);
-            detailModel.IsEnabled = Helper.IsNo(detail.Disabled);
+            var entity = await this.FindAsync(id);
+            if (entity == null) throw new Hx.Sdk.FriendlyException.UserFriendlyException("未找到菜单信息", ErrorCodeEnum.DataNull);
+            var detailModel = this.Mapper.Map(entity, new MenuDetailModel
+            {
+                IsEnabled = Helper.IsNo(entity.Disabled),
+            });
+            //获取接口数据
+            detailModel.ModuleList = await (from pm in this.Db.Set<T_MenuModule>()
+                                            join m in this.Db.Set<T_Module>() on new { pm.ModuleId, Disabled = ConstKey.No } equals new { ModuleId = m.Id, m.Disabled }
+                                            where pm.PermissionId == entity.Id
+                                            select this.Mapper.Map(m, new ModuleDetailModel
+                                            {
+                                                IsEnabled = Helper.IsNo(m.Disabled)
+                                            })).ToListAsync();
+            detailModel.ModuleIds = detailModel.ModuleList.Select(m => m.Id).ToList();
             return detailModel;
         }
 
