@@ -1,38 +1,28 @@
-﻿using Hx.Sdk.Common.Helper;
+﻿using Hx.Sdk.Entity.Dependency;
+using HxCore.Entity.Entities;
+using MediatR;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace HxCore.Entity.Entities
+namespace HxCore.Model.NotificationHandlers
 {
     /// <summary>
-    /// 操作日志表
+    /// 添加日志
     /// </summary>
-    public class T_OperateLog : Hx.Sdk.DatabaseAccessor.IEntity
+    public class AddOperateLogModel : INotification,IAutoMapper<T_OperateLog>
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public T_OperateLog()
-        {
-            Id = Helper.GetSnowId();
-            OperateTime = DateTime.Now;
-        }
-        /// <summary>
-        /// 主键
-        /// </summary>
-        public string Id { get; set; }
+
         /// <summary>
         /// IP地址
         /// </summary>
-        [StringLength(200)]
         public string IPAddress { get; set; }
 
         /// <summary>
         /// 地址
         /// </summary>
-        [MaxLength(500)]
         public string Location { get; set; }
 
         /// <summary>
@@ -41,7 +31,7 @@ namespace HxCore.Entity.Entities
         public bool Success { get; set; }
 
         /// <summary>
-        /// Agent
+        /// 浏览器,操作系统
         /// </summary>
         public string Agent { get; set; }
 
@@ -53,19 +43,16 @@ namespace HxCore.Entity.Entities
         /// <summary>
         /// 类名称
         /// </summary>
-        [MaxLength(100)]
         public string ControllerName { get; set; }
 
         /// <summary>
         /// 方法名称
         /// </summary>
-        [MaxLength(100)]
         public string ActionName { get; set; }
 
         /// <summary>
         /// 请求方式（GET POST PUT DELETE)
         /// </summary>
-        [MaxLength(10)]
         public string HttpMethod { get; set; }
 
         /// <summary>
@@ -82,22 +69,5 @@ namespace HxCore.Entity.Entities
         /// 耗时（毫秒）
         /// </summary>
         public long ElapsedTime { get; set; }
-
-        /// <summary>
-        /// 操作时间
-        /// </summary>
-        public DateTime? OperateTime { get; set; }
-
-        /// <summary>
-        /// 操作人id
-        /// </summary>
-        [MaxLength(36)]
-        public string OperaterId { get; set; }
-
-        /// <summary>
-        /// 操作人
-        /// </summary>
-        [MaxLength(36)]
-        public string Operater { get; set; }
     }
 }

@@ -9,6 +9,7 @@
     <PackageReference Include="Consul" Version="1.6.10.3" />
     <PackageReference Include="Hx.Sdk.DependencyInjection" Version="5.0.0" />
     <PackageReference Include="Hx.Sdk.Swagger" Version="1.0.1.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.9" />
     <PackageReference Include="Polly" Version="7.2.2" />
   </ItemGroup>
