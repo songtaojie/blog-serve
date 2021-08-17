@@ -29,7 +29,7 @@ namespace HxCore.Web.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageModel<BlogManageQueryModel>> GetPageAsync(BlogManageQueryParam param)
+        public async Task<PageModel<BlogManageQueryModel>> GetPage(BlogManageQueryParam param)
         {
             var result = await _blogService.QueryBlogListAsync(param);
             return result;
@@ -41,7 +41,7 @@ namespace HxCore.Web.Controllers.Admin
         /// <returns></returns>
         [HttpPost]
         [SkipRouteAuthorization]
-        public async Task<List<BlogManagePersonTag>> GetTagListAsync()
+        public async Task<List<BlogManagePersonTag>> GetTagList()
         {
             return await _blogService.GetTagListAsync();
         }
@@ -51,7 +51,7 @@ namespace HxCore.Web.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public async Task<BlogManageDetailModel> GetAsync(string id)
+        public async Task<BlogManageDetailModel> Get(string id)
         {
             return await _blogService.GetDetailAsync(id);
         }
@@ -65,7 +65,7 @@ namespace HxCore.Web.Controllers.Admin
         /// <param name="editInfo"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<bool> AddAsync(BlogManageCreateModel editInfo)
+        public async Task<bool> Add(BlogManageCreateModel editInfo)
         {
             return await _blogService.InsertAsync(editInfo);
         }
@@ -76,7 +76,7 @@ namespace HxCore.Web.Controllers.Admin
         /// <param name="editInfo"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<bool> UpdateAsync(BlogManageCreateModel editInfo)
+        public async Task<bool> Update(BlogManageCreateModel editInfo)
         {
             return await _blogService.UpdateAsync(editInfo);
         }
@@ -87,7 +87,7 @@ namespace HxCore.Web.Controllers.Admin
         /// <param name="id">要删除的博客的</param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<bool> DeleteAsync(string id)
+        public async Task<bool> Delete(string id)
         {
             return await _blogService.DeleteAsync(id);
         }
