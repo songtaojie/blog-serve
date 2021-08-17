@@ -45,7 +45,7 @@ namespace HxCore.Extensions.Aop
             if (arg is DateTime || arg is DateTime?)
                 return ((DateTime)arg).ToString("yyyyMMddHHmmss");
 
-            if (arg is string || arg is ValueType || arg is Nullable)
+            if (arg is string or ValueType)
                 return arg.ToString();
 
             if (arg != null)

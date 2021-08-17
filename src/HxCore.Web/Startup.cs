@@ -11,6 +11,9 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Hx.Sdk.ConfigureOptions;
+using Microsoft.AspNetCore.Mvc.Filters;
+using MediatR;
+using System.Linq;
 
 namespace HxCore.Web
 {
@@ -19,7 +22,7 @@ namespace HxCore.Web
     /// </summary>
     public class Startup
     {
-        
+
         private IHostEnvironment Environment { get; }
 
         /// <summary>
@@ -36,7 +39,6 @@ namespace HxCore.Web
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
-            Console.WriteLine();
             services.AddWebManager();
             #region 缓存
             services.AddNativeMemoryCache();
@@ -63,7 +65,10 @@ namespace HxCore.Web
             #endregion
 
             #region MVC，路由配置
-            services.AddControllers()
+            services.AddControllers(options =>
+                {
+                    options.Filters.Add(new RequestActionFilter());
+                })
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
@@ -75,6 +80,11 @@ namespace HxCore.Web
                 //})
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             #endregion
+
+            #region MediatR
+            //services.AddMediatR(typeof(Startup));
+            services.AddMediatR(App.Assemblies.ToArray());
+            #endregion MediatR
 
             #region 跨域CORS
             services.AddCorsAccessor();
@@ -96,7 +106,7 @@ namespace HxCore.Web
         /// </summary>
         /// <param name="app"></param>
         /// <param name="lifetime"></param>
-        public void Configure(IApplicationBuilder app, IHostApplicationLifetime  lifetime)
+        public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifetime)
         {
             if (Environment.IsDevelopment())
             {
@@ -107,9 +117,9 @@ namespace HxCore.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
+
             app.UseHttpsRedirection();
-            
+
             app.UseStaticFiles();
             app.UseRouting();//路由中间件
             app.UseCorsAccessor();

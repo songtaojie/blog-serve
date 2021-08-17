@@ -1,8 +1,7 @@
-﻿using HxCore.IServices.Admin;
+﻿using Hx.Sdk.Attributes;
+using HxCore.IServices.Admin;
 using HxCore.Model.Admin.Menu;
 using HxCore.Web.Controllers.Base;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;

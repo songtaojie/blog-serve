@@ -76,7 +76,7 @@ namespace HxCore.Services.Admin
         #endregion
 
         #region 查询
-        /// <inheritdoc cref="HxCore.IServices.IModuleService.QueryModulePageAsync(ModuleQueryParam)"/>
+        /// <inheritdoc cref="IModuleService.QueryModulePageAsync(ModuleQueryParam)"/>
         public Task<PageModel<ModuleQueryModel>> QueryModulePageAsync(ModuleQueryParam param)
         {
             var query = from m in this.Repository.DetachedEntities

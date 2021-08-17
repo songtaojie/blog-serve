@@ -1,4 +1,6 @@
-﻿using HxCore.Entity.Entities;
+﻿using Hx.Sdk.Entity.Page;
+using HxCore.Entity.Entities;
+using HxCore.Model.Admin.OperateLog;
 using HxCore.Model.NotificationHandlers;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,17 @@ namespace HxCore.IServices.Admin
     /// </summary>
     public interface IOperateLogService : IBaseService<T_OperateLog>
     {
+        /// <summary>
+        /// 获取操作日志列表数据
+        /// </summary>
+        /// <returns></returns>
+        Task<PageModel<OperateLogQueryModel>> QueryPageAsync(OperateLogQueryParam param);
+
+        /// <summary>
+        /// 添加操作日志
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         Task<bool> AddOperateLog(AddOperateLogModel model);
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Microsoft.AspNetCore.Authorization.Infrastructure
+namespace Hx.Sdk.Attributes
 {
     /// <summary>
     /// 跳过授权策略

@@ -21,6 +21,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Hx.Sdk.Extensions;
+using Hx.Sdk.Attributes;
 
 namespace Microsoft.AspNetCore.Authorization
 {
