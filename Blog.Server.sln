@@ -22,6 +22,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{403585DC-0863-44B3-9F7D-0010E1CD0753}"
 	ProjectSection(SolutionItems) = preProject
 		build\.env = build\.env
+		build\build.sh = build\build.sh
 		build\docker-compose.yml = build\docker-compose.yml
 		build\run.sh = build\run.sh
 	EndProjectSection
