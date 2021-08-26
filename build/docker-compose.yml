@@ -4,8 +4,6 @@ services:
   hx.blog.api:
     container_name: hx.blog.api
     #image: registry.cn-hangzhou.aliyuncs.com/songtaojie_centos/hx.blog.api
-    labels: 
-      hx.blog: "mvc"
     build:
       context: ../
       dockerfile: src/HxCore.Web/Dockerfile
