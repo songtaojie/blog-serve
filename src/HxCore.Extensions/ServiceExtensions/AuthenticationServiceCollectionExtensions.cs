@@ -53,9 +53,10 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 var authority = AppSettings.GetConfig(new string[] { "Ids4Settings", "Authority" });
                 var audience = AppSettings.GetConfig(new string[] { "Ids4Settings", "Audience" });
+                var requireHttps = AppSettings.GetConfig(new string[] { "Ids4Settings", "RequireHttps" }).ToBool();
                 options.Audience = audience;
                 options.Authority = authority;
-                options.RequireHttpsMetadata = false;
+                options.RequireHttpsMetadata = requireHttps??false;
                 //options.TokenValidationParameters = new TokenValidationParameters
                 //{
                 //    ValidateAudience = false
