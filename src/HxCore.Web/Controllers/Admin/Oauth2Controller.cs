@@ -17,6 +17,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using HxCore.Extensions.Common;
 using HxCore.Extensions.Authentication;
+using Hx.Sdk.Attributes;
 
 namespace HxCore.Web.Controllers.Admin
 {
@@ -26,6 +27,7 @@ namespace HxCore.Web.Controllers.Admin
     [Route("[controller]/[action]")]
     [ApiController]
     [ApiDescriptionSettings(GroupName = "Admin", Groups = new string[] { "Admin" })]
+    [SkipOperateLog]
     public class Oauth2Controller : ControllerBase
     {
         /// <summary>

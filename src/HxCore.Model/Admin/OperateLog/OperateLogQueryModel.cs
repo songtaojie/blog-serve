@@ -53,6 +53,11 @@ namespace HxCore.Model.Admin.OperateLog
         public string Result { get; set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public string Agent { get; set; }
+
+        /// <summary>
         /// 耗时（毫秒）
         /// </summary>
         public long ElapsedTime { get; set; }

@@ -26,14 +26,12 @@ namespace HxCore.Services.Admin
     public class PermissionService : BaseStatusService<T_Menu>, IPermissionService
     {
         private readonly IRedisCache _redisCache;
-        private readonly IRoleService _roleService;
-        private readonly IIds4RoleService _ids4RoleService;
+        private readonly IUserService _userService;
         public PermissionService(IRepository<T_Menu, MasterDbContextLocator> userDal, IRedisCache redisCache,
-            IRoleService roleService, IIds4RoleService ids4RoleService) : base(userDal)
+            IUserService userService) : base(userDal)
         {
             _redisCache = redisCache;
-            _roleService = roleService;
-            _ids4RoleService = ids4RoleService;
+            _userService = userService;
         }
 
         #region 新增编辑
@@ -97,7 +95,7 @@ namespace HxCore.Services.Admin
         public async Task<List<MenuQueryModel>> GetListAsync()
         {
             List<MenuQueryModel> menuList = null;
-            var isSuperAdmin = await CheckIsSuperAdminAsync(UserContext.UserId);
+            var isSuperAdmin = await _userService.CheckIsSuperAdminAsync(UserContext.UserId);
             if (isSuperAdmin)
             {
                 var query = from m in this.Repository.DetachedEntities
@@ -152,7 +150,7 @@ namespace HxCore.Services.Admin
         public async Task<List<MenuPullDownModel>> GetUserMenuTreeAsync()
         {
             List<MenuPullDownModel> menuList = new List<MenuPullDownModel>();
-            bool isSuperAdmin = await CheckIsSuperAdminAsync(UserContext.UserId);
+            bool isSuperAdmin = await _userService.CheckIsSuperAdminAsync(UserContext.UserId);
             if (isSuperAdmin)
             {
                 menuList = await (from m in this.Repository.DetachedEntities
@@ -220,7 +218,7 @@ namespace HxCore.Services.Admin
             UserPermissionCached cacheData = await _redisCache.GetAsync<UserPermissionCached>(cacheKey);
             if (cacheData != null) return cacheData;
 
-            var isSuperAdmin = await CheckIsSuperAdminAsync(UserContext.UserId);
+            var isSuperAdmin = await _userService.CheckIsSuperAdminAsync(UserContext.UserId);
             List<RouterModel> menuList;
             var roleIds = new List<string>();
             if (isSuperAdmin)
@@ -360,20 +358,6 @@ namespace HxCore.Services.Admin
                                             })).ToListAsync();
             detailModel.ModuleIds = detailModel.ModuleList.Select(m => m.Id).ToList();
             return detailModel;
-        }
-
-        /// <summary>
-        /// 检查是否是SuperAdmin，这里直接用接口检查而不是使用声明中获取的，相对安全些
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        private async Task<bool> CheckIsSuperAdminAsync(string userId)
-        {
-            if (App.Settings.UseIdentityServer4 ?? false)
-            {
-                return await _ids4RoleService.CheckIsSuperAdminAsync(userId);
-            }
-            return await _roleService.CheckIsSuperAdminAsync(userId);
         }
         #endregion
     }

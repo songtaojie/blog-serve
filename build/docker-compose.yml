@@ -3,7 +3,7 @@
 services:
   hx.blog.api:
     container_name: hx.blog.api
-    #image: registry.cn-hangzhou.aliyuncs.com/songtaojie_centos/hx.blog.api
+    image: ${DOCKER_REGISTRY}/${DOCKER_REGISTRY_NAMESPACE}/hx.blog.api
     build:
       context: ../
       dockerfile: src/HxCore.Web/Dockerfile
@@ -14,6 +14,7 @@ services:
       - ConnectionStrings__IdsConnectionString=Server=${DB_SERVER};Port=${DB_PORT};Database=hxidentityserver;Uid=${DB_UID};Pwd=${DB_PWD};CharSet=utf8
       - RedisCache__Configuration=${REDIS_SERVER}:${REDIS_PORT},password=${REDIS_PASSWORD},defaultDatabase=${REDIS_DEFAULTDATABASE}
       - RedisCache__InstanceName=${REDIS_INSTANCE}
+      - AppSettings__EnabledSqlLog=false
       - CorsAccessorSettings__WithOrigins__0=http://${LOCAL_SERVICE_IP}:8000/
       - CorsAccessorSettings__WithOrigins__1=http://${LOCAL_SERVICE_IP}
       - CorsAccessorSettings__WithOrigins__2=http://${LOCAL_SERVICE_IP}:8000

@@ -89,6 +89,13 @@ namespace HxCore.IServices.Admin
         /// <param name="email">邮箱</param>
         /// <returns></returns>
         Task<bool> CheckEmailAsync(string email);
+
+        /// <summary>
+        /// 检查用户是否为超级管理员
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<bool> CheckIsSuperAdminAsync(string userId);
         #endregion
 
     }

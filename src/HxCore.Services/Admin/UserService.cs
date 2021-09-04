@@ -16,13 +16,19 @@ using HxCore.Entity;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Hx.Sdk.Common.Helper;
+using Hx.Sdk.ConfigureOptions;
+using HxCore.IServices.Ids4;
 
 namespace HxCore.Services.Admin
 {
     public class UserService : BaseStatusService<T_User>, IUserService
     {
-        public UserService(IRepository<T_User,MasterDbContextLocator> userDal) : base(userDal)
+        private IRoleService _roleService;
+        private IIds4RoleService _ids4RoleService;
+        public UserService(IRepository<T_User,MasterDbContextLocator> userDal, IRoleService roleService, IIds4RoleService ids4RoleService) : base(userDal)
         {
+            _roleService = roleService;
+            _ids4RoleService = ids4RoleService;
         }
 
         #region 新增编辑
@@ -168,6 +174,21 @@ namespace HxCore.Services.Admin
         #endregion
 
         #region 检测
+
+        /// <summary>
+        /// 检查是否是SuperAdmin，这里直接用接口检查而不是使用声明中获取的，相对安全些
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<bool> CheckIsSuperAdminAsync(string userId)
+        {
+            if (App.Settings.UseIdentityServer4 ?? false)
+            {
+                return await _ids4RoleService.CheckIsSuperAdminAsync(userId);
+            }
+            return await _roleService.CheckIsSuperAdminAsync(userId);
+        }
+
         /// <inheritdoc cref="HxCore.IServices.Admin.IUserService.CheckUserNameAsync"/>
         public async Task<bool> CheckUserNameAsync(string userName)
         {

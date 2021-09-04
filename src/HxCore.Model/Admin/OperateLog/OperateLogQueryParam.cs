@@ -12,5 +12,9 @@ namespace HxCore.Model.Admin.OperateLog
     /// </summary>
     public class OperateLogQueryParam: BasePageParam
     {
+        /// <summary>
+        /// 是否是欢迎页的日志列表
+        /// </summary>
+        public bool IsWelcome { get; set; }
     }
 }

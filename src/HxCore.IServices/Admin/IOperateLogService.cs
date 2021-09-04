@@ -22,6 +22,12 @@ namespace HxCore.IServices.Admin
         Task<PageModel<OperateLogQueryModel>> QueryPageAsync(OperateLogQueryParam param);
 
         /// <summary>
+        /// 获取用户近三十天接口访问情况
+        /// </summary>
+        /// <returns></returns>
+        Task<OperateLogChars> GetLineDataAsync();
+        
+        /// <summary>
         /// 添加操作日志
         /// </summary>
         /// <param name="model"></param>

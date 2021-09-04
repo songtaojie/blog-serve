@@ -61,9 +61,8 @@ namespace HxCore.Web
                 builder.ConfigureAppConfiguration((_, c) =>
                 {
                     c.AddEnvironmentVariables();
-                });
-
-                builder.UseNLog()
+                })
+                .UseNLog()
                 .UseStartup<Startup>()
                 .UseUrls("http://*:5003");
                 //.ConfigureLogging(logging =>
