@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Hx.Sdk.ConfigureOptions;
+using Hx.Sdk.Entity.Page;
+using HxCore.IServices.Admin;
+using HxCore.Model.Admin.OperateLog;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -13,10 +16,40 @@ namespace HxCore.Web.Controllers.Admin
     /// <summary>
     /// 主页
     /// </summary>
-    [Route("admin/[controller]/[action]")]
     [ApiController]
     public class HomeController : Base.BaseAdminController
     {
+        private readonly IOperateLogService _logService;
+        /// <summary>
+        ///构造函数
+        /// </summary>
+        /// <param name="logService"></param>
+        public HomeController(IOperateLogService logService)
+        {
+            _logService = logService;
+        }
+
+
+        /// <summary>
+        ///  获取用户近三十天接口访问情况
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<OperateLogChars> GetLineDataAsync()
+        {
+            return await _logService.GetLineDataAsync();
+        }
+
+        /// <summary>
+        /// 获取操作日志列表数据
+        /// </summary>
+        /// <param name="param">请求参数</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<PageModel<OperateLogQueryModel>> GetLogsPageAsync(OperateLogQueryParam param)
+        {
+            return await _logService.QueryPageAsync(param);
+        }
 
         /// <summary>
         /// 

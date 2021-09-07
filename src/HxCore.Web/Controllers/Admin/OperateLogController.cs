@@ -37,15 +37,5 @@ namespace HxCore.Web.Controllers.Admin
         {
             return await _service.QueryPageAsync(param);
         }
-
-        /// <summary>
-        ///  获取用户近三十天接口访问情况
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<OperateLogChars> GetLineDataAsync()
-        {
-            return await _service.GetLineDataAsync();
-        }
     }
 }
