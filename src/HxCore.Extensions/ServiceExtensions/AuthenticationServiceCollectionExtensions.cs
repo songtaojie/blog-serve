@@ -154,11 +154,20 @@ namespace Microsoft.Extensions.DependencyInjection
                     //    context.Response.Headers.Add("Token-Error", context.ErrorDescription);
                     //    return Task.CompletedTask;
                     //},
-                    //OnMessageReceived = context =>
-                    //{
-                    //    var token = context.Request.Headers[HeaderNames.Authorization];
-                    //    return Task.CompletedTask;
-                    //},
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+
+                        // If the request is for our hub...
+                        var path = context.HttpContext.Request.Path;
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            (path.StartsWithSegments("/api/chathub")))
+                        {
+                            // Read the token out of the query string
+                            context.Token = accessToken;
+                        }
+                        return Task.CompletedTask;
+                    },
                     //OnTokenValidated = context => TokenValidated(context),
                     OnAuthenticationFailed = context => AuthenticationFailed(context)
                 };
@@ -170,6 +179,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             JwtSettings jwtSetting = AppSettings.GetConfig<JwtSettings>("JwtSettings");
             string token = context.Request.Headers[HeaderNames.Authorization];
+            if(string.IsNullOrEmpty(token)) token = context.Request.Query["access_token"];
             if (token.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
             {
                 token = token.Substring("Bearer ".Length).Trim();

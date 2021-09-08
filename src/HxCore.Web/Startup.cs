@@ -14,6 +14,7 @@ using Hx.Sdk.ConfigureOptions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using MediatR;
 using System.Linq;
+using HxCore.Services.SignalR;
 
 namespace HxCore.Web
 {
@@ -84,7 +85,11 @@ namespace HxCore.Web
             #region MediatR
             //services.AddMediatR(typeof(Startup));
             services.AddMediatR(App.Assemblies.ToArray());
-            #endregion MediatR
+            #endregion 
+
+            #region SignalR
+            services.AddSignalR();
+            #endregion 
 
             #region 跨域CORS
             services.AddCorsAccessor();
@@ -137,6 +142,10 @@ namespace HxCore.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action}/{id?}");
+                //这里要说下，为啥地址要写 /api/xxx 
+                //因为我前后端分离了，而且使用的是代理模式，所以如果你不用/api/xxx的这个规则的话，会出现跨域问题，
+                //毕竟这个不是我的controller的路由，而且自己定义的路由
+                endpoints.MapHub<ChatHub>("/api/chathub");
             });
             //app.UseConsulService(lifetime);
         }

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hx.Sdk.Attributes;
 using Hx.Sdk.ConfigureOptions;
 using Hx.Sdk.Entity.Page;
 using HxCore.IServices.Admin;
+using HxCore.IServices.SignalR;
 using HxCore.Model.Admin.OperateLog;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -16,17 +18,21 @@ namespace HxCore.Web.Controllers.Admin
     /// <summary>
     /// 主页
     /// </summary>
-    [ApiController]
+    [SkipOperateLog]
+    [SkipRouteAuthorization]
     public class HomeController : Base.BaseAdminController
     {
         private readonly IOperateLogService _logService;
+        private readonly IChatService _chatService;
         /// <summary>
         ///构造函数
         /// </summary>
         /// <param name="logService"></param>
-        public HomeController(IOperateLogService logService)
+        /// <param name="chatService"></param>
+        public HomeController(IOperateLogService logService, IChatService chatService)
         {
             _logService = logService;
+            _chatService = chatService;
         }
 
 
@@ -49,6 +55,18 @@ namespace HxCore.Web.Controllers.Admin
         public async Task<PageModel<OperateLogQueryModel>> GetLogsPageAsync(OperateLogQueryParam param)
         {
             return await _logService.QueryPageAsync(param);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        public string SendMessage()
+        {
+            _chatService.SendMessage("1111111111", "hahha");
+            return "success";
         }
 
         /// <summary>
