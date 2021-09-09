@@ -58,7 +58,7 @@ namespace HxCore.Web.Controllers.Admin
         }
 
         /// <summary>
-        /// 
+        /// SignalR发送消息接口
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -70,7 +70,7 @@ namespace HxCore.Web.Controllers.Admin
         }
 
         /// <summary>
-        /// 
+        /// 测试接口
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -82,7 +82,7 @@ namespace HxCore.Web.Controllers.Admin
         }
 
         /// <summary>
-        /// 获取博客列表
+        /// 获取cookie
         /// </summary>
         /// <returns></returns>
         [HttpPost,HttpGet]

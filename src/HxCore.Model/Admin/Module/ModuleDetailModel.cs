@@ -25,6 +25,15 @@ namespace HxCore.Model.Admin.Module
         public string RouteUrl { get; set; }
 
         /// <summary>
+        /// 控制器名称
+        /// </summary>
+        public string Controller { get; set; }
+        /// <summary>
+        /// Action名称
+        /// </summary>
+        public string Action { get; set; }
+
+        /// <summary>
         /// /描述
         /// </summary>
         public string Description { get; set; }

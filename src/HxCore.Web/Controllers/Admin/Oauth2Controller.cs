@@ -88,7 +88,7 @@ namespace HxCore.Web.Controllers.Admin
         }
 
         /// <summary>
-        /// 用户登录
+        /// 刷新token
         /// </summary>
         /// <param name="token">旧的token</param>
         /// <returns></returns>

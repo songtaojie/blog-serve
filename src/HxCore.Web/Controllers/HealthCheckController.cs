@@ -36,7 +36,7 @@ namespace HxCore.Web.Controllers
        
 
         /// <summary>
-        /// 
+        /// elk日志测试
         /// </summary>
         /// <returns></returns>
         [HttpGet]
