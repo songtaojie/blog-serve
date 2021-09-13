@@ -15,7 +15,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using MediatR;
 using System.Linq;
 using HxCore.Services.SignalR;
-
 namespace HxCore.Web
 {
     /// <summary>
@@ -26,13 +25,17 @@ namespace HxCore.Web
 
         private IHostEnvironment Environment { get; }
 
+        private IConfiguration  Configuration { get; }
+
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="_env">环境</param>
-        public Startup(IHostEnvironment _env)
+        /// <param name="configuration">配置</param>
+        public Startup(IHostEnvironment _env, IConfiguration configuration)
         {
             Environment = _env;
+            Configuration = configuration;
         }
         /// <summary>
         /// 服务
@@ -57,7 +60,7 @@ namespace HxCore.Web
             #endregion
 
             #region 数据库链接，上下文
-            ConsoleHelper.WriteInfoLine(AppSettings.GetConfig("ConnectionStrings:MySqlConnectionString"));
+            ConsoleHelper.WriteInfoLine(Configuration.GetConnectionString("MySqlConnectionString"));
             services.AddDatabaseAccessor(service =>
             {
                 service.AddDbPool<Entity.Context.DefaultContext>();
@@ -99,6 +102,23 @@ namespace HxCore.Web
             services.AddCustomOptions();
             #endregion
 
+            #region CAP
+            var capSettings = AppSettings.GetConfig<Entity.Options.CapSettings>("CapSettings");
+            services.AddCap(options =>
+            {
+                //options.UseEntityFramework<DefaultContext>();
+                options.UseMySql(Configuration.GetConnectionString("MySqlConnectionString"));
+                options.DefaultGroupName = capSettings.DefaultGroup;
+                options.UseRabbitMQ(c =>
+                {
+                    c.HostName = capSettings.RabbitMQ.HostName;
+                    c.VirtualHost = capSettings.RabbitMQ.VirtualHost;
+                    c.Port = capSettings.RabbitMQ.Port;
+                    c.UserName = capSettings.RabbitMQ.UserName;
+                    c.Password = capSettings.RabbitMQ.Password;
+                });
+            });
+            #endregion
             //#region 原生的依赖注入
             //使用时记得把ConfigureContainer中的Autofac注入去掉,
             //services.AddPrimitiveDI(Environment);
@@ -136,6 +156,7 @@ namespace HxCore.Web
             app.UseAuthorization();
             app.UseCookiePolicy();
             //app.UseStatusCodePages();
+            //app.UseCap();
             // 短路中间件，配置Controller路由
             app.UseEndpoints(endpoints =>
             {
