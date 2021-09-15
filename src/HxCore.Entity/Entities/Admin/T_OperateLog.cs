@@ -75,7 +75,6 @@ namespace HxCore.Entity.Entities
         /// <summary>
         /// 请求参数
         /// </summary>
-        [MaxLength(2000)]
         public string Param { get; set; }
 
         /// <summary>

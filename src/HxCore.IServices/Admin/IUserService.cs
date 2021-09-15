@@ -19,6 +19,13 @@ namespace HxCore.IServices.Admin
         Task<UserDetailModel> GetAsync(string id);
 
         /// <summary>
+        /// 获取当前用户详情数据
+        /// </summary>
+        /// <param name="id">主键id</param>
+        /// <returns></returns>
+        Task<UserDetailModel> GetCurrentUserInfoAsync();
+
+        /// <summary>
         /// 获取用户所拥有的的角色信息
         /// </summary>
         /// <param name="userId">用户标识</param>
@@ -46,6 +53,13 @@ namespace HxCore.IServices.Admin
         /// <returns></returns>
         Task<bool> UpdateAsync(UserUpdateModel model);
 
+        /// <summary>
+        /// 用户更新自己的信息
+        /// </summary>
+        /// <param name="model">用户提交数据</param>
+        /// <returns></returns>
+        Task<bool> UpdateMyInfoAsync(UserUpdateModel model);
+        
         /// <summary>
         /// 更新用户登录信息
         /// </summary>

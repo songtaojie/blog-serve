@@ -49,6 +49,18 @@ namespace HxCore.Web.Controllers.Admin
         }
 
         /// <summary>
+        /// 获取用户详情数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<UserDetailModel> GetCurrentUserInfoAsync()
+        {
+            var result = await _service.GetCurrentUserInfoAsync();
+            return result;
+        }
+
+
+        /// <summary>
         ///  获取用户所拥有的的角色信息
         /// </summary>
         /// <returns></returns>
@@ -82,6 +94,18 @@ namespace HxCore.Web.Controllers.Admin
         {
             return await _service.UpdateAsync(model);
         }
+
+        /// <summary>
+        /// 编辑自己的信息
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<bool> UpdateMyInfoAsync(UserUpdateModel model)
+        {
+            return await _service.UpdateAsync(model);
+        }
+
 
         /// <summary>
         /// 删除用户

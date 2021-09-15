@@ -50,8 +50,20 @@ namespace HxCore.Services.Admin
             if (user == null) throw new UserFriendlyException("未找到用户信息", ErrorCodeEnum.DataNull);
             var entity = this.Mapper.Map(model, user);
             entity.SetModifier(UserContext.UserId, UserContext.UserName);
-            return await this.UpdatePartialAsync(entity,new string[] { "UserName", "NickName", "Email", "AvatarUrl", "Lock",
-                "LastModifierId", "LastModifier", "LastModifyTime"});
+            return await this.UpdatePartialAsync(entity,new string[] { "NickName", "AvatarUrl", "Lock",
+                "LastModifierId", "LastModifier", "LastModifyTime","UseMdEdit"});
+        }
+
+        /// <inheritdoc cref="IUserService.UpdateMyInfoAsync"/>
+        public async Task<bool> UpdateMyInfoAsync(UserUpdateModel model)
+        {
+            model.VerifyParam();
+            var user = await this.Repository.FindAsync(model.Id);
+            if (user == null) throw new UserFriendlyException("未找到当前用户信息", ErrorCodeEnum.DataNull);
+            var entity = this.Mapper.Map(model, user);
+            entity.SetModifier(UserContext.UserId, UserContext.UserName);
+            return await this.UpdatePartialAsync(entity, new string[] { "NickName","AvatarUrl", "Lock",
+                "LastModifierId", "LastModifier", "LastModifyTime","UseMdEdit"});
         }
 
         /// <inheritdoc cref="IUserService.UpdateLoginInfoAsync"/>
@@ -126,6 +138,15 @@ namespace HxCore.Services.Admin
                 .FirstOrDefaultAsync();
             if (userDetail == null) throw new UserFriendlyException("用户信息不存在", ErrorCodeEnum.DataNull);
             return userDetail;
+        }
+
+        /// <summary>
+        /// 获取当前用户的详情数据
+        /// </summary>
+        /// <returns></returns>
+        public async Task<UserDetailModel> GetCurrentUserInfoAsync()
+        {
+            return await GetAsync(UserContext.UserId);
         }
 
         /// <inheritdoc cref="HxCore.IServices.Admin.IUserService.QueryUserPageAsync"/>

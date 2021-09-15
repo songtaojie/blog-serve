@@ -46,5 +46,10 @@ namespace HxCore.Model.Admin.User
         /// 是否锁定
         /// </summary>
         public string Lock { set; get; }
+
+        /// <summary>
+        /// 使用MarkDown编辑器
+        /// </summary>
+        public string UseMdEdit { get; set; } 
     }
 }
