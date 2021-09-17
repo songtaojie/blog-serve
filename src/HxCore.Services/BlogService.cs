@@ -137,7 +137,8 @@ namespace HxCore.Services
                             CmtCount = b.CmtCount,
                             CreateTime = b.CreateTime,
                             PublishDate = b.PublishDate,
-                            Creater = b.Creater
+                            Creater = b.Creater,
+                            isMarkDown = b.MarkDown == ConstKey.Yes
                         };
             return query.ToOrderAndPageListAsync(param);
         }

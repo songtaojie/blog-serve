@@ -54,6 +54,10 @@ namespace HxCore.Model.Admin.Blog
         /// </summary>
         public DateTime? CreateTime { get; set; }
 
+        /// <summary>
+        /// 是否使用MarkDown编辑的
+        /// </summary>
+        public bool isMarkDown { get; set; }
     }
 
 }
