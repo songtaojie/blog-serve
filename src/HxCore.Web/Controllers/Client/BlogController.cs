@@ -29,7 +29,8 @@ namespace HxCore.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageModel<BlogQueryModel>> QueryBlogsAsync(BlogQueryParam param)
+        [Route("/api/articles")]
+        public async Task<PageModel<BlogQueryModel>> GetPageAsync(BlogQueryParam param)
         {
             var result = await _blogService.QueryBlogsAsync(param);
             return result;
