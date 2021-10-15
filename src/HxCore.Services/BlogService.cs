@@ -233,7 +233,7 @@ namespace HxCore.Services
                                    where b.Id == id
                                    select new BlogDetailModel
                                    {
-                                       Id = b.Id.ToString(),
+                                       Id = b.Id,
                                        Title = b.Title,
                                        Publish = b.Publish,
                                        PublishDate = b.PublishDate,
@@ -245,7 +245,8 @@ namespace HxCore.Services
                                        UserName = u.UserName,
                                        NickName = u.NickName,
                                        CategoryName = c.Name,
-                                       MarkDown = b.MarkDown
+                                       MarkDown = b.MarkDown,
+                                       CreateTime = b.CreateTime
                                    }).FirstOrDefaultAsync();
             if (blogModel == null || (blogModel.Publish == ConstKey.No && (UserContext == null || UserContext.UserId != blogModel.UserId || !UserContext.IsAdmin))) throw new NotFoundException("找不到您访问的页面");
             //获取上一个和下一个博客
@@ -255,9 +256,8 @@ namespace HxCore.Services
         }
         private async Task GetPreBlogInfo(BlogDetailModel blogModel)
         {
-            var blogId = Convert.ToInt64(blogModel.Id);
-            var preBlog = await this.Repository.Where(b => b.CreaterId == blogModel.UserId && Convert.ToInt64(b.Id) < blogId)
-                    .OrderByDescending(b => b.Id)
+            var preBlog = await this.Repository.Where(b => b.CreaterId == blogModel.UserId && b.CreateTime < blogModel.CreateTime)
+                    .OrderByDescending(b => b.CreateTime)
                     .FirstOrDefaultAsync();
             if (preBlog != null)
             {
@@ -268,8 +268,7 @@ namespace HxCore.Services
 
         private async Task GetNextBlogInfo(BlogDetailModel blogModel)
         {
-            var blogId = Convert.ToInt64(blogModel.Id);
-            var nextBlog = await this.Repository.Where(b => b.CreaterId == blogModel.UserId && Convert.ToInt64(b.Id) > blogId)
+            var nextBlog = await this.Repository.Where(b => b.CreaterId == blogModel.UserId && b.CreateTime > blogModel.CreateTime)
                 .OrderBy(b => b.Id)
                 .FirstOrDefaultAsync();
             if (nextBlog != null)

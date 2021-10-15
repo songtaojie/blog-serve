@@ -82,11 +82,11 @@ namespace HxCore.Model
         /// <summary>
         /// 封面图
         /// </summary>
-        public string CoverImgUrl
-        {
-            get; set;
-        }
-
+        public string CoverImgUrl { get; set;  }
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public virtual DateTime CreateTime { get; set; }
         /// <summary>
         /// 上一篇博客的id
         /// </summary>
