@@ -92,6 +92,7 @@ namespace HxCore.Web
 
             #region SignalR
             services.AddSignalR();
+                //.AddMessagePackProtocol().AddStackExchangeRedis(Configuration["DbConfig:Redis:ConnectionString"]);
             #endregion 
 
             #region 跨域CORS
@@ -168,7 +169,7 @@ namespace HxCore.Web
                 //毕竟这个不是我的controller的路由，而且自己定义的路由
                 endpoints.MapHub<ChatHub>("/api/chathub");
             });
-            //app.UseConsulService(lifetime);
+            app.UseConsulService(lifetime);
         }
     }
 }

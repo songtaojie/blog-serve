@@ -248,10 +248,10 @@ namespace HxCore.Services
                                        MarkDown = b.MarkDown,
                                        CreateTime = b.CreateTime
                                    }).FirstOrDefaultAsync();
-            if (blogModel == null || (blogModel.Publish == ConstKey.No && (UserContext == null || UserContext.UserId != blogModel.UserId || !UserContext.IsAdmin))) throw new NotFoundException("找不到您访问的页面");
+            if (blogModel == null || blogModel.Publish == ConstKey.No) throw new NotFoundException("找不到您访问的页面");
             //获取上一个和下一个博客
-            await GetPreBlogInfo(blogModel);
-            await GetNextBlogInfo(blogModel);
+            //await GetPreBlogInfo(blogModel);
+            //await GetNextBlogInfo(blogModel);
             return blogModel;
         }
         private async Task GetPreBlogInfo(BlogDetailModel blogModel)
@@ -269,7 +269,7 @@ namespace HxCore.Services
         private async Task GetNextBlogInfo(BlogDetailModel blogModel)
         {
             var nextBlog = await this.Repository.Where(b => b.CreaterId == blogModel.UserId && b.CreateTime > blogModel.CreateTime)
-                .OrderBy(b => b.Id)
+                .OrderBy(b => b.CreateTime)
                 .FirstOrDefaultAsync();
             if (nextBlog != null)
             {
