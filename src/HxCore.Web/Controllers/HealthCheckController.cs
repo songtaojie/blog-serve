@@ -30,7 +30,7 @@ namespace HxCore.Web.Controllers
         [Route("~/api/[controller]")]
         public IActionResult Get()
         {
-            return Ok();
+            return Ok("ok");
         }
 
        
