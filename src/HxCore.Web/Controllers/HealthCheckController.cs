@@ -28,7 +28,7 @@ namespace HxCore.Web.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("~/api/HealthCheck")]
-        [SkipUnify]
+        //[SkipUnify]
         public IActionResult Get()
         {
             return Ok("ok");

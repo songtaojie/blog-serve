@@ -18,16 +18,28 @@ namespace Microsoft.AspNetCore.Builder
         /// <returns></returns>
         public static IApplicationBuilder UseConsulService(this IApplicationBuilder app, IHostApplicationLifetime lifetime)
         {
-            var consulAddress = AppSettings.GetConfig("ConsulSettings:Address");
-            if (string.IsNullOrEmpty(consulAddress)) throw new Exception("ConsulSettings:Address configuration missing");
+            var consulSettings = AppSettings.GetConfig<ConsulSettings>("ConsulSettings");
+            if (consulSettings==null || string.IsNullOrEmpty(consulSettings.Address)) throw new Exception("ConsulSettings configuration missing");
             var consulClient = new ConsulClient(c =>
             {
-                c.Address = new Uri(consulAddress);
+                c.Address = new Uri(consulSettings.Address);
             });
-            var agentService = AppSettings.GetConfig<AgentServiceRegistration>("ConsulSettings:AgentService");
-            if(agentService == null) throw new Exception("ConsulSettings:AgentService configuration missing");
-            agentService.ID = Guid.NewGuid().ToString();
-
+            if(consulSettings.AgentService ==null) throw new Exception("ConsulSettings:AgentService configuration missing");
+            var agentService = new AgentServiceRegistration
+            {
+                ID = Guid.NewGuid().ToString(),
+                Name = consulSettings.AgentService.Name,
+                Address = consulSettings.AgentService.Address,
+                Port = consulSettings.AgentService.Port,
+                Check = new Consul.AgentServiceCheck
+                {
+                    //ID = Guid.NewGuid().ToString(),
+                    //Name = consulSettings.AgentCheck?.Name,
+                    HTTP = consulSettings.AgentCheck?.HTTP,
+                    DeregisterCriticalServiceAfter = TimeSpan.FromSeconds(consulSettings.AgentCheck.DeregisterCriticalServiceAfter??5),
+                    Interval = TimeSpan.FromSeconds(consulSettings.AgentCheck.Interval??10)
+                }
+            };
             //服务注册
             consulClient.Agent.ServiceRegister(agentService);
             lifetime.ApplicationStopping.Register(() =>
