@@ -159,6 +159,7 @@ namespace HxCore.Web
             //app.UseStatusCodePages();
             //app.UseCap();
             // 短路中间件，配置Controller路由
+            app.UseConsulService(lifetime);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -169,7 +170,6 @@ namespace HxCore.Web
                 //毕竟这个不是我的controller的路由，而且自己定义的路由
                 endpoints.MapHub<ChatHub>("/api/chathub");
             });
-            app.UseConsulService(lifetime);
         }
     }
 }
