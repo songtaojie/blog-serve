@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{403585DC
 		build\run.sh = build\run.sh
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HxCore.Gateway", "HxCore.Gateway\HxCore.Gateway.csproj", "{44B9A3A7-A3F3-42E5-AA85-CA2251A7EBE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{B30A4B92-77DB-40A3-A750-9B08CB28B91E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B30A4B92-77DB-40A3-A750-9B08CB28B91E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B30A4B92-77DB-40A3-A750-9B08CB28B91E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44B9A3A7-A3F3-42E5-AA85-CA2251A7EBE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44B9A3A7-A3F3-42E5-AA85-CA2251A7EBE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44B9A3A7-A3F3-42E5-AA85-CA2251A7EBE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44B9A3A7-A3F3-42E5-AA85-CA2251A7EBE8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{64041B11-6F3B-4343-B141-B47FAEC69AD5} = {3AA7093E-4B69-4BB5-9FDC-DEBD94270E2D}
 		{45F5EDD5-4307-4CB5-8E4F-95A1D5E92AFA} = {3AA7093E-4B69-4BB5-9FDC-DEBD94270E2D}
 		{B30A4B92-77DB-40A3-A750-9B08CB28B91E} = {3AA7093E-4B69-4BB5-9FDC-DEBD94270E2D}
+		{44B9A3A7-A3F3-42E5-AA85-CA2251A7EBE8} = {3AA7093E-4B69-4BB5-9FDC-DEBD94270E2D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DBD380DF-9DD8-4C3A-A47F-53E039EEB18C}

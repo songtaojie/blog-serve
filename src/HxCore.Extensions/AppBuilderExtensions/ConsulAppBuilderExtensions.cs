@@ -31,6 +31,7 @@ namespace Microsoft.AspNetCore.Builder
                 Name = consulSettings.AgentService.Name,
                 Address = consulSettings.AgentService.Address,
                 Port = consulSettings.AgentService.Port,
+                Tags = consulSettings.AgentService.Tags,
                 Check = new Consul.AgentServiceCheck
                 {
                     //ID = Guid.NewGuid().ToString(),
