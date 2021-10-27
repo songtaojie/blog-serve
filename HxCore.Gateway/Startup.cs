@@ -6,9 +6,12 @@ using Microsoft.Extensions.Hosting;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Consul;
+using Polly;
+using Polly.Extensions.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace HxCore.Gateway
@@ -44,6 +47,27 @@ namespace HxCore.Gateway
             {
                 endpoints.MapControllers();
             });
+        }
+
+        /// <summary>
+        /// ÷ÿ ‘≤ﬂ¬‘
+        /// </summary>
+        public static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+                .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
+        }
+
+        /// <summary>
+        /// »€∂œ≤ﬂ¬‘
+        /// </summary>
+        private static IAsyncPolicy<HttpResponseMessage> GetCircuiBreakerPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .CircuitBreakerAsync(5, TimeSpan.FromSeconds(30));
         }
     }
 }
