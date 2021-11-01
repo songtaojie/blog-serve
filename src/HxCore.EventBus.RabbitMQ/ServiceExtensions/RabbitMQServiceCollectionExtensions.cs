@@ -1,4 +1,5 @@
-﻿using HxCore.EventBus;
+﻿using DotNetCore.CAP;
+using HxCore.EventBus;
 using HxCore.EventBus.RabbitMQ;
 using HxCore.EventBus.RabbitMQ.Options;
 using Microsoft.Extensions.Configuration;
@@ -72,6 +73,23 @@ namespace Microsoft.Extensions.DependencyInjection
 
             //注册单例模式的EventBusRabbitMQ
             services.AddSingleton<IEventBus, EventBusRabbitMQ>();
+            return services;
+        }
+
+
+        public static IServiceCollection AddCapRabbitMq(this IServiceCollection services, Action<CapOptions> capOptions,
+           Action<RabbitMQOptions> mqOption)
+        {
+            if (mqOption == null)
+                throw new ArgumentNullException(nameof(mqOption), "调用 RabbitMQ 配置时出错，未传入配置信息。");
+
+            services.AddCap(options =>
+            {
+                capOptions?.Invoke(options);
+                options.UseRabbitMQ(mqOption);
+            });
+
+            services.AddTransient<IEventBus, EventBusCapRabbitMQ>();
             return services;
         }
     }
