@@ -1,4 +1,4 @@
-﻿using Hx.Sdk.Entity.Dependency;
+﻿using Hx.Sdk.DatabaseAccessor;
 using Hx.Sdk.FriendlyException;
 using HxCore.Entity;
 using HxCore.Entity.Entities;

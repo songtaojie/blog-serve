@@ -1,12 +1,12 @@
-﻿using Hx.Sdk.ConfigureOptions;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace HxCore.Options
 {
     /// <summary>
     /// 附件上传配置
     /// </summary>
-    public class AttachSettingsOptions : IConfigurableOptions<AttachSettingsOptions>
+    public class AttachSettingsOptions : IPostConfigureOptions<AttachSettingsOptions>
     {
         /// <summary>
         /// 根路径
@@ -27,8 +27,8 @@ namespace HxCore.Options
         /// 后置配置
         /// </summary>
         /// <param name="options"></param>
-        /// <param name="configuration"></param>
-        public void PostConfigure(AttachSettingsOptions options, IConfiguration configuration)
+        /// <param name="name"></param>
+        public void PostConfigure(string name, AttachSettingsOptions options)
         {
             RootPath ??= "fileupload";
             Image ??= new ImageSettings

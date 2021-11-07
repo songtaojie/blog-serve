@@ -13,7 +13,7 @@ namespace HxCore.IServices
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IBaseStatusService<T> : IBaseStatusService<T,MasterDbContextLocator> 
-        where T : Hx.Sdk.Entity.IEntity
+        where T : Hx.Sdk.DatabaseAccessor.IEntity
     { 
     }
 
@@ -23,7 +23,7 @@ namespace HxCore.IServices
     /// <typeparam name="T">模型数据</typeparam>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
     public interface IBaseStatusService<T, TDbContextLocator> :IBaseService<T, TDbContextLocator>
-        where T : Hx.Sdk.Entity.IEntity
+        where T : Hx.Sdk.DatabaseAccessor.IEntity<TDbContextLocator>
         where TDbContextLocator : class, IDbContextLocator
     {
         /// <summary>

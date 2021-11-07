@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Hx.Sdk.FriendlyException;
+using HxCore.Entity.Enum;
 
 namespace HxCore.Services.Admin
 {
@@ -65,9 +67,9 @@ namespace HxCore.Services.Admin
         /// <inheritdoc cref="IModuleService.UpdateAsync"/>
         public async Task<bool> UpdateAsync(ModuleUpdateModel createModel)
         {
-            if (string.IsNullOrEmpty(createModel.Id)) throw new UserFriendlyException("无效的标识");
+            if (string.IsNullOrEmpty(createModel.Id)) throw new UserFriendlyException("无效的标识",ErrorCodeEnum.ParamsNullError);
             var entity = await this.FindAsync(createModel.Id);
-            if(entity == null) throw new UserFriendlyException("未找到接口信息");
+            if(entity == null) throw new UserFriendlyException("未找到接口信息", ErrorCodeEnum.DataNull);
             entity = this.Mapper.Map(createModel, entity);
             var disabled = createModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
             entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
@@ -100,7 +102,7 @@ namespace HxCore.Services.Admin
         public async Task<ModuleDetailModel> GetAsync(string id)
         {
             var module = await this.FindAsync(id);
-            if (module == null) throw new UserFriendlyException("未找到接口信息");
+            if (module == null) throw new UserFriendlyException("未找到接口信息", ErrorCodeEnum.DataNull);
             ModuleDetailModel detailModel = this.Mapper.Map<ModuleDetailModel>(module);
             detailModel.IsEnabled = Helper.IsNo(module.Disabled);
             return detailModel;

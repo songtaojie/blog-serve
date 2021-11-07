@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Hx.Sdk.ConfigureOptions;
+﻿using Hx.Sdk.Core;
 using HxCore.Extensions.AutoMapper;
 using System;
 

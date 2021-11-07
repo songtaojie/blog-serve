@@ -1,10 +1,8 @@
 ﻿using Consul;
-using Hx.Sdk.ConfigureOptions;
+using Hx.Sdk.Core;
 using HxCore.Entity.Options;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Microsoft.AspNetCore.Builder
 {

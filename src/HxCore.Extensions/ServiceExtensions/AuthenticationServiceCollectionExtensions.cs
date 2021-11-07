@@ -1,9 +1,8 @@
 ﻿using Hx.Sdk.Cache;
 using Hx.Sdk.Common.Extensions;
-using Hx.Sdk.ConfigureOptions;
+using Hx.Sdk.Core;
 using HxCore.Entity;
 using HxCore.Extensions.Authentication;
-using HxCore.Extensions.Common;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;

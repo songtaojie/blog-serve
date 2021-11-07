@@ -1,11 +1,10 @@
-﻿using Hx.Sdk.ConfigureOptions;
+﻿using Hx.Sdk.Core;
 using HxCore.Extensions.Authentication;
 using HxCore.Extensions.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 

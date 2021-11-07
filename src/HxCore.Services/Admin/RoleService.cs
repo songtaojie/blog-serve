@@ -1,5 +1,4 @@
 ﻿using Hx.Sdk.Common.Helper;
-using Hx.Sdk.Entity;
 using Hx.Sdk.Entity.Page;
 using HxCore.Entity.Entities;
 using HxCore.Model.Admin.Role;
@@ -11,7 +10,8 @@ using Hx.Sdk.Extensions;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using HxCore.IServices.Admin;
-using Hx.Sdk.ConfigureOptions;
+using Hx.Sdk.FriendlyException;
+using HxCore.Entity.Enum;
 
 namespace HxCore.Services.Admin
 {
@@ -35,9 +35,9 @@ namespace HxCore.Services.Admin
         /// <inheritdoc cref="IRoleService.UpdateAsync"/>
         public async Task<bool> UpdateAsync(RoleCreateModel createModel)
         {
-            if (string.IsNullOrEmpty(createModel.Id)) throw new UserFriendlyException("无效的标识");
+            if (string.IsNullOrEmpty(createModel.Id)) throw new UserFriendlyException("无效的标识",ErrorCodeEnum.ParamsNullError);
             var entity = await this.FindAsync(createModel.Id);
-            if (entity == null) throw new UserFriendlyException("未找到角色信息");
+            if (entity == null) throw new UserFriendlyException("未找到角色信息",ErrorCodeEnum.DataNull);
             entity = this.Mapper.Map(createModel, entity);
             var disabled = createModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
             entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
@@ -89,7 +89,7 @@ namespace HxCore.Services.Admin
         public async Task<RoleDetailModel> GetAsync(string id)
         {
             var detail = await this.FindAsync(id);
-            if (detail == null) throw new UserFriendlyException("未找到角色信息");
+            if (detail == null) throw new UserFriendlyException("未找到角色信息",ErrorCodeEnum.DataNull);
             RoleDetailModel detailModel = this.Mapper.Map<RoleDetailModel>(detail);
             detailModel.IsEnabled = Helper.IsNo(detail.Disabled);
             return detailModel;

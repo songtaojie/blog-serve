@@ -15,7 +15,8 @@ using Hx.Sdk.DatabaseAccessor;
 using Hx.Sdk.Extensions;
 using Hx.Sdk.Attributes;
 using Hx.Sdk.Core;
-using Hx.Sdk.ConfigureOptions;
+using Hx.Sdk.FriendlyException;
+using HxCore.Entity.Enum;
 
 namespace HxCore.Services
 {
@@ -57,10 +58,10 @@ namespace HxCore.Services
 
         public async Task<bool> UpdateAsync(BlogManageCreateModel blogModel)
         {
-            if (string.IsNullOrEmpty(blogModel.Id)) throw new UserFriendlyException("无效的标识");
+            if (string.IsNullOrEmpty(blogModel.Id)) throw new UserFriendlyException("无效的标识",ErrorCodeEnum.ParamsNullError);
             var entity = await this.FindAsync(blogModel.Id);
             var extendEntity = await this.ExtendRepository.FindAsync(blogModel.Id);
-            if (entity == null && extendEntity == null) throw new UserFriendlyException("文章不存在");
+            if (entity == null && extendEntity == null) throw new UserFriendlyException("文章不存在",ErrorCodeEnum.DataNull);
             entity = this.Mapper.Map(blogModel, entity);
             if (blogModel.IsPublish)
             {
@@ -153,7 +154,7 @@ namespace HxCore.Services
                                         Content = be.Content
                                      }))
                                    .FirstOrDefaultAsync();
-            if (detailModel == null) throw new UserFriendlyException("该文章不存在");
+            if (detailModel == null) throw new UserFriendlyException("该文章不存在",ErrorCodeEnum.DataNull);
             if (!string.IsNullOrEmpty(detailModel.BlogTags))
             {
                 var tagRepository = this.Repository.Change<T_BlogTag>();
@@ -248,7 +249,7 @@ namespace HxCore.Services
                                        MarkDown = b.MarkDown,
                                        CreateTime = b.CreateTime
                                    }).FirstOrDefaultAsync();
-            if (blogModel == null || blogModel.Publish == ConstKey.No) throw new NotFoundException("找不到您访问的页面");
+            if (blogModel == null || blogModel.Publish == ConstKey.No) throw new UserFriendlyException("找不到您访问的页面",ErrorCodeEnum.DataNull);
             //获取上一个和下一个博客
             //await GetPreBlogInfo(blogModel);
             //await GetNextBlogInfo(blogModel);

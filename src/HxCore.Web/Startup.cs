@@ -3,14 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using HxCore.Extensions.Filter;
 using Microsoft.Extensions.Hosting;
-using System;
 using Hx.Sdk.Core;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using Hx.Sdk.ConfigureOptions;
 using Microsoft.AspNetCore.Mvc.Filters;
 using MediatR;
 using System.Linq;
@@ -65,7 +59,7 @@ namespace HxCore.Web
             {
                 service.AddDbPool<Entity.Context.DefaultContext>();
                 service.AddDbPool<Entity.Context.IdsDbContext, Entity.Context.IdsDbContextLocator>();
-            }, "HxCore.Entity");
+            });
             #endregion
 
             #region MVC，路由配置

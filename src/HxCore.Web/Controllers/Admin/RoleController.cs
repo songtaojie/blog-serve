@@ -1,4 +1,4 @@
-﻿using Hx.Sdk.ConfigureOptions;
+﻿using Hx.Sdk.Core;
 using Hx.Sdk.Entity.Page;
 using HxCore.IServices.Admin;
 using HxCore.IServices.Ids4;

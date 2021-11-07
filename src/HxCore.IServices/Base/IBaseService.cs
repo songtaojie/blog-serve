@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 namespace HxCore.IServices
 {
     public interface IBaseService<T> : IBaseService<T, MasterDbContextLocator>
-        where T : Hx.Sdk.Entity.IEntity
+        where T : Hx.Sdk.DatabaseAccessor.IEntity
     { }
 
     public interface IBaseService<T, TDbContextLocator>
-        where T: Hx.Sdk.Entity.IEntity
+        where T: Hx.Sdk.DatabaseAccessor.IEntity<TDbContextLocator>
         where TDbContextLocator : class, IDbContextLocator
     {
         #region 查询

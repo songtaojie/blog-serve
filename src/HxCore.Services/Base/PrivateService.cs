@@ -12,7 +12,7 @@ using System.Linq;
 namespace HxCore.Services.Internal
 {
     public abstract class PrivateService<T, TDbContextLocator>
-        where T :class, Hx.Sdk.Entity.IEntity, new()
+        where T :class, Hx.Sdk.DatabaseAccessor.IEntity<TDbContextLocator>, new()
         where TDbContextLocator : class, IDbContextLocator
     {
         /// <summary>

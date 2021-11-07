@@ -4,20 +4,18 @@ using HxCore.IServices.Admin;
 using HxCore.Model.Admin.User;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Hx.Sdk.Extensions;
 using Hx.Sdk.Common.Extensions;
 using Hx.Sdk.FriendlyException;
 using HxCore.Entity.Enum;
-using Microsoft.AspNetCore.Http;
 using Hx.Sdk.Entity.Page;
 using HxCore.Entity;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Hx.Sdk.Common.Helper;
-using Hx.Sdk.ConfigureOptions;
 using HxCore.IServices.Ids4;
+using Hx.Sdk.Core;
 
 namespace HxCore.Services.Admin
 {
@@ -121,9 +119,9 @@ namespace HxCore.Services.Admin
                 await this.Db.Set<T_UserRole>().AddRangeAsync(addUserRoleList);
                 return await this.Repository.SaveNowAsync() > 1;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
         }
         #endregion

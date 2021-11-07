@@ -1,9 +1,4 @@
-﻿using Hx.Sdk.Entity.Dependency;
-using HxCore.Entity;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using System;
 namespace HxCore.Model.Admin.Blog
 {
     /// <summary>
