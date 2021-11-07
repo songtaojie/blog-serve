@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Hx.Sdk.Entity.Dependency;
+using Hx.Sdk.DatabaseAccessor;
 using Hx.Sdk.Common.Extensions;
 using System;
 using System.Collections.Generic;

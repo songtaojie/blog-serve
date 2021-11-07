@@ -62,7 +62,7 @@ namespace HxCore.Web.Controllers.Admin
         }
 
         /// <summary>
-        /// 获取接口列表
+        /// 获取接口详情数据
         /// </summary>
         /// <returns></returns>
         [HttpGet("{id}")]
@@ -75,7 +75,7 @@ namespace HxCore.Web.Controllers.Admin
 
         #region 操作
         /// <summary>
-        /// 创建
+        /// 添加接口
         /// </summary>
         /// <param name="createModel"></param>
         /// <returns></returns>
@@ -86,7 +86,7 @@ namespace HxCore.Web.Controllers.Admin
         }
 
         /// <summary>
-        /// 更新
+        /// 编辑接口
         /// </summary>
         /// <param name="createModel"></param>
         /// <returns></returns>
@@ -97,7 +97,7 @@ namespace HxCore.Web.Controllers.Admin
         }
 
         /// <summary>
-        /// 接口删除
+        /// 删除接口
         /// </summary>
         /// <param name="id">要删除的接口的id</param>
         /// <returns></returns>

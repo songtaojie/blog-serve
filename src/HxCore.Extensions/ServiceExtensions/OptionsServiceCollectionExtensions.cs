@@ -1,4 +1,4 @@
-﻿using Hx.Sdk.DependencyInjection;
+﻿using Hx.Sdk.Attributes;
 using HxCore.Options;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -16,7 +16,6 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>服务集合</returns>
         public static IServiceCollection AddCustomOptions(this IServiceCollection services)
         {
-            services.AddConfigurableOptions<AttachSettingsOptions>();
             return services;
         }
     }

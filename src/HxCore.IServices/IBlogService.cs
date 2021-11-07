@@ -1,4 +1,4 @@
-﻿using Hx.Sdk.Entity.Dependency;
+﻿using Hx.Sdk.DatabaseAccessor;
 using Hx.Sdk.Entity.Page;
 using HxCore.Entity.Entities;
 using HxCore.Model;

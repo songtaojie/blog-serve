@@ -25,7 +25,7 @@ namespace HxCore.Services
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TDbContextLocator">数据库上下文定位器</typeparam>
     public abstract class BaseService<T, TDbContextLocator> : Internal.PrivateService<T, TDbContextLocator>, IScopedDependency
-        where T:Hx.Sdk.DatabaseAccessor.EntityBase, new()
+        where T:Hx.Sdk.DatabaseAccessor.EntityBase<string,TDbContextLocator>, new()
         where TDbContextLocator : class, IDbContextLocator
     {
         public BaseService(IRepository<T, TDbContextLocator> repository):base(repository)

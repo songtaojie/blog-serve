@@ -1,9 +1,4 @@
-﻿using Hx.Sdk.Entity.Dependency;
-using HxCore.Entity;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using System;
 namespace HxCore.Model.Admin.Blog
 {
     /// <summary>
@@ -54,6 +49,10 @@ namespace HxCore.Model.Admin.Blog
         /// </summary>
         public DateTime? CreateTime { get; set; }
 
+        /// <summary>
+        /// 是否使用MarkDown编辑的
+        /// </summary>
+        public bool isMarkDown { get; set; }
     }
 
 }

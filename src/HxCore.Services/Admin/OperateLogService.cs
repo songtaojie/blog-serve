@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using HxCore.Entity;
 
 namespace HxCore.Services.Admin
 {
@@ -39,9 +40,11 @@ namespace HxCore.Services.Admin
         {
             var beginDate = DateTime.Now.AddDays(-30);
             var endDate = DateTime.Now;
+            var isSuperAdmin = await _userService.CheckIsSuperAdminAsync(UserContext.UserId);
             var rows = await (from op in this.Repository.DetachedEntities
                         join m in this.Db.Set<T_Module>() on new {op.ControllerName,op.ActionName } equals new { ControllerName = m.Controller, ActionName = m.Action } into m_temp
                         from m in m_temp.DefaultIfEmpty()
+                        where isSuperAdmin?m.Deleted == ConstKey.No: m.Deleted == ConstKey.No && op.OperaterId == UserContext.UserId
                         group op by new { op.ControllerName, op.ActionName, m.Description } into opgp
                         select new
                         { 

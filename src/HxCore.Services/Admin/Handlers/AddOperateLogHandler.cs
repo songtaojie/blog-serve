@@ -1,15 +1,9 @@
-﻿using AutoMapper;
-using Hx.Sdk.Core;
-using HxCore.Entity.Entities;
-using HxCore.IServices.Admin;
+﻿using HxCore.IServices.Admin;
 using HxCore.Model.NotificationHandlers;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

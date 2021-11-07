@@ -1,7 +1,8 @@
-﻿using Hx.Sdk.Entity.Dependency;
-using HxCore.Entity.Entities;
+﻿using HxCore.Entity.Entities;
 using HxCore.Entity.Enum;
 using Hx.Sdk.FriendlyException;
+using HxCore.Entity;
+using Hx.Sdk.DatabaseAccessor;
 
 namespace HxCore.Model.Admin.User
 {
@@ -55,7 +56,10 @@ namespace HxCore.Model.Admin.User
         {
             get; set;
         }
-
+        /// <summary>
+        /// 使用MarkDown编辑器
+        /// </summary>
+        public string UseMdEdit { get; set; } = ConstKey.No;
         /// <summary>
         /// 验证参数
         /// </summary>

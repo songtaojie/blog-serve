@@ -27,16 +27,17 @@ namespace HxCore.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("~/api/[controller]")]
+        [Route("~/api/HealthCheck")]
+        //[SkipUnify]
         public IActionResult Get()
         {
-            return Ok();
+            return Ok("ok");
         }
 
        
 
         /// <summary>
-        /// 
+        /// elk日志测试
         /// </summary>
         /// <returns></returns>
         [HttpGet]

@@ -26,13 +26,13 @@ namespace HxCore.Extensions.Authentication
             {
                 base.ValidateLifetime(notBefore, expires, jwtToken, validationParameters);
             }
-            catch (SecurityTokenExpiredException ex)
+            catch (SecurityTokenExpiredException)
             {
                 var userId = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
                 var cacheToken = _redisCache.StringGet(string.Format(CacheKeyConfig.AuthTokenKey, userId));
                 if (string.IsNullOrEmpty(cacheToken))
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }

@@ -1,0 +1,58 @@
+{
+  "Routes": [
+    {
+      "UseServiceDiscovery": true, //启用服务发现
+      "ServiceName": "Hx.BlogCore.Service", //服务注册标识
+      "LoadBalancer": "RoundRobin", //服务均衡：轮询
+      "UpstreamPathTemplate": "/gateway/api/{url}", //上游请求路由
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Delete"
+      ], //请求的方法类型
+      "DownstreamPathTemplate": "/api/{url}", //下游转发路由
+      "DownstreamScheme": "http", //标识头
+      //"DownstreamHostAndPorts": [
+      //  {
+      //    "Host": "192.168.233.128",
+      //    "Port": 5003
+      //  }
+      //],
+      "RoutesCaseSensitive": false //不区分大小写
+    },
+    {
+      "UseServiceDiscovery": true,
+      "ServiceName": "Hx.Identity.Service",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      }, //服务均衡：轮询
+      "UpstreamPathTemplate": "/gateway/is4api/{url}",
+      "UpstreamHttpMethod": [
+        "Get",
+        "Post",
+        "Put",
+        "Delete"
+      ],
+      "DownstreamPathTemplate": "/{url}", //下游转发路由
+      "DownstreamScheme": "http", //标识头
+      //"DownstreamHostAndPorts": [
+      //  {
+      //    "Host": "192.168.233.128",
+      //    "Port": 5002
+      //  }
+      //],
+      "RoutesCaseSensitive": false
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:7003",
+    "ServiceDiscoveryProvider": {
+      "Host": "192.168.233.128", // 注册中心Consul地址
+      "Port": 8500, //注册中心Consul端口号
+      "Type": "Consul",
+      //"Token": "footoken",
+      "PollingInterval": 100 //健康检查时间端
+    }
+  }
+}

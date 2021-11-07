@@ -658,8 +658,7 @@ namespace HxCore.Entity.Migrations
                         .HasColumnType("varchar(36)");
 
                     b.Property<string>("Param")
-                        .HasMaxLength(2000)
-                        .HasColumnType("varchar(2000)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Result")
                         .HasColumnType("text");

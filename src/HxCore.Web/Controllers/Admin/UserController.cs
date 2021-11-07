@@ -27,7 +27,7 @@ namespace HxCore.Web.Controllers.Admin
 
         #region 查询
         /// <summary>
-        /// 获取接口列表
+        /// 获取用户分页列表
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -49,6 +49,18 @@ namespace HxCore.Web.Controllers.Admin
         }
 
         /// <summary>
+        /// 获取用户详情数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<UserDetailModel> GetCurrentUserInfoAsync()
+        {
+            var result = await _service.GetCurrentUserInfoAsync();
+            return result;
+        }
+
+
+        /// <summary>
         ///  获取用户所拥有的的角色信息
         /// </summary>
         /// <returns></returns>
@@ -62,7 +74,7 @@ namespace HxCore.Web.Controllers.Admin
 
         #region 操作
         /// <summary>
-        /// 创建
+        /// 添加用户
         /// </summary>
         /// <param name="createModel"></param>
         /// <returns></returns>
@@ -73,7 +85,7 @@ namespace HxCore.Web.Controllers.Admin
         }
 
         /// <summary>
-        /// 更新
+        /// 编辑用户
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -84,7 +96,19 @@ namespace HxCore.Web.Controllers.Admin
         }
 
         /// <summary>
-        /// 接口删除
+        /// 编辑自己的信息
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<bool> UpdateMyInfoAsync(UserUpdateModel model)
+        {
+            return await _service.UpdateAsync(model);
+        }
+
+
+        /// <summary>
+        /// 删除用户
         /// </summary>
         /// <param name="id">要删除的接口的id</param>
         /// <returns></returns>

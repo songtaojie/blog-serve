@@ -1,8 +1,4 @@
-﻿using Hx.Sdk.Entity;
-using Hx.Sdk.Entity.Page;
-using HxCore.Entity.Entities;
-using HxCore.IServices;
-using HxCore.Model.Admin;
+﻿using HxCore.Entity.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,8 +12,6 @@ using System;
 using HxCore.Entity.Enum;
 using HxCore.Model;
 using HxCore.IServices.Admin;
-using Hx.Sdk.ConfigureOptions;
-using HxCore.IServices.Ids4;
 using HxCore.Model.Admin.Menu;
 using HxCore.Model.Admin.Module;
 

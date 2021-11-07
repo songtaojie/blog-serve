@@ -1,4 +1,4 @@
-﻿using Hx.Sdk.ConfigureOptions;
+﻿using Hx.Sdk.Core;
 using HxCore.Model.ViewModels;
 using Microsoft.IdentityModel.Tokens;
 using System;

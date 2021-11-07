@@ -15,7 +15,8 @@ using Hx.Sdk.DatabaseAccessor;
 using Hx.Sdk.Extensions;
 using Hx.Sdk.Attributes;
 using Hx.Sdk.Core;
-using Hx.Sdk.ConfigureOptions;
+using Hx.Sdk.FriendlyException;
+using HxCore.Entity.Enum;
 
 namespace HxCore.Services
 {
@@ -57,10 +58,10 @@ namespace HxCore.Services
 
         public async Task<bool> UpdateAsync(BlogManageCreateModel blogModel)
         {
-            if (string.IsNullOrEmpty(blogModel.Id)) throw new UserFriendlyException("无效的标识");
+            if (string.IsNullOrEmpty(blogModel.Id)) throw new UserFriendlyException("无效的标识",ErrorCodeEnum.ParamsNullError);
             var entity = await this.FindAsync(blogModel.Id);
             var extendEntity = await this.ExtendRepository.FindAsync(blogModel.Id);
-            if (entity == null && extendEntity == null) throw new UserFriendlyException("文章不存在");
+            if (entity == null && extendEntity == null) throw new UserFriendlyException("文章不存在",ErrorCodeEnum.DataNull);
             entity = this.Mapper.Map(blogModel, entity);
             if (blogModel.IsPublish)
             {
@@ -137,7 +138,8 @@ namespace HxCore.Services
                             CmtCount = b.CmtCount,
                             CreateTime = b.CreateTime,
                             PublishDate = b.PublishDate,
-                            Creater = b.Creater
+                            Creater = b.Creater,
+                            isMarkDown = b.MarkDown == ConstKey.Yes
                         };
             return query.ToOrderAndPageListAsync(param);
         }
@@ -152,7 +154,7 @@ namespace HxCore.Services
                                         Content = be.Content
                                      }))
                                    .FirstOrDefaultAsync();
-            if (detailModel == null) throw new UserFriendlyException("该文章不存在");
+            if (detailModel == null) throw new UserFriendlyException("该文章不存在",ErrorCodeEnum.DataNull);
             if (!string.IsNullOrEmpty(detailModel.BlogTags))
             {
                 var tagRepository = this.Repository.Change<T_BlogTag>();
@@ -232,7 +234,7 @@ namespace HxCore.Services
                                    where b.Id == id
                                    select new BlogDetailModel
                                    {
-                                       Id = b.Id.ToString(),
+                                       Id = b.Id,
                                        Title = b.Title,
                                        Publish = b.Publish,
                                        PublishDate = b.PublishDate,
@@ -244,19 +246,19 @@ namespace HxCore.Services
                                        UserName = u.UserName,
                                        NickName = u.NickName,
                                        CategoryName = c.Name,
-                                       MarkDown = b.MarkDown
+                                       MarkDown = b.MarkDown,
+                                       CreateTime = b.CreateTime
                                    }).FirstOrDefaultAsync();
-            if (blogModel == null || (blogModel.Publish == ConstKey.No && (UserContext == null || UserContext.UserId != blogModel.UserId || !UserContext.IsAdmin))) throw new NotFoundException("找不到您访问的页面");
+            if (blogModel == null || blogModel.Publish == ConstKey.No) throw new UserFriendlyException("找不到您访问的页面",ErrorCodeEnum.DataNull);
             //获取上一个和下一个博客
-            await GetPreBlogInfo(blogModel);
-            await GetNextBlogInfo(blogModel);
+            //await GetPreBlogInfo(blogModel);
+            //await GetNextBlogInfo(blogModel);
             return blogModel;
         }
         private async Task GetPreBlogInfo(BlogDetailModel blogModel)
         {
-            var blogId = Convert.ToInt64(blogModel.Id);
-            var preBlog = await this.Repository.Where(b => b.CreaterId == blogModel.UserId && Convert.ToInt64(b.Id) < blogId)
-                    .OrderByDescending(b => b.Id)
+            var preBlog = await this.Repository.Where(b => b.CreaterId == blogModel.UserId && b.CreateTime < blogModel.CreateTime)
+                    .OrderByDescending(b => b.CreateTime)
                     .FirstOrDefaultAsync();
             if (preBlog != null)
             {
@@ -267,9 +269,8 @@ namespace HxCore.Services
 
         private async Task GetNextBlogInfo(BlogDetailModel blogModel)
         {
-            var blogId = Convert.ToInt64(blogModel.Id);
-            var nextBlog = await this.Repository.Where(b => b.CreaterId == blogModel.UserId && Convert.ToInt64(b.Id) > blogId)
-                .OrderBy(b => b.Id)
+            var nextBlog = await this.Repository.Where(b => b.CreaterId == blogModel.UserId && b.CreateTime > blogModel.CreateTime)
+                .OrderBy(b => b.CreateTime)
                 .FirstOrDefaultAsync();
             if (nextBlog != null)
             {

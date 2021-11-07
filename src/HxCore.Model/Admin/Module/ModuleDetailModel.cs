@@ -1,8 +1,5 @@
-﻿using Hx.Sdk.Entity.Dependency;
+﻿using Hx.Sdk.DatabaseAccessor;
 using HxCore.Entity.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace HxCore.Model.Admin.Module
 {
@@ -23,6 +20,15 @@ namespace HxCore.Model.Admin.Module
         /// 接口的地址
         /// </summary>
         public string RouteUrl { get; set; }
+
+        /// <summary>
+        /// 控制器名称
+        /// </summary>
+        public string Controller { get; set; }
+        /// <summary>
+        /// Action名称
+        /// </summary>
+        public string Action { get; set; }
 
         /// <summary>
         /// /描述

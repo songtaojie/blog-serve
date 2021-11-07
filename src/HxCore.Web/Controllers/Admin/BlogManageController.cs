@@ -36,7 +36,7 @@ namespace HxCore.Web.Controllers.Admin
         }
 
         /// <summary>
-        /// 获取博客列表
+        /// 获取博客个人标签列表
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -47,7 +47,7 @@ namespace HxCore.Web.Controllers.Admin
         }
 
         /// <summary>
-        /// 获取博客列表
+        /// 获取博客详情
         /// </summary>
         /// <returns></returns>
         [HttpGet("{id}")]
@@ -60,7 +60,7 @@ namespace HxCore.Web.Controllers.Admin
 
         #region 博客操作作
         /// <summary>
-        /// 博客的编辑
+        /// 添加博客
         /// </summary>
         /// <param name="editInfo"></param>
         /// <returns></returns>
@@ -71,7 +71,7 @@ namespace HxCore.Web.Controllers.Admin
         }
 
         /// <summary>
-        /// 博客的编辑
+        /// 博客编辑
         /// </summary>
         /// <param name="editInfo"></param>
         /// <returns></returns>
@@ -82,7 +82,7 @@ namespace HxCore.Web.Controllers.Admin
         }
 
         /// <summary>
-        /// 博客的编辑
+        /// 博客删除
         /// </summary>
         /// <param name="id">要删除的博客的</param>
         /// <returns></returns>

@@ -1,9 +1,6 @@
-﻿using Hx.Sdk.Entity.Dependency;
+﻿using Hx.Sdk.DatabaseAccessor;
 using HxCore.Entity.Entities;
-using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace HxCore.Model.Admin.Module
 {

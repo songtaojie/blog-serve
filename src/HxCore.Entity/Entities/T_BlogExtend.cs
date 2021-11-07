@@ -1,12 +1,11 @@
-﻿using Hx.Sdk.Entity;
-using System.ComponentModel.DataAnnotations;
-
+﻿using System.ComponentModel.DataAnnotations;
+using Hx.Sdk.DatabaseAccessor;
 namespace HxCore.Entity.Entities
 {
     /// <summary>
     /// 博客扩展表
     /// </summary>
-    public class T_BlogExtend: EntityPropertyBase, Hx.Sdk.DatabaseAccessor.IEntity
+    public class T_BlogExtend: Hx.Sdk.DatabaseAccessor.Base.EntityPropertyBase, IEntity
     {
         /// <summary>
         /// 主键，这里直接和T_Blog的主键保持一致
