@@ -98,21 +98,7 @@ namespace HxCore.Web
             #endregion
 
             #region CAP
-            var capSettings = AppSettings.GetConfig<Entity.Options.CapSettings>("CapSettings");
-            services.AddCap(options =>
-            {
-                //options.UseEntityFramework<DefaultContext>();
-                options.UseMySql(Configuration.GetConnectionString("MySqlConnectionString"));
-                options.DefaultGroupName = capSettings.DefaultGroup;
-                options.UseRabbitMQ(c =>
-                {
-                    c.HostName = capSettings.RabbitMQ.HostName;
-                    c.VirtualHost = capSettings.RabbitMQ.VirtualHost;
-                    c.Port = capSettings.RabbitMQ.Port;
-                    c.UserName = capSettings.RabbitMQ.UserName;
-                    c.Password = capSettings.RabbitMQ.Password;
-                });
-            });
+            services.AddCapRabbitMQ();
             #endregion
             //#region 原生的依赖注入
             //使用时记得把ConfigureContainer中的Autofac注入去掉,
@@ -154,6 +140,8 @@ namespace HxCore.Web
             //app.UseCap();
             // 短路中间件，配置Controller路由
             app.UseConsulService(lifetime);
+            app.UseDatabaseAccessor();
+            app.UseCapRabbitMQ();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
