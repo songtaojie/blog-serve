@@ -5,13 +5,13 @@ using Hx.Sdk.Common.Helper;
 using Hx.Sdk.Core;
 using Hx.Sdk.ImageSharp;
 using HxCore.Options;
-using HxCore.Web.Controllers.Base;
+using HxCore.WebApi.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
-namespace HxCore.Web.Controllers
+namespace HxCore.WebApi.Controllers
 {
     /// <summary>
     /// 附件控制器

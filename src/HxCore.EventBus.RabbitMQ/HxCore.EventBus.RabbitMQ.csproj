@@ -13,8 +13,4 @@
     <PackageReference Include="Polly" Version="7.2.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\HxCore.EventBus\HxCore.EventBus.csproj" />
-  </ItemGroup>
-
 </Project>

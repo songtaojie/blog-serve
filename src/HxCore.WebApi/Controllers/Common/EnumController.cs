@@ -5,10 +5,10 @@ using Hx.Sdk.DatabaseAccessor;
 using HxCore.Entity;
 using HxCore.Entity.Entities;
 using HxCore.Model;
-using HxCore.Web.Controllers.Base;
+using HxCore.WebApi.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HxCore.Web.Controllers
+namespace HxCore.WebApi.Controllers
 {
     /// <summary>
     /// 枚举的控制器

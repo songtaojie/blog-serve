@@ -9,7 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace HxCore.Web.Controllers.Base
+namespace HxCore.WebApi.Controllers.Base
 {
     /// <summary>
     /// 基础的api

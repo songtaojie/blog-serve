@@ -19,7 +19,7 @@ using HxCore.Extensions.Common;
 using HxCore.Extensions.Authentication;
 using Hx.Sdk.Attributes;
 
-namespace HxCore.Web.Controllers.Admin
+namespace HxCore.WebApi.Controllers.Admin
 {
     /// <summary>
     /// 账户授权相关的控制器类

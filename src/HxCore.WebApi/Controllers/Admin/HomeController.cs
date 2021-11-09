@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HxCore.Web.Controllers.Admin
+namespace HxCore.WebApi.Controllers.Admin
 {
     /// <summary>
     /// 主页

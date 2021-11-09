@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using NLog.Web;
 
-namespace HxCore.Web
+namespace HxCore.WebApi
 {
     /// <summary>
     /// 主程序

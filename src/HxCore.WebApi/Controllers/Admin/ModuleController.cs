@@ -3,7 +3,7 @@ using HxCore.Extensions.Common;
 using HxCore.Extensions.Document;
 using HxCore.IServices.Admin;
 using HxCore.Model.Admin.Module;
-using HxCore.Web.Controllers.Base;
+using HxCore.WebApi.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using System.Xml.XPath;
 using System.Reflection;
 
-namespace HxCore.Web.Controllers.Admin
+namespace HxCore.WebApi.Controllers.Admin
 {
     /// <summary>
     /// 接口api控制器

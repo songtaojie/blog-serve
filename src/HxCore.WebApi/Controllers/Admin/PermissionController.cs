@@ -1,12 +1,12 @@
 ﻿using Hx.Sdk.Attributes;
 using HxCore.IServices.Admin;
 using HxCore.Model.Admin.Menu;
-using HxCore.Web.Controllers.Base;
+using HxCore.WebApi.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace HxCore.Web.Controllers.Admin
+namespace HxCore.WebApi.Controllers.Admin
 {
     /// <summary>
     /// 菜单按钮权限控制器
