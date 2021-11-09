@@ -76,7 +76,7 @@ namespace HxCore.Web
                 //    json.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
                 //    json.JsonSerializerOptions.Converters.Add(new DateTimeNullConverter());
                 //})
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+                .SetCompatibilityVersion(CompatibilityVersion.Latest);
             #endregion
 
             #region MediatR
