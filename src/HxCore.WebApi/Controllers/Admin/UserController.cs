@@ -1,14 +1,14 @@
 ﻿using Hx.Sdk.Entity.Page;
 using HxCore.IServices.Admin;
 using HxCore.Model.Admin.User;
-using HxCore.Web.Controllers.Base;
+using HxCore.WebApi.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HxCore.Web.Controllers.Admin
+namespace HxCore.WebApi.Controllers.Admin
 {
     /// <summary>
     /// 用户管理控制器

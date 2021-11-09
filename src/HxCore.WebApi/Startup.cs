@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using MediatR;
 using System.Linq;
 using HxCore.Services.SignalR;
-namespace HxCore.Web
+namespace HxCore.WebApi
 {
     /// <summary>
     /// 启动

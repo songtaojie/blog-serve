@@ -1,9 +1,9 @@
-﻿using HxCore.Web.Controllers.Base;
+﻿using HxCore.WebApi.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 using Hx.Sdk.EventBus;
 using HxCore.Model;
 
-namespace HxCore.Web.Controllers
+namespace HxCore.WebApi.Controllers
 {
     /// <summary>
     /// 测试控制器

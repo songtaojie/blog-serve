@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HxCore.IServices", "src\HxC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HxCore.Services", "src\HxCore.Services\HxCore.Services.csproj", "{257CC86D-4AA7-467B-8005-61E10BFA6D35}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HxCore.Web", "src\HxCore.Web\HxCore.Web.csproj", "{64041B11-6F3B-4343-B141-B47FAEC69AD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HxCore.WebApi", "src\HxCore.WebApi\HxCore.WebApi.csproj", "{64041B11-6F3B-4343-B141-B47FAEC69AD5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HxCore.Entity", "src\HxCore.Entity\HxCore.Entity.csproj", "{45F5EDD5-4307-4CB5-8E4F-95A1D5E92AFA}"
 EndProject

@@ -1,4 +1,4 @@
-﻿using HxCore.Web.Controllers.Base;
+﻿using HxCore.WebApi.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HxCore.Web.Controllers
+namespace HxCore.WebApi.Controllers
 {
     /// <summary>
     /// 健康检查

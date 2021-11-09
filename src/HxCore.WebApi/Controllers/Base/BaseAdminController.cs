@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace HxCore.Web.Controllers.Base
+namespace HxCore.WebApi.Controllers.Base
 {
     /// <summary>
     /// admin基础控制器

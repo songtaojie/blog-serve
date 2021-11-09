@@ -3,10 +3,10 @@ using HxCore.IServices;
 using Microsoft.AspNetCore.Mvc;
 using HxCore.Model;
 using Hx.Sdk.Entity.Page;
-using HxCore.Web.Controllers.Base;
+using HxCore.WebApi.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
 
-namespace HxCore.Web.Controllers
+namespace HxCore.WebApi.Controllers
 {
     /// <summary>
     /// 博客相关的控制器类
