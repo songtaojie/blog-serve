@@ -98,7 +98,7 @@ namespace HxCore.WebApi
             #endregion
 
             #region CAP
-            services.AddCapRabbitMQ();
+            //services.AddCapRabbitMQ();
             #endregion
             //#region 原生的依赖注入
             //使用时记得把ConfigureContainer中的Autofac注入去掉,
@@ -139,9 +139,9 @@ namespace HxCore.WebApi
             //app.UseStatusCodePages();
             //app.UseCap();
             // 短路中间件，配置Controller路由
-            app.UseConsulService(lifetime);
+            //app.UseConsulService(lifetime);
             app.UseDatabaseAccessor();
-            app.UseCapRabbitMQ();
+            //app.UseCapRabbitMQ();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
