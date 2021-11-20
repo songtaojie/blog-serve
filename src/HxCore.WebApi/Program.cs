@@ -31,7 +31,8 @@ namespace HxCore.WebApi
                 var host = CreateHostBuilder(args).Build();
                 host.MigrateDbContext<Entity.Context.DefaultContext>((db,_) => 
                 {
-                    if (seed)SeedData.EnsureSeedData(db);
+                    //if (seed)SeedData.EnsureSeedData(db);
+                    SeedData.EnsureSeedData(db);
                 });
                 host.Run();
                 ConsoleHelper.WriteSuccessLine("program success", true);
