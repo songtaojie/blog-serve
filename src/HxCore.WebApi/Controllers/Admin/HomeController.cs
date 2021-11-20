@@ -32,6 +32,15 @@ namespace HxCore.WebApi.Controllers.Admin
             _chatService = chatService;
         }
 
+        /// <summary>
+        ///  获取用户近三十天接口访问情况
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<OperateLogChars> GetLineData2Async()
+        {
+            return await _logService.GetLineDataAsync();
+        }
 
         /// <summary>
         ///  获取用户近三十天接口访问情况
