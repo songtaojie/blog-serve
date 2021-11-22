@@ -98,7 +98,7 @@ namespace HxCore.WebApi
             #endregion
 
             #region CAP
-            //services.AddCapRabbitMQ();
+            if(Configuration.GetValue<bool>("CapRabbitMQSettings:Enabled")) services.AddCapRabbitMQ();
             #endregion
             //#region 原生的依赖注入
             //使用时记得把ConfigureContainer中的Autofac注入去掉,
@@ -141,7 +141,7 @@ namespace HxCore.WebApi
             // 短路中间件，配置Controller路由
             //app.UseConsulService(lifetime);
             app.UseDatabaseAccessor();
-            //app.UseCapRabbitMQ();
+            if(Configuration.GetValue<bool?>("CapRabbitMQSettings:Enabled") == true) app.UseCapRabbitMQ();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -150,7 +150,7 @@ namespace HxCore.WebApi
                 //这里要说下，为啥地址要写 /api/xxx 
                 //因为我前后端分离了，而且使用的是代理模式，所以如果你不用/api/xxx的这个规则的话，会出现跨域问题，
                 //毕竟这个不是我的controller的路由，而且自己定义的路由
-                endpoints.MapHub<ChatHub>("/api/chathub");
+                endpoints.MapHub<ChatHub>("/chathub");
             });
         }
     }
