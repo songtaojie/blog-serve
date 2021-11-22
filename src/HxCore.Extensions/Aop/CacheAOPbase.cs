@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using Hx.Sdk.Common.Extensions;
 using System.Linq;
+using HxCore.Entity;
 
 namespace HxCore.Extensions.Aop
 {
@@ -31,7 +32,7 @@ namespace HxCore.Extensions.Aop
                 var param = GetArgumentValue(arg);
                 if(!string.IsNullOrEmpty(param)) keyList.Add(param);
             }
-            return string.Join(":", keyList);
+            return string.Format("{0}{1}", CacheKeyConfig.BlogKey,string.Join(":", keyList));
         }
 
 

@@ -18,5 +18,10 @@ namespace HxCore.Entity
         /// Permission
         /// </summary>
         public const string AuthRouterKey = ":AUTH:USER_PERMISSION_{0}";
+
+        /// <summary>
+        /// Permission
+        /// </summary>
+        public const string BlogKey = ":Blog";
     }
 }
