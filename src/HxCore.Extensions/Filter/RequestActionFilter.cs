@@ -43,7 +43,7 @@ namespace Microsoft.AspNetCore.Mvc.Filters
            
             var model = new AddOperateLogModel
             {
-                IPAddress = httpContext.GetRemoteIpAddressToIPv4(),
+                IPAddress = httpContext.GetLocalIpAddressToIPv4(),
                 Location = httpRequest.GetRequestUrlAddress(),
                 Success = actionContext.Exception == null, // 判断是否请求成功（没有异常就是请求成功）
                 Agent = agent,

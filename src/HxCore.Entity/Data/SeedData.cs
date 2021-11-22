@@ -247,7 +247,7 @@ namespace HxCore.Entity.Data
                     Name = "菜单管理",
                     MenuType = Enum.T_Menu_Enum.Menu,
                     Icon = "el-icon-menu",
-                    Description = "菜单",
+                    Description = "系统内置，请勿删除",
                     OrderSort = 0
                 };
                 menu.SetCreater(UserId, UserName);
@@ -295,6 +295,21 @@ namespace HxCore.Entity.Data
                     OrderSort = 2
                 };
                 addList.Add(delBtn);
+                //接口管理的菜单
+                var moduleMenu = new T_Menu
+                {
+                    Id = Helper.GetSnowId(),
+                    Code = "module",
+                    Path = "/module",
+                    Component = "/module/index.vue",
+                    Name = "接口管理",
+                    MenuType = Enum.T_Menu_Enum.Menu,
+                    Icon = "el-icon-s-claim",
+                    Description = "系统内置，请勿删除",
+                    OrderSort = 1
+                };
+                menu.SetCreater(UserId, UserName);
+                addList.Add(moduleMenu);
                 menuDb.AddRange(addList);
                 context.SaveChanges();
             }

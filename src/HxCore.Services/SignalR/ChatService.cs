@@ -24,8 +24,8 @@ namespace HxCore.Services.SignalR
         }
 
         //定于一个通讯管道，用来管理我们和客户端的连接
-        //1、客户端调用 GetLatestCount，就像订阅
-        public async Task GetLatestCount(string random)
+        //1、客户端调用 ReceiveUpdate，就像订阅
+        public async Task ReceiveUpdate(string random)
         {
             //2、服务端主动向客户端发送数据，名字千万不能错
             await _hubContext.Clients.All.ReceiveUpdate("测试+" + random);
