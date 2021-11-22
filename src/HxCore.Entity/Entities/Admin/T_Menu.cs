@@ -76,5 +76,10 @@ namespace HxCore.Entity.Entities
         /// 排序
         /// </summary>
         public int OrderSort { get; set; }
+
+        /// <summary>
+        /// 是否是系统内置菜单
+        /// </summary>
+        public bool IsSystem { get; set; }
     }
 }

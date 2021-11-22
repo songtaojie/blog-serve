@@ -200,6 +200,7 @@ namespace HxCore.Entity.Migrations
                     Icon = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
                     Description = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true),
                     OrderSort = table.Column<int>(type: "int", nullable: false),
+                    IsSystem = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     CreateTime = table.Column<DateTime>(type: "datetime", nullable: false),
                     CreaterId = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true),
                     Creater = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true),

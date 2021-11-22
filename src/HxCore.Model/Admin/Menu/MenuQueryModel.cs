@@ -69,6 +69,11 @@ namespace HxCore.Model.Admin.Menu
         public bool IsEnabled { get; set; }
 
         /// <summary>
+        /// 是否是系统内置菜单
+        /// </summary>
+        public bool IsSystem { get; set; }
+
+        /// <summary>
         ///菜单类型；0：目录，1：菜单，2：按钮
         /// </summary>
         public string Type_V => MenuType.GetDescription();

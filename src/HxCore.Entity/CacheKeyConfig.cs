@@ -23,5 +23,10 @@ namespace HxCore.Entity
         /// Permission
         /// </summary>
         public const string BlogKey = ":Blog";
+
+        /// <summary>
+        /// 系统内置数据
+        /// </summary>
+        public const string SystemMenuKey = ":SystemMenu";
     }
 }

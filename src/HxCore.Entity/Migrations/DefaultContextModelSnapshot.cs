@@ -502,6 +502,9 @@ namespace HxCore.Entity.Migrations
                     b.Property<bool>("IsHide")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<bool>("IsSystem")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<bool>("IskeepAlive")
                         .HasColumnType("tinyint(1)");
 

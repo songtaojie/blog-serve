@@ -14,6 +14,7 @@ using HxCore.Model;
 using HxCore.IServices.Admin;
 using HxCore.Model.Admin.Menu;
 using HxCore.Model.Admin.Module;
+using Hx.Sdk.FriendlyException;
 
 namespace HxCore.Services.Admin
 {
@@ -81,6 +82,15 @@ namespace HxCore.Services.Admin
                 await this.Db.Set<T_MenuModule>().AddRangeAsync(addModules);
             }
             return await this.UpdateAsync(entity);
+        }
+
+        public async Task<bool> DeleteMenuAsync(string id)
+        {
+            //判断是否是系统内置菜单
+            var menu =await this.FindAsync(id);
+            if(menu == null) throw new UserFriendlyException("未找到当前数据", ErrorCodeEnum.DataNull);
+            if(menu.IsSystem) throw new UserFriendlyException("无法手动删除该数据，请联系管理员", ErrorCodeEnum.SystemError);
+            return await this.DeleteAsync(menu);
         }
         #endregion
 

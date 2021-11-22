@@ -101,7 +101,7 @@ namespace HxCore.WebApi.Controllers.Admin
         [HttpDelete("{id}")]
         public async Task<bool> Delete(string id)
         {
-            return await _service.DeleteAsync(id);
+            return await _service.DeleteMenuAsync(id);
         }
         #endregion
     }

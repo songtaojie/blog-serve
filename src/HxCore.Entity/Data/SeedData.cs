@@ -241,6 +241,7 @@ namespace HxCore.Entity.Data
                 var menu = new T_Menu
                 {
                     Id = Helper.GetSnowId(),
+                    IsSystem = true,
                     Code= "permission",
                     Path = "/permission",
                     Component = "/permission/index.vue",
@@ -258,6 +259,7 @@ namespace HxCore.Entity.Data
                 {
                     Id = Helper.GetSnowId(),
                     Code = "permission_add",
+                    IsSystem = true,
                     Path = "-",
                     Component = "-",
                     Name = "添加",
@@ -272,6 +274,7 @@ namespace HxCore.Entity.Data
                 {
                     Id = Helper.GetSnowId(),
                     Code = "permission_edit",
+                    IsSystem = true,
                     Path = "-",
                     Component = "-",
                     Name = "编辑",
@@ -286,6 +289,7 @@ namespace HxCore.Entity.Data
                 {
                     Id = Helper.GetSnowId(),
                     Code = "permission_del",
+                    IsSystem = true,
                     Path = "-",
                     Component = "-",
                     Name = "删除",
@@ -300,6 +304,7 @@ namespace HxCore.Entity.Data
                 {
                     Id = Helper.GetSnowId(),
                     Code = "module",
+                    IsSystem = true,
                     Path = "/module",
                     Component = "/module/index.vue",
                     Name = "接口管理",

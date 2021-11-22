@@ -76,6 +76,13 @@ namespace HxCore.IServices
         /// <param name="id">要删除的主键</param>
         /// <returns></returns>
         Task<bool> DeleteAsync(string id);
+
+        /// <summary>
+        /// 根据实体删除数据
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        Task<bool> DeleteAsync(T entity);
         #endregion
     }
 }

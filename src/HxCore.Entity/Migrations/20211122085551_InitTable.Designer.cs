@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HxCore.Entity.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    [Migration("20211120125838_InitTable")]
+    [Migration("20211122085551_InitTable")]
     partial class InitTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -502,6 +502,9 @@ namespace HxCore.Entity.Migrations
                         .HasColumnType("varchar(100)");
 
                     b.Property<bool>("IsHide")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsSystem")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IskeepAlive")

@@ -151,6 +151,17 @@ namespace HxCore.Services.Internal
             await this.Repository.DeleteAsync(id);
             return await this.Repository.SaveNowAsync() > 0;
         }
+
+        /// <summary>
+        /// 删除某个实体
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteAsync(T entity)
+        {
+            await this.Repository.DeleteAsync(entity);
+            return await this.Repository.SaveNowAsync() > 0;
+        }
         #endregion 
     }
 }
