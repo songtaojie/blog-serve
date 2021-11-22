@@ -1,5 +1,6 @@
 ﻿{
   "SwaggerSettings": {
+    "EnabledMiniProfiler": true,
     "DocumentTitle": "Swagger Document",
     "GroupOpenApiInfos": [
       {
