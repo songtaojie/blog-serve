@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace HxCore.Extensions.Document
+namespace HxCore.WebApi.Document
 {
     /// <summary>
     /// 控制器注释文档model

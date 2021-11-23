@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Hx.Sdk.Extensions;
 using Hx.Sdk.Common.Extensions;
 using Hx.Sdk.FriendlyException;
-using HxCore.Entity.Enum;
+using HxCore.Enums;
 using Hx.Sdk.Entity.Page;
 using HxCore.Entity;
 using System.Linq;

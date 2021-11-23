@@ -16,10 +16,16 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    /// <summary>
+    /// Authentication扩展程序
+    /// </summary>
     public static class AuthenticationServiceCollectionExtensions
     {
 
-
+        /// <summary>
+        /// 添加Authentication
+        /// </summary>
+        /// <param name="services"></param>
         public static void AddAuthenticationSetup(this IServiceCollection services)
         {
             if (App.Settings.UseIdentityServer4 == true)
@@ -173,7 +179,11 @@ namespace Microsoft.Extensions.DependencyInjection
             })
             .AddScheme<AuthenticationSchemeOptions, MyJwtBearerHandler>(nameof(MyJwtBearerHandler), o => { });
         }
-
+        /// <summary>
+        /// 认证失败时
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public static async Task AuthenticationFailed(AuthenticationFailedContext context)
         {
             JwtSettings jwtSetting = AppSettings.GetConfig<JwtSettings>("JwtSettings");

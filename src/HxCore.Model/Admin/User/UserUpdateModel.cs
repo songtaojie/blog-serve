@@ -2,7 +2,7 @@
 using Hx.Sdk.FriendlyException;
 using HxCore.Entity;
 using HxCore.Entity.Entities;
-using HxCore.Entity.Enum;
+using HxCore.Enums;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -13,7 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Hx.Sdk.FriendlyException;
-using HxCore.Entity.Enum;
+using HxCore.Enums;
 
 namespace HxCore.Services.Admin
 {

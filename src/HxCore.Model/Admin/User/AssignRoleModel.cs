@@ -1,5 +1,5 @@
 ﻿using Hx.Sdk.FriendlyException;
-using HxCore.Entity.Enum;
+using HxCore.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

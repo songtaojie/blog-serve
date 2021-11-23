@@ -12,8 +12,11 @@ using System.Reflection;
 using System.Text;
 using System.Xml.XPath;
 
-namespace HxCore.Extensions.Document
+namespace HxCore.WebApi.Document
 {
+    /// <summary>
+    /// 注释帮助类
+    /// </summary>
     public class DocumentHelper
     {
         private const string MemberXPath = "/doc/members/member[@name='{0}']";

@@ -16,10 +16,21 @@ namespace HxCore.Extensions.Authentication
     public class MyJwtSecurityTokenHandler : JwtSecurityTokenHandler
     {
         private IRedisCache _redisCache;
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="redisCache"></param>
         public MyJwtSecurityTokenHandler(IRedisCache redisCache)
         {
             _redisCache = redisCache;
         }
+        /// <summary>
+        /// 验证过期处理
+        /// </summary>
+        /// <param name="notBefore"></param>
+        /// <param name="expires"></param>
+        /// <param name="jwtToken"></param>
+        /// <param name="validationParameters"></param>
         protected override void ValidateLifetime(DateTime? notBefore, DateTime? expires, JwtSecurityToken jwtToken, TokenValidationParameters validationParameters)
         {
             try

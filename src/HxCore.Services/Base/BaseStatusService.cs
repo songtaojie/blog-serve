@@ -4,7 +4,7 @@ using Hx.Sdk.DatabaseAccessor;
 using Hx.Sdk.DependencyInjection;
 using Hx.Sdk.FriendlyException;
 using HxCore.Entity;
-using HxCore.Entity.Enum;
+using HxCore.Enums;
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;

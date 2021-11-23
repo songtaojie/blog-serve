@@ -8,6 +8,6 @@
     "EnabledMiniProfiler": true,
     "PrintDbConnectionInfo": true,
     "EnabledSqlLog": true,
-    "MigrationAssemblyName": "HxCore.Entity"
+    "MigrationAssemblyName": "HxCore.Extras.EntityFrameworkCore"
   }
 }

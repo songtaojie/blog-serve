@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <PackageReference Include="Hx.Sdk.ImageSharp" Version="5.0.0" />
+    <PackageReference Include="Hx.Sdk.Swagger" Version="5.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.9">
       <PrivateAssets>all</PrivateAssets>
@@ -38,6 +39,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HxCore.Extensions\HxCore.Extensions.csproj" />
     <ProjectReference Include="..\HxCore.Extras.EntityFrameworkCore\HxCore.Extras.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\HxCore.Services\HxCore.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

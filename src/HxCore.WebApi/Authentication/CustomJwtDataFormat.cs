@@ -15,13 +15,28 @@ namespace HxCore.Extensions.Authentication
     {
         private readonly string algorithm;
         private readonly TokenValidationParameters validationParameters;
+        /// <summary>
+        /// 自定义类型
+        /// </summary>
+        /// <param name="algorithm"></param>
+        /// <param name="validationParameters"></param>
         public CustomJwtDataFormat(string algorithm, TokenValidationParameters validationParameters)
         {
             this.algorithm = algorithm;
             this.validationParameters = validationParameters;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="protectedText"></param>
+        /// <returns></returns>
         public AuthenticationTicket Unprotect(string protectedText) => Unprotect(protectedText, null);
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="protectedText"></param>
+        /// <param name="purpose"></param>
+        /// <returns></returns>
         public AuthenticationTicket Unprotect(string protectedText, string purpose)
         {
             var handler = new JwtSecurityTokenHandler();
@@ -59,12 +74,21 @@ namespace HxCore.Extensions.Authentication
             return new AuthenticationTicket(principal, new Microsoft.AspNetCore.Authentication.AuthenticationProperties(), "Cookie");
         }
 
-        // This ISecureDataFormat implementation is decode-only
+        /// <summary>
+        /// This ISecureDataFormat implementation is decode-only
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public string Protect(AuthenticationTicket data)
         {
             throw new NotImplementedException();
         }
-
+        /// <summary>
+        /// This ISecureDataFormat implementation is decode-only
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="purpose"></param>
+        /// <returns></returns>
         public string Protect(AuthenticationTicket data, string purpose)
         {
             throw new NotImplementedException();

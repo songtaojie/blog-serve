@@ -1,6 +1,4 @@
 ﻿using Hx.Sdk.Entity.Page;
-using HxCore.Extensions.Common;
-using HxCore.Extensions.Document;
 using HxCore.IServices.Admin;
 using HxCore.Model.Admin.Module;
 using HxCore.WebApi.Controllers.Base;

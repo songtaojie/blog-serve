@@ -37,6 +37,9 @@ namespace HxCore.Extensions.Authentication
             get;set;
         }
 
+        /// <summary>
+        /// 允许的路由
+        /// </summary>
         public List<string> AllowRoutes { get; set; }
     }
     /// <summary>

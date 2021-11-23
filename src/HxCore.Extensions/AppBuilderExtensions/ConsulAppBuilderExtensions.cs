@@ -1,6 +1,6 @@
 ﻿using Consul;
 using Hx.Sdk.Core;
-using HxCore.Entity.Options;
+using HxCore.Options;
 using Microsoft.Extensions.Hosting;
 using System;
 

@@ -22,12 +22,26 @@ using System.Threading.Tasks;
 
 namespace HxCore.Extensions.Authentication
 {
+    /// <summary>
+    /// jwt处理程序
+    /// </summary>
     public class MyJwtBearerHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="logger"></param>
+        /// <param name="encoder"></param>
+        /// <param name="clock"></param>
         public MyJwtBearerHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) 
             : base(options, logger, encoder, clock)
         {
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             throw new NotImplementedException();
@@ -44,7 +58,7 @@ namespace HxCore.Extensions.Authentication
             Response.ContentType = "application/json";
             Response.StatusCode = StatusCodes.Status200OK;
             base.Response.Headers.Append(HeaderNames.WWWAuthenticate, nameof(MyJwtBearerHandler));
-            Newtonsoft.Json.JsonSerializerSettings setting = new Newtonsoft.Json.JsonSerializerSettings()
+            JsonSerializerSettings setting = new JsonSerializerSettings()
             {
                 ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
             };
@@ -59,6 +73,11 @@ namespace HxCore.Extensions.Authentication
             }, setting));
         }
 
+        /// <summary>
+        /// 处理重定向
+        /// </summary>
+        /// <param name="properties"></param>
+        /// <returns></returns>
         protected override async Task HandleForbiddenAsync(AuthenticationProperties properties)
         {
             base.Response.ContentType = "application/json";

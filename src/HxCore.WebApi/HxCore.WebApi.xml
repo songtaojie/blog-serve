@@ -4,6 +4,329 @@
         <name>HxCore.WebApi</name>
     </assembly>
     <members>
+        <member name="T:HxCore.Extensions.Authentication.CustomJwtDataFormat">
+            <summary>
+            validate jwt in cookie
+            </summary>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.CustomJwtDataFormat.#ctor(System.String,Microsoft.IdentityModel.Tokens.TokenValidationParameters)">
+            <summary>
+            自定义类型
+            </summary>
+            <param name="algorithm"></param>
+            <param name="validationParameters"></param>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.CustomJwtDataFormat.Unprotect(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="protectedText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.CustomJwtDataFormat.Unprotect(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="protectedText"></param>
+            <param name="purpose"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.CustomJwtDataFormat.Protect(Microsoft.AspNetCore.Authentication.AuthenticationTicket)">
+            <summary>
+            This ISecureDataFormat implementation is decode-only
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.CustomJwtDataFormat.Protect(Microsoft.AspNetCore.Authentication.AuthenticationTicket,System.String)">
+            <summary>
+            This ISecureDataFormat implementation is decode-only
+            </summary>
+            <param name="data"></param>
+            <param name="purpose"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HxCore.Extensions.Authentication.JwtHelper">
+            <summary>
+            jwt的帮助类
+            </summary>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.JwtHelper.BuildJwtToken(HxCore.Extensions.Authentication.JwtModel)">
+            <summary>
+            获取基于JWT的Token
+            </summary>
+            <param name="model">模型</param>
+            <returns></returns>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.JwtHelper.SerializeJwt(System.String)">
+            <summary>
+            序列化jwt字符串
+            </summary>
+            <param name="jwtStr">jwt字符串</param>
+            <returns>序列化后的jwt实体类</returns>
+        </member>
+        <member name="T:HxCore.Extensions.Authentication.JwtSettings">
+            <summary>
+            jwt的配置
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.JwtSettings.Issuer">
+            <summary>
+            谁颁发的jwt
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.JwtSettings.Audience">
+            <summary>
+            谁使用这个jwt
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.JwtSettings.SecretKey">
+            <summary>
+            secret是保存在服务器端的，jwt的前发声明也是在服务器端的，secret就是用来进行jwt的
+            签发和jwt的验证，所以他就是你服务器端的私钥，在任何场景都不应该流露出去。
+            一旦客户端得知这个secret, 那就意味着客户端是可以自我签发jwt了
+            通过jwt header中声明的加密方式进行加盐secret组合加密，然后就构成了jwt的第三部分
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.JwtSettings.AllowRoutes">
+            <summary>
+            允许的路由
+            </summary>
+        </member>
+        <member name="T:HxCore.Extensions.Authentication.JwtModel">
+            <summary>
+            jwt的模型
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.JwtModel.UserId">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.JwtModel.UserName">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.JwtModel.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.JwtModel.IsSuperAdmin">
+             <summary>
+            是否是管理员
+             </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.JwtModel.Role">
+            <summary>
+            角色Code
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.JwtModel.RoleId">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.JwtModel.Expiration">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="T:HxCore.Extensions.Authentication.JwtToken">
+            <summary>
+            JwtToken
+            </summary>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.JwtToken.BuildJwtToken(System.Collections.Generic.List{System.Security.Claims.Claim},HxCore.Extensions.Authentication.PermissionRequirement)">
+            <summary>
+            获取基于JWT的Token
+            </summary>
+            <param name="claims">需要在登陆的时候配置</param>
+            <param name="model">在startup中定义的参数</param>
+            <returns></returns>
+        </member>
+        <member name="T:HxCore.Extensions.Authentication.MyJwtBearerHandler">
+            <summary>
+            jwt处理程序
+            </summary>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.MyJwtBearerHandler.#ctor(Microsoft.Extensions.Options.IOptionsMonitor{Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions},Microsoft.Extensions.Logging.ILoggerFactory,System.Text.Encodings.Web.UrlEncoder,Microsoft.AspNetCore.Authentication.ISystemClock)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="options"></param>
+            <param name="logger"></param>
+            <param name="encoder"></param>
+            <param name="clock"></param>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.MyJwtBearerHandler.HandleAuthenticateAsync">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.MyJwtBearerHandler.HandleChallengeAsync(Microsoft.AspNetCore.Authentication.AuthenticationProperties)">
+            <summary>
+            如果有问题的身份验证方案将身份验证交互作为其请求流的一部分来处理，则重写此方法以处理401个挑战问题。
+            (比如添加一个响应标头，或者将登录页面或外部登录位置的401结果更改为302。)
+            </summary>
+            <param name="properties"></param>
+            <returns></returns>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.MyJwtBearerHandler.HandleForbiddenAsync(Microsoft.AspNetCore.Authentication.AuthenticationProperties)">
+            <summary>
+            处理重定向
+            </summary>
+            <param name="properties"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HxCore.Extensions.Authentication.MyJwtSecurityTokenHandler">
+            <summary>
+            token处理
+            </summary>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.MyJwtSecurityTokenHandler.#ctor(Hx.Sdk.Cache.IRedisCache)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="redisCache"></param>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.MyJwtSecurityTokenHandler.ValidateLifetime(System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.IdentityModel.Tokens.Jwt.JwtSecurityToken,Microsoft.IdentityModel.Tokens.TokenValidationParameters)">
+            <summary>
+            验证过期处理
+            </summary>
+            <param name="notBefore"></param>
+            <param name="expires"></param>
+            <param name="jwtToken"></param>
+            <param name="validationParameters"></param>
+        </member>
+        <member name="T:HxCore.Extensions.Authentication.PermissionHandler">
+            <summary>
+            权限授权处理器
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.PermissionHandler.Schemes">
+            <summary>
+            验证方案提供对象
+            </summary>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.PermissionHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider)">
+            <summary>
+            构造函数注入
+            </summary>
+            <param name="schemes"></param>
+            <param name="userContext"></param>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.PermissionHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,HxCore.Extensions.Authentication.PermissionRequirement)">
+            <summary>
+            // 重载异步处理程序
+            </summary>
+            <param name="context">上下文</param>
+            <param name="requirement">对象</param>
+            <returns></returns>
+        </member>
+        <member name="T:HxCore.Extensions.Authentication.PermissionRequirement">
+            <summary>
+            必要参数类，类似一个订单信息
+            继承 IAuthorizationRequirement，用于设计自定义权限处理器PermissionHandler
+            因为AuthorizationHandler 中的泛型参数 TRequirement 必须继承 IAuthorizationRequirement
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.PermissionRequirement.Roles">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.PermissionRequirement.DeniedAction">
+            <summary>
+            无权限action
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.PermissionRequirement.ClaimType">
+            <summary>
+            认证授权类型
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.PermissionRequirement.LoginPath">
+            <summary>
+            请求路径
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.PermissionRequirement.Issuer">
+            <summary>
+            发行人
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.PermissionRequirement.Audience">
+            <summary>
+            订阅人
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.PermissionRequirement.Expiration">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="P:HxCore.Extensions.Authentication.PermissionRequirement.SigningCredentials">
+            <summary>
+            签名验证
+            </summary>
+        </member>
+        <member name="M:HxCore.Extensions.Authentication.PermissionRequirement.#ctor(System.String,System.String,System.String,System.String,Microsoft.IdentityModel.Tokens.SigningCredentials,System.TimeSpan)">
+            <summary>
+            构造
+            </summary>
+            <param name="deniedAction">拒约请求的url</param>
+            <param name="claimType">声明类型</param>
+            <param name="issuer">发行人</param>
+            <param name="audience">订阅人</param>
+            <param name="signingCredentials">签名验证实体</param>
+            <param name="expiration">过期时间</param>
+        </member>
+        <member name="T:HxCore.Extensions.Middlewares.JwtTokenAuth">
+            <summary>
+            jwt中间件
+            </summary>
+        </member>
+        <member name="M:HxCore.Extensions.Middlewares.JwtTokenAuth.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="next">下一个管道</param>
+        </member>
+        <member name="M:HxCore.Extensions.Middlewares.JwtTokenAuth.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            执行
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HxCore.Extensions.Middlewares.MiddleWareExtension">
+            <summary>
+            中间件扩展
+            </summary>
+        </member>
+        <member name="M:HxCore.Extensions.Middlewares.MiddleWareExtension.UseJwtTokenAuth(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            使用jwt授权
+            </summary>
+            <param name="app"></param>
+        </member>
+        <member name="M:HxCore.Extensions.Middlewares.MiddleWareExtension.AddGlobalRoutePrefix(Microsoft.AspNetCore.Mvc.MvcOptions,Microsoft.AspNetCore.Mvc.Routing.IRouteTemplateProvider)">
+            <summary>
+            使用全局路由前缀设置
+            </summary>
+            <param name="opts"></param>
+            <param name="routeAttribute"></param>
+        </member>
+        <member name="M:HxCore.Extensions.Middlewares.MiddleWareExtension.AddFilters(Microsoft.AspNetCore.Mvc.MvcOptions,System.Type[])">
+            <summary>
+            使用过滤器
+            </summary>
+            <param name="opts"></param>
+            <param name="types"></param>
+        </member>
         <member name="T:HxCore.WebApi.Controllers.Admin.BlogManageController">
             <summary>
             后台管理博客管理
@@ -562,6 +885,69 @@
             </summary>
             <param name="eventBus"></param>
         </member>
+        <member name="T:HxCore.WebApi.Document.DocumentHelper">
+            <summary>
+            注释帮助类
+            </summary>
+        </member>
+        <member name="M:HxCore.WebApi.Document.DocumentHelper.GetActionDescription(System.String,Microsoft.AspNetCore.Mvc.Infrastructure.IActionDescriptorCollectionProvider)">
+            <summary>
+            获取控制器action的信息
+            </summary>
+            <param name="path"></param>
+            <param name="actionDescriptor"></param>
+            <returns></returns>
+        </member>
+        <member name="T:HxCore.WebApi.Document.DocumentModel">
+            <summary>
+            控制器注释文档model
+            </summary>
+        </member>
+        <member name="P:HxCore.WebApi.Document.DocumentModel.ActionId">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:HxCore.WebApi.Document.DocumentModel.ControllerName">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:HxCore.WebApi.Document.DocumentModel.ActionName">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:HxCore.WebApi.Document.DocumentModel.ActionFullName">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:HxCore.WebApi.Document.DocumentModel.MethodInfo">
+            <summary>
+            action类型
+            </summary>
+        </member>
+        <member name="P:HxCore.WebApi.Document.DocumentModel.RouteTemplate">
+            <summary>
+            路由模板
+            </summary>
+        </member>
+        <member name="P:HxCore.WebApi.Document.DocumentModel.DisplayName">
+            <summary>
+            显示名称
+            </summary>
+        </member>
+        <member name="P:HxCore.WebApi.Document.DocumentModel.Summary">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:HxCore.WebApi.Document.DocumentModel.HttpMethod">
+            <summary>
+            请求方式
+            </summary>
+        </member>
         <member name="T:HxCore.WebApi.Program">
             <summary>
             主程序
@@ -604,6 +990,149 @@
             </summary>
             <param name="app"></param>
             <param name="lifetime"></param>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authorization.AuthorizationHandlerContextExtensions">
+            <summary>
+            授权处理上下文拓展类
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authorization.AuthorizationHandlerContextExtensions.GetCurrentHttpContext(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext)">
+            <summary>
+            获取当前 HttpContext 上下文
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authorization.RouteAuthorizationHandler">
+            <summary>
+            权限授权处理器
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authorization.RouteAuthorizationHandler.Schemes">
+            <summary>
+            验证方案提供对象
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authorization.RouteAuthorizationHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,Hx.Sdk.Core.IUserContext,HxCore.IServices.Admin.IPermissionService)">
+            <summary>
+            构造函数注入
+            </summary>
+            <param name="schemes"></param>
+            <param name="userContext"></param>
+            <param name="service"></param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authorization.RouteAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,Microsoft.AspNetCore.Authorization.Infrastructure.RouteAuthorizationRequirement)">
+            <summary>
+            重写异步处理程序
+            </summary>
+            <param name="context"></param>
+            <param name="requirement"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authorization.RouteAuthorizationHandler.FixRoute(System.String)">
+            <summary>
+            修复路由
+            </summary>
+            <param name="route"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Authorization.Infrastructure.RouteAuthorizationRequirement">
+            <summary>
+            路由相关的授权策略
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authorization.Infrastructure.RouteAuthorizationRequirement.ClaimType">
+            <summary>
+            认证授权类型
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authorization.Infrastructure.RouteAuthorizationRequirement.Issuer">
+            <summary>
+            发行人
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authorization.Infrastructure.RouteAuthorizationRequirement.Audience">
+            <summary>
+            订阅人
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authorization.Infrastructure.RouteAuthorizationRequirement.Expiration">
+            <summary>
+            过期时间
+            </summary>
+        </member>
+        <member name="P:Microsoft.AspNetCore.Authorization.Infrastructure.RouteAuthorizationRequirement.SigningCredentials">
+            <summary>
+            签名验证
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Authorization.Infrastructure.RouteAuthorizationRequirement.#ctor(System.String,System.String,System.String,Microsoft.IdentityModel.Tokens.SigningCredentials,System.TimeSpan)">
+            <summary>
+            构造
+            </summary>
+            <param name="permissions">权限集合</param>
+            <param name="claimType">声明类型</param>
+            <param name="issuer">发行人</param>
+            <param name="audience">订阅人</param>
+            <param name="signingCredentials">签名验证实体</param>
+            <param name="expiration">过期时间</param>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.AuthenticationServiceCollectionExtensions">
+            <summary>
+            Authentication扩展程序
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AuthenticationServiceCollectionExtensions.AddAuthenticationSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加Authentication
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AuthenticationServiceCollectionExtensions.AddIds4Authentication(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加IdentityServer4认证 
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AuthenticationServiceCollectionExtensions.AddJwtAuthentication(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加jwt的授权认证方案
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AuthenticationServiceCollectionExtensions.AuthenticationFailed(Microsoft.AspNetCore.Authentication.JwtBearer.AuthenticationFailedContext)">
+            <summary>
+            认证失败时
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AuthenticationServiceCollectionExtensions.TokenValidated(Microsoft.AspNetCore.Authentication.JwtBearer.TokenValidatedContext)">
+            <summary>
+            验证token时的事件
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.AuthorizationServiceCollectionExtensions">
+            <summary>
+            权限启动服务注册
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.AuthorizationServiceCollectionExtensions.AddAuthoriationSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加权限
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Microsoft.Extensions.Hosting.IHostServiceCollectionExtensions.MigrateDbContext``1(Microsoft.Extensions.Hosting.IHost,System.Action{``0,System.IServiceProvider})">
+            <summary>
+            数据库迁移文件执行
+            </summary>
+            <typeparam name="TContext"></typeparam>
+            <param name="webHost"></param>
+            <param name="seeder"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>

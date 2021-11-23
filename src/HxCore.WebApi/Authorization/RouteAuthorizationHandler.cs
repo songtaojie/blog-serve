@@ -32,8 +32,8 @@ namespace Microsoft.AspNetCore.Authorization
         /// 构造函数注入
         /// </summary>
         /// <param name="schemes"></param>
-        /// <param name="roleService"></param>
-        /// <param name="accessor"></param>
+        /// <param name="userContext"></param>
+        /// <param name="service"></param>
         public RouteAuthorizationHandler(IAuthenticationSchemeProvider schemes, IUserContext userContext, IPermissionService service)
         {
             Schemes = schemes;
@@ -41,7 +41,12 @@ namespace Microsoft.AspNetCore.Authorization
             _service = service;
         }
 
-        // 重写异步处理程序
+        /// <summary>
+        /// 重写异步处理程序
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="requirement"></param>
+        /// <returns></returns>
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, RouteAuthorizationRequirement requirement)
         {
             var httpContext = _userContext.HttpContext;
@@ -141,7 +146,7 @@ namespace Microsoft.AspNetCore.Authorization
         /// </summary>
         /// <param name="route"></param>
         /// <returns></returns>
-        private string FixRoute(string route)
+        private static string FixRoute(string route)
         {
             if (string.IsNullOrEmpty(route)) return string.Empty;
             if (route.StartsWith("/")) return route[1..];

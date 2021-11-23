@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using Hx.Sdk.FriendlyException;
-using HxCore.Entity.Enum;
+using HxCore.Enums;
 using Hx.Sdk.Common.Helper;
 using System.Linq;
 using HxCore.Entity;

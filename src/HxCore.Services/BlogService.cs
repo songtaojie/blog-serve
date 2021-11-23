@@ -16,7 +16,7 @@ using Hx.Sdk.Extensions;
 using Hx.Sdk.Attributes;
 using Hx.Sdk.Core;
 using Hx.Sdk.FriendlyException;
-using HxCore.Entity.Enum;
+using HxCore.Enums;
 
 namespace HxCore.Services
 {

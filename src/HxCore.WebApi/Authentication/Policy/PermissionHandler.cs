@@ -23,7 +23,6 @@ namespace HxCore.Extensions.Authentication
         /// 构造函数注入
         /// </summary>
         /// <param name="schemes"></param>
-        /// <param name="userContext"></param>
         public PermissionHandler(IAuthenticationSchemeProvider schemes)
         {
             Schemes = schemes;

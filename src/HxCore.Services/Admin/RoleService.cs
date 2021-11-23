@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using HxCore.IServices.Admin;
 using Hx.Sdk.FriendlyException;
-using HxCore.Entity.Enum;
+using HxCore.Enums;
 
 namespace HxCore.Services.Admin
 {

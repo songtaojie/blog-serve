@@ -1,5 +1,5 @@
 ﻿using HxCore.Entity.Entities;
-using HxCore.Entity.Enum;
+using HxCore.Enums;
 using Hx.Sdk.FriendlyException;
 using HxCore.Entity;
 using Hx.Sdk.DatabaseAccessor;

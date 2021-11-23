@@ -8,6 +8,9 @@ using System.Text;
 
 namespace Microsoft.Extensions.Hosting
 {
+    /// <summary>
+    /// IHost扩展
+    /// </summary>
     public static class IHostServiceCollectionExtensions
     {
         /// <summary>
