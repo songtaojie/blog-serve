@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Hx.Sdk.DatabaseAccessor;
 
-namespace HxCore.Entity.Context
+namespace HxCore.Extras.EntityFrameworkCore
 {
     /// <summary>
     /// 数据库上下文

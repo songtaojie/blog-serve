@@ -37,6 +37,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HxCore.Extensions\HxCore.Extensions.csproj" />
+    <ProjectReference Include="..\HxCore.Extras.EntityFrameworkCore\HxCore.Extras.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

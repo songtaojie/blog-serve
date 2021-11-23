@@ -1,11 +1,5 @@
-﻿using Hx.Sdk.Common.Helper;
-using Hx.Sdk.DatabaseAccessor;
-using HxCore.Entity.Enum;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using HxCore.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HxCore.Entity.Entities
 {

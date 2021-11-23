@@ -1,6 +1,6 @@
 ﻿using Hx.Sdk.DatabaseAccessor;
 using HxCore.Entity.Entities;
-using HxCore.Entity.Enum;
+using HxCore.Enums;
 using HxCore.Model.Admin.Module;
 using System.Collections.Generic;
 

@@ -55,11 +55,7 @@ namespace HxCore.WebApi
 
             #region 数据库链接，上下文
             ConsoleHelper.WriteInfoLine(Configuration.GetConnectionString("MySqlConnectionString"));
-            services.AddDatabaseAccessor(service =>
-            {
-                service.AddDbPool<Entity.Context.DefaultContext>();
-                service.AddDbPool<Entity.Context.IdsDbContext, Entity.Context.IdsDbContextLocator>();
-            });
+           
             #endregion
 
             #region MVC，路由配置

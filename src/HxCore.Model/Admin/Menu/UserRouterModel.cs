@@ -49,7 +49,7 @@ namespace HxCore.Model.Admin.Menu
         /// <summary>
         ///菜单类型；0：目录，1：菜单，2：按钮
         /// </summary>
-        public Entity.Enum.T_Menu_Enum MenuType { get; set; }
+        public Enums.T_Menu_Enum MenuType { get; set; }
 
         /// <summary>
         /// 是否隐藏路由，当设置 true 的时候该路由不会再侧边栏出现

@@ -1,7 +1,7 @@
-﻿using HxCore.Entity.Enum;
-using Hx.Sdk.Extensions;
+﻿using Hx.Sdk.Extensions;
 using HxCore.Entity.Entities;
 using Hx.Sdk.DatabaseAccessor;
+using HxCore.Enums;
 
 namespace HxCore.Model.Admin.Menu
 {

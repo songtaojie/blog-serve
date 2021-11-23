@@ -1,11 +1,8 @@
 ﻿using Hx.Sdk.DatabaseAccessor;
-using HxCore.Entity.Context;
 using Microsoft.AspNetCore.Identity;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace HxCore.Entity.Entities.Ids4
 {

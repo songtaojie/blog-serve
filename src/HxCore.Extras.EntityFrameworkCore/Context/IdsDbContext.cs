@@ -1,7 +1,7 @@
 ﻿using Hx.Sdk.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 
-namespace HxCore.Entity.Context
+namespace HxCore.Extras.EntityFrameworkCore
 {
     /// <summary>
     /// IdentityServer4库数据库上下文

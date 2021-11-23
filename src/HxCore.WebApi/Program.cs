@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Hx.Sdk.Core;
-using HxCore.Entity.Data;
+using HxCore.Extras.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -29,7 +29,7 @@ namespace HxCore.WebApi
                     args = args.Except(new[] { "/seed" }).ToArray();
                 }
                 var host = CreateHostBuilder(args).Build();
-                host.MigrateDbContext<Entity.Context.DefaultContext>((db,_) => 
+                host.MigrateDbContext<DefaultContext>((db,_) => 
                 {
                     //if (seed)SeedData.EnsureSeedData(db);
                     SeedData.EnsureSeedData(db);

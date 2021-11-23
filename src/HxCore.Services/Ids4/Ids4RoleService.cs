@@ -1,10 +1,6 @@
 ﻿using Hx.Sdk.DatabaseAccessor;
-using HxCore.Entity.Context;
-using HxCore.Entity.Entities;
 using HxCore.IServices.Ids4;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using HxCore.Entity;

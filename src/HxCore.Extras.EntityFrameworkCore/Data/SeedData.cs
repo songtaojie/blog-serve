@@ -1,13 +1,15 @@
 ﻿using Hx.Sdk.Common.Extensions;
 using Hx.Sdk.Common.Helper;
+using HxCore.Entity;
 using HxCore.Entity.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using HxCore.Enums;
 
-namespace HxCore.Entity.Data
+namespace HxCore.Extras.EntityFrameworkCore
 {
     /// <summary>
     /// 种子
@@ -30,7 +32,7 @@ namespace HxCore.Entity.Data
             ConsoleHelper.WriteSuccessLine("Seeding database...");
             using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                var context = scope.ServiceProvider.GetRequiredService<Context.DefaultContext>();
+                var context = scope.ServiceProvider.GetRequiredService<DefaultContext>();
                 ConsoleHelper.WriteInfoLine($"数据库连接：{context.Database.GetDbConnection().ConnectionString}");
                 context.Database.Migrate();
                 EnsureAllSeedData(context);
@@ -246,7 +248,7 @@ namespace HxCore.Entity.Data
                     Path = "/permission",
                     Component = "/permission/index.vue",
                     Name = "菜单管理",
-                    MenuType = Enum.T_Menu_Enum.Menu,
+                    MenuType = T_Menu_Enum.Menu,
                     Icon = "el-icon-menu",
                     Description = "系统内置，请勿删除",
                     OrderSort = 0
@@ -264,7 +266,7 @@ namespace HxCore.Entity.Data
                     Component = "-",
                     Name = "添加",
                     ParentId = menu.Id,
-                    MenuType = Enum.T_Menu_Enum.Button,
+                    MenuType = T_Menu_Enum.Button,
                     Description = "添加菜单的按钮",
                     OrderSort = 0
                 };
@@ -279,7 +281,7 @@ namespace HxCore.Entity.Data
                     Component = "-",
                     Name = "编辑",
                     ParentId = menu.Id,
-                    MenuType = Enum.T_Menu_Enum.Button,
+                    MenuType = T_Menu_Enum.Button,
                     Description = "编辑菜单的按钮",
                     OrderSort = 1
                 };
@@ -294,7 +296,7 @@ namespace HxCore.Entity.Data
                     Component = "-",
                     Name = "删除",
                     ParentId = menu.Id,
-                    MenuType = Enum.T_Menu_Enum.Button,
+                    MenuType = T_Menu_Enum.Button,
                     Description = "删除菜单的按钮",
                     OrderSort = 2
                 };
@@ -308,7 +310,7 @@ namespace HxCore.Entity.Data
                     Path = "/module",
                     Component = "/module/index.vue",
                     Name = "接口管理",
-                    MenuType = Enum.T_Menu_Enum.Menu,
+                    MenuType = T_Menu_Enum.Menu,
                     Icon = "el-icon-s-claim",
                     Description = "系统内置，请勿删除",
                     OrderSort = 1

@@ -1,6 +1,6 @@
 ﻿using Hx.Sdk.DatabaseAccessor;
 using HxCore.Entity.Entities;
-using HxCore.Entity.Enum;
+using HxCore.Enums;
 using System.Collections.Generic;
 
 namespace HxCore.Model.Admin.Menu

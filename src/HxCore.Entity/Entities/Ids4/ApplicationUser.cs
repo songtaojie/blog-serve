@@ -1,5 +1,4 @@
 ﻿using Hx.Sdk.DatabaseAccessor;
-using HxCore.Entity.Context;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.ComponentModel.DataAnnotations;
