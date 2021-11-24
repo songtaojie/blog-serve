@@ -13,10 +13,6 @@ namespace HxCore.Extras.SqlSugar.Repositories
     /// </summary>
     public partial class SqlSugarRepository : ISqlSugarRepository
     {
-        /// <summary>
-        /// 服务提供器
-        /// </summary>
-        private readonly IServiceProvider _serviceProvider;
 
         /// <summary>
         /// 构造函数
@@ -25,7 +21,8 @@ namespace HxCore.Extras.SqlSugar.Repositories
         /// <param name="db"></param>
         public SqlSugarRepository(IServiceProvider serviceProvider, ISqlSugarClient db)
         {
-            _serviceProvider = serviceProvider;
+            ServiceProvider = serviceProvider;
+            Context = db as SqlSugarClient;
             Ado = db.Ado;
         }
 
@@ -40,6 +37,11 @@ namespace HxCore.Extras.SqlSugar.Repositories
         public virtual IAdo Ado { get; }
 
         /// <summary>
+        /// 服务提供器
+        /// </summary>
+        public virtual IServiceProvider ServiceProvider { get; }
+
+        /// <summary>
         /// 切换仓储
         /// </summary>
         /// <typeparam name="TEntity">实体类型</typeparam>
@@ -47,7 +49,7 @@ namespace HxCore.Extras.SqlSugar.Repositories
         public virtual ISqlSugarRepository<TEntity> Change<TEntity>()
             where TEntity : class, new()
         {
-            return _serviceProvider.GetService(typeof(ISqlSugarRepository<TEntity>)) as ISqlSugarRepository<TEntity>;
+            return ServiceProvider.GetService(typeof(ISqlSugarRepository<TEntity>)) as ISqlSugarRepository<TEntity>;
         }
     }
 
@@ -72,12 +74,19 @@ namespace HxCore.Extras.SqlSugar.Repositories
             _sqlSugarRepository = sqlSugarRepository;
 
             Ado = sqlSugarRepository.Ado;
+            Context = sqlSugarRepository.Context;
+            ServiceProvider = sqlSugarRepository.ServiceProvider;
         }
 
         /// <summary>
         /// 实体集合
         /// </summary>
         public virtual ISugarQueryable<TEntity> Entities => _sqlSugarRepository.Context.Queryable<TEntity>();
+
+        /// <summary>
+        /// 服务提供器
+        /// </summary>
+        public virtual IServiceProvider ServiceProvider { get; }
 
         /// <summary>
         /// 数据库上下文

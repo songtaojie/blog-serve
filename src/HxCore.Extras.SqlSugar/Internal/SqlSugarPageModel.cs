@@ -6,7 +6,7 @@ namespace SqlSugar
     /// 分页泛型集合
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public class SqlSugarPagedList<TEntity>
+    public class SqlSugarPageModel<TEntity>
         where TEntity : new()
     {
         /// <summary>
@@ -37,18 +37,11 @@ namespace SqlSugar
         /// <summary>
         /// 是否有上一页
         /// </summary>
-        public bool HasPrevPages { get; set; }
+        public bool HasPrevPage { get; set; }
 
         /// <summary>
         /// 是否有下一页
         /// </summary>
-        public bool HasNextPages { get; set; }
-    }
-
-    /// <summary>
-    /// 分页集合
-    /// </summary>
-    public class PagedModel : SqlSugarPagedList<object>
-    {
+        public bool HasNextPage { get; set; }
     }
 }

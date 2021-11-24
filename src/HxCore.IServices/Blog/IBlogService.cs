@@ -49,7 +49,6 @@ namespace HxCore.IServices
         /// <returns></returns>
         Task<BlogManageDetailModel> GetDetailAsync(string id);
 
-
         Task<BlogDetailModel> FindById(string id);
     }
 }

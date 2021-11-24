@@ -784,11 +784,17 @@
             博客相关的控制器类
             </summary>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.BlogController.#ctor(HxCore.IServices.IBlogService)">
+        <member name="M:HxCore.WebApi.Controllers.BlogController.#ctor(HxCore.IServices.IBlogService,HxCore.IServices.IBlogQuery)">
              <summary>
             构造函数
              </summary>
              <param name="blogService"></param>
+        </member>
+        <member name="M:HxCore.WebApi.Controllers.BlogController.GetPage2Async(HxCore.Model.BlogQueryParam)">
+            <summary>
+            获取博客列表
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:HxCore.WebApi.Controllers.BlogController.GetPageAsync(HxCore.Model.BlogQueryParam)">
             <summary>

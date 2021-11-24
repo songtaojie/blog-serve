@@ -30,6 +30,11 @@ namespace HxCore.Extras.SqlSugar.Repositories
         /// 原生 Ado 对象
         /// </summary>
         IAdo Ado { get; }
+
+        /// <summary>
+        /// 服务提供器
+        /// </summary>
+        IServiceProvider ServiceProvider { get; }
     }
 
     /// <summary>
@@ -53,6 +58,11 @@ namespace HxCore.Extras.SqlSugar.Repositories
         /// 原生 Ado 对象
         /// </summary>
         IAdo Ado { get; }
+
+        /// <summary>
+        /// 服务提供器
+        /// </summary>
+       IServiceProvider ServiceProvider { get; }
 
         /// <summary>
         /// 获取总数
