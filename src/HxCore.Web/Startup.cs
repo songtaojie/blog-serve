@@ -25,9 +25,18 @@ namespace HxCore.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddWebManager();
+            #region 缓存
+            services.AddNativeMemoryCache();
+            services.AddRedisCache();
+            #endregion
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            #region 数据库链接，上下文
+            services.AddSqlSugar();
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

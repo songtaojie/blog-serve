@@ -9,6 +9,6 @@ namespace HxCore.IServices
         /// 获取博客标签列表
         /// </summary>
         /// <returns></returns>
-        Task<SqlSugarPageModel<Model.BlogQueryModel>> QueryBlogsAsync(Model.BlogQueryParam param);
+        Task<SqlSugarPageModel<Model.BlogQueryModel>> GetBlogsAsync(Model.BlogQueryParam param);
     }
 }

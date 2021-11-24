@@ -1,4 +1,6 @@
 ﻿using Hx.Sdk.Common.Helper;
+using Hx.Sdk.DatabaseAccessor;
+using HxCore.Entity.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,7 +10,7 @@ namespace HxCore.Model
     /// <summary>
     /// 博客查询实体类
     /// </summary>
-    public class BlogQueryModel
+    public class BlogQueryModel:IAutoMapper<T_Blog>
     {
         /// <summary>
         /// 博客id
