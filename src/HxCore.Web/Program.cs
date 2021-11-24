@@ -18,9 +18,12 @@ namespace HxCore.Web
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+                .ConfigureHxWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.ConfigureAppConfiguration((_, c) =>
+                    {
+                        c.AddEnvironmentVariables();
+                    }).UseStartup<Startup>();
                 });
     }
 }

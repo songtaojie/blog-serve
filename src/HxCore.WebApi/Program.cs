@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Hx.Sdk.Core;
+using HxCore.Entity;
 using HxCore.Extras.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

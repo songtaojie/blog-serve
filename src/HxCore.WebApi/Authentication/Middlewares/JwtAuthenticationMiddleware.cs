@@ -9,14 +9,14 @@ namespace HxCore.Extensions.Middlewares
     /// <summary>
     /// jwt中间件
     /// </summary>
-    public class JwtTokenAuth
+    public class JwtAuthenticationMiddleware
     {
         private readonly RequestDelegate _next;
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="next">下一个管道</param>
-        public JwtTokenAuth(RequestDelegate next)
+        public JwtAuthenticationMiddleware(RequestDelegate next)
         {
             _next = next;
         }

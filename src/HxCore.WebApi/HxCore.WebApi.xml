@@ -216,7 +216,6 @@
             构造函数注入
             </summary>
             <param name="schemes"></param>
-            <param name="userContext"></param>
         </member>
         <member name="M:HxCore.Extensions.Authentication.PermissionHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,HxCore.Extensions.Authentication.PermissionRequirement)">
             <summary>
@@ -284,48 +283,23 @@
             <param name="signingCredentials">签名验证实体</param>
             <param name="expiration">过期时间</param>
         </member>
-        <member name="T:HxCore.Extensions.Middlewares.JwtTokenAuth">
+        <member name="T:HxCore.Extensions.Middlewares.JwtAuthenticationMiddleware">
             <summary>
             jwt中间件
             </summary>
         </member>
-        <member name="M:HxCore.Extensions.Middlewares.JwtTokenAuth.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
+        <member name="M:HxCore.Extensions.Middlewares.JwtAuthenticationMiddleware.#ctor(Microsoft.AspNetCore.Http.RequestDelegate)">
             <summary>
             构造函数
             </summary>
             <param name="next">下一个管道</param>
         </member>
-        <member name="M:HxCore.Extensions.Middlewares.JwtTokenAuth.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
+        <member name="M:HxCore.Extensions.Middlewares.JwtAuthenticationMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext)">
             <summary>
             执行
             </summary>
             <param name="context"></param>
             <returns></returns>
-        </member>
-        <member name="T:HxCore.Extensions.Middlewares.MiddleWareExtension">
-            <summary>
-            中间件扩展
-            </summary>
-        </member>
-        <member name="M:HxCore.Extensions.Middlewares.MiddleWareExtension.UseJwtTokenAuth(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
-            <summary>
-            使用jwt授权
-            </summary>
-            <param name="app"></param>
-        </member>
-        <member name="M:HxCore.Extensions.Middlewares.MiddleWareExtension.AddGlobalRoutePrefix(Microsoft.AspNetCore.Mvc.MvcOptions,Microsoft.AspNetCore.Mvc.Routing.IRouteTemplateProvider)">
-            <summary>
-            使用全局路由前缀设置
-            </summary>
-            <param name="opts"></param>
-            <param name="routeAttribute"></param>
-        </member>
-        <member name="M:HxCore.Extensions.Middlewares.MiddleWareExtension.AddFilters(Microsoft.AspNetCore.Mvc.MvcOptions,System.Type[])">
-            <summary>
-            使用过滤器
-            </summary>
-            <param name="opts"></param>
-            <param name="types"></param>
         </member>
         <member name="T:HxCore.WebApi.Controllers.Admin.BlogManageController">
             <summary>
@@ -898,56 +872,6 @@
             <param name="actionDescriptor"></param>
             <returns></returns>
         </member>
-        <member name="T:HxCore.WebApi.Document.DocumentModel">
-            <summary>
-            控制器注释文档model
-            </summary>
-        </member>
-        <member name="P:HxCore.WebApi.Document.DocumentModel.ActionId">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:HxCore.WebApi.Document.DocumentModel.ControllerName">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:HxCore.WebApi.Document.DocumentModel.ActionName">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:HxCore.WebApi.Document.DocumentModel.ActionFullName">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:HxCore.WebApi.Document.DocumentModel.MethodInfo">
-            <summary>
-            action类型
-            </summary>
-        </member>
-        <member name="P:HxCore.WebApi.Document.DocumentModel.RouteTemplate">
-            <summary>
-            路由模板
-            </summary>
-        </member>
-        <member name="P:HxCore.WebApi.Document.DocumentModel.DisplayName">
-            <summary>
-            显示名称
-            </summary>
-        </member>
-        <member name="P:HxCore.WebApi.Document.DocumentModel.Summary">
-            <summary>
-            描述
-            </summary>
-        </member>
-        <member name="P:HxCore.WebApi.Document.DocumentModel.HttpMethod">
-            <summary>
-            请求方式
-            </summary>
-        </member>
         <member name="T:HxCore.WebApi.Program">
             <summary>
             主程序
@@ -1077,6 +1001,17 @@
             <param name="signingCredentials">签名验证实体</param>
             <param name="expiration">过期时间</param>
         </member>
+        <member name="T:Microsoft.AspNetCore.Builder.AuthenticationAppBuilderExtensions">
+            <summary>
+            授权中间件
+            </summary>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Builder.AuthenticationAppBuilderExtensions.UseJwtAuthentication(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            使用自定义的jwt授权
+            </summary>
+            <param name="app"></param>
+        </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.AuthenticationServiceCollectionExtensions">
             <summary>
             Authentication扩展程序
@@ -1124,15 +1059,6 @@
             添加权限
             </summary>
             <param name="services"></param>
-        </member>
-        <member name="M:Microsoft.Extensions.Hosting.IHostServiceCollectionExtensions.MigrateDbContext``1(Microsoft.Extensions.Hosting.IHost,System.Action{``0,System.IServiceProvider})">
-            <summary>
-            数据库迁移文件执行
-            </summary>
-            <typeparam name="TContext"></typeparam>
-            <param name="webHost"></param>
-            <param name="seeder"></param>
-            <returns></returns>
         </member>
     </members>
 </doc>

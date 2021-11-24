@@ -15,12 +15,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Hx.Sdk.Cache" Version="5.1.0" />
     <PackageReference Include="Hx.Sdk.Common" Version="1.0.4.1" />
     <PackageReference Include="Hx.Sdk.Core" Version="5.1.0" />
-    <PackageReference Include="Hx.Sdk.DatabaseAccessor" Version="5.1.1" />
+    <PackageReference Include="Hx.Sdk.EventBus" Version="5.1.0" />
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.13.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HxCore.Extras.EntityFrameworkCore\HxCore.Extras.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\HxCore.Extras.SqlSugar\HxCore.Extras.SqlSugar.csproj" />
   </ItemGroup>
 
   <ItemGroup>

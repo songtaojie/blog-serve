@@ -55,7 +55,7 @@ namespace HxCore.WebApi
 
             #region 数据库链接，上下文
             ConsoleHelper.WriteInfoLine(Configuration.GetConnectionString("MySqlConnectionString"));
-           
+            services.AddDatabaseAccessor();
             #endregion
 
             #region MVC，路由配置

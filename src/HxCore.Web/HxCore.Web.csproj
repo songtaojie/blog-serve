@@ -9,7 +9,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HxCore.Extras.SqlSugar\HxCore.Extras.SqlSugar.csproj" />
+    <ProjectReference Include="..\HxCore.Extensions\HxCore.Extensions.csproj" />
+    <ProjectReference Include="..\HxCore.Services\HxCore.Services.csproj" />
   </ItemGroup>
 
 </Project>
