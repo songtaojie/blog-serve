@@ -34,7 +34,7 @@ namespace HxCore.Services
                 .OrderBy((b, u) => b.PublishDate, OrderByType.Desc)
                 .Select((b, u) => new BlogQueryModel
                 {
-                    Id = b.Id.ToString(),
+                    Id = b.Id,
                     NickName = u.NickName,
                     UserName = u.UserName,
                     Title = b.Title,

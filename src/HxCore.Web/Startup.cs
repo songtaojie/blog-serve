@@ -30,6 +30,9 @@ namespace HxCore.Web
             services.AddNativeMemoryCache();
             services.AddRedisCache();
             #endregion
+            #region AutoMapper
+            services.AddAutoMapperSetup();
+            #endregion
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
