@@ -1,0 +1,21 @@
+﻿a {
+    text-decoration: none;
+    color: #555;
+}
+
+.hx-header {
+    height: 4rem;
+    text-align: center;
+    line-height:4;
+}
+.hx-header nav {
+    width: 1140px;
+    position: relative;
+}
+.hx-logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+.hx-logo a {
+    color: #00A7EB;
+}

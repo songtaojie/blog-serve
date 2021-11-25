@@ -1,5 +1,7 @@
 ﻿using Hx.Sdk.Core;
+using Hx.Sdk.Entity.Page;
 using HxCore.Model;
+using HxCore.Web.Application;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,7 @@ namespace HxCore.Web.Pages
     public partial class Index: ComponentBase
     {
         [Inject]
-        private IHxHttpClient Client { get; set; }
+        private BlogService Service { get; set; }
 
         [Parameter]
         public int PageIndex { get; set; } = 0;
@@ -31,8 +33,8 @@ namespace HxCore.Web.Pages
         }
         public async Task Articles()
         {
-            //Client.GetAsync<>;
-            //blogList = result.Items;
+             //var result = await Service.GetArticleList(PageIndex);
+             //blogList = result.Items;
         }
     }
 }

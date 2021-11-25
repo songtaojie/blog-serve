@@ -8,6 +8,8 @@ FROM registry.cn-hangzhou.aliyuncs.com/songtaojie_centos/sdk:5.0-buster-slim AS 
 WORKDIR /src
 COPY ["src/HxCore.Entity/HxCore.Entity.csproj", "/src/HxCore.Entity/"]
 COPY ["src/HxCore.Model/HxCore.Model.csproj", "/src/HxCore.Model/"]
+COPY ["src/HxCore.Extras.EntityFrameworkCore/HxCore.Extras.EntityFrameworkCore.csproj", "/src/HxCore.Extras.EntityFrameworkCore/"]
+COPY ["src/HxCore.Extras.SqlSugar/HxCore.Extras.SqlSugar.csproj", "/src/HxCore.Extras.SqlSugar/"]
 COPY ["src/HxCore.IServices/HxCore.IServices.csproj", "/src/HxCore.IServices/"]
 COPY ["src/HxCore.Services/HxCore.Services.csproj", "/src/HxCore.Services/"]
 COPY ["src/HxCore.Extensions/HxCore.Extensions.csproj", "/src/HxCore.Extensions/"]

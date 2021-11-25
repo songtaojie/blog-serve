@@ -38,17 +38,17 @@ namespace HxCore.WebApi.Controllers
             return result;
         }
 
-        ///// <summary>
-        ///// 根据博客id获取博客信息
-        ///// </summary>
-        ///// <param name="id">博客id</param>
-        ///// <returns></returns>
-        //[HttpGet]
-        //[Route("/api/article/{id}")]
-        //public Task<BlogDetailModel> FindById(string id)
-        //{
-        //    return _blogService.FindById(id);
-        //}
+        /// <summary>
+        /// 根据博客id获取博客信息
+        /// </summary>
+        /// <param name="id">博客id</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/api/article/{id}")]
+        public Task<BlogDetailModel> FindById(string id)
+        {
+            return _blogQuery.FindById(id);
+        }
         #endregion 
     }
 }

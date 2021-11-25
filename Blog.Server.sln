@@ -35,7 +35,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HxCore.Web", "src\HxCore.We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HxCore.Extras.SqlSugar", "src\HxCore.Extras.SqlSugar\HxCore.Extras.SqlSugar.csproj", "{D021DF13-136E-4D1D-B8D1-8BA7B51BA9D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HxCore.Extras.EntityFrameworkCore", "src\HxCore.Extras.EntityFrameworkCore\HxCore.Extras.EntityFrameworkCore.csproj", "{C3B4A823-08A4-461D-98CF-F5DF82E9784A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HxCore.Extras.EntityFrameworkCore", "src\HxCore.Extras.EntityFrameworkCore\HxCore.Extras.EntityFrameworkCore.csproj", "{C3B4A823-08A4-461D-98CF-F5DF82E9784A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

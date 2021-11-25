@@ -499,6 +499,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:HxCore.WebApi.Controllers.BlogController.FindById(System.String)">
+            <summary>
+            根据博客id获取博客信息
+            </summary>
+            <param name="id">博客id</param>
+            <returns></returns>
+        </member>
         <member name="T:HxCore.WebApi.Controllers.EnumController">
             <summary>
             枚举的控制器
