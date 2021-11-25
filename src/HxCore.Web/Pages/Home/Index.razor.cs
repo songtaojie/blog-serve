@@ -1,6 +1,4 @@
-﻿using Hx.Sdk.Core;
-using Hx.Sdk.Entity.Page;
-using HxCore.Model;
+﻿using HxCore.Model;
 using HxCore.Web.Application;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -8,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HxCore.Web.Pages
+namespace HxCore.Web.Pages.Home
 {
-    public partial class Index: ComponentBase
+    public partial class Index : ComponentBase
     {
         [Inject]
         private BlogService Service { get; set; }
@@ -33,8 +31,8 @@ namespace HxCore.Web.Pages
         }
         public async Task Articles()
         {
-             //var result = await Service.GetArticleList(PageIndex);
-             //blogList = result.Items;
+            //var result = await Service.GetArticleList(PageIndex);
+            //blogList = result.Items;
         }
     }
 }
