@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HxCore.Extras.EntityFrameworkCore\HxCore.Extras.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\HxCore.Extras.SqlSugar\HxCore.Extras.SqlSugar.csproj" />
     <ProjectReference Include="..\HxCore.Model\HxCore.Model.csproj" />
   </ItemGroup>
 

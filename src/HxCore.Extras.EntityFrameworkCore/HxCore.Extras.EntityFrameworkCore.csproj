@@ -5,8 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Hx.Sdk.DatabaseAccessor" Version="5.1.1" />
     <PackageReference Include="MySql.EntityFrameworkCore" Version="5.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HxCore.Entity\HxCore.Entity.csproj" />
   </ItemGroup>
 
 </Project>

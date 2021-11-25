@@ -1,4 +1,5 @@
-﻿using SqlSugar;
+﻿using HxCore.Model;
+using SqlSugar;
 using System.Threading.Tasks;
 
 namespace HxCore.IServices
@@ -9,6 +10,9 @@ namespace HxCore.IServices
         /// 获取博客标签列表
         /// </summary>
         /// <returns></returns>
-        Task<SqlSugarPageModel<Model.BlogQueryModel>> GetBlogsAsync(Model.BlogQueryParam param);
+        Task<SqlSugarPageModel<BlogQueryModel>> GetBlogsAsync(Model.BlogQueryParam param);
+
+
+        Task<BlogDetailModel> FindById(string id);
     }
 }

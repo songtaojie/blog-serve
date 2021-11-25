@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HxCore.Enums;
 
-namespace HxCore.Entity
+namespace HxCore.Extras.EntityFrameworkCore
 {
     /// <summary>
     /// 种子

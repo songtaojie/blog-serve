@@ -24,6 +24,7 @@ namespace HxCore.Services
         public BaseQuery(ISqlSugarRepository<T> repository)
         {
             Repository = repository;
+            this.Db = Repository.Context;
             this.Mapper = repository.ServiceProvider.GetRequiredService<IMapper>();
         }
     }

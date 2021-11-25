@@ -25,11 +25,6 @@ namespace HxCore.IServices
         /// <param name="blogModel">提交的数据</param>
         /// <returns></returns>
         Task<bool> UpdateAsync(BlogManageCreateModel blogModel);
-        /// <summary>
-        /// 获取博客标签列表
-        /// </summary>
-        /// <returns></returns>
-        Task<PageModel<Model.BlogQueryModel>> QueryBlogsAsync(Model.BlogQueryParam param);
 
         /// <summary>
         /// 获取博客标签列表
@@ -49,6 +44,5 @@ namespace HxCore.IServices
         /// <returns></returns>
         Task<BlogManageDetailModel> GetDetailAsync(string id);
 
-        Task<BlogDetailModel> FindById(string id);
     }
 }

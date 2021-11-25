@@ -1,4 +1,4 @@
-﻿using HxCore.IServices;
+﻿using Hx.Sdk.Core;
 using HxCore.Model;
 using Microsoft.AspNetCore.Components;
 using System;
@@ -11,7 +11,7 @@ namespace HxCore.Web.Pages
     public partial class Index: ComponentBase
     {
         [Inject]
-        private IBlogQuery BlogQuery { get; set; }
+        private IHxHttpClient Client { get; set; }
 
         [Parameter]
         public int PageIndex { get; set; } = 0;
@@ -20,17 +20,19 @@ namespace HxCore.Web.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            await Articles();
             await base.OnInitializedAsync();
+            await Task.CompletedTask;
         }
 
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await Articles();
+            await base.OnAfterRenderAsync(firstRender);
+        }
         public async Task Articles()
         {
-            var result = await BlogQuery.GetBlogsAsync(new Model.BlogQueryParam
-            {
-                PageIndex = PageIndex
-            });
-            blogList = result.Items;
+            //Client.GetAsync<>;
+            //blogList = result.Items;
         }
     }
 }

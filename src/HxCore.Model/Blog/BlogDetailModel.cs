@@ -36,10 +36,6 @@ namespace HxCore.Model
         /// </summary>
         public string UserId { get; set; }
         /// <summary>
-        /// 用户名
-        /// </summary>
-        public string UserName { get; set; }
-        /// <summary>
         /// 昵称
         /// </summary>
         public string NickName { get; set; }
@@ -83,10 +79,6 @@ namespace HxCore.Model
         /// 封面图
         /// </summary>
         public string CoverImgUrl { get; set;  }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public virtual DateTime CreateTime { get; set; }
         /// <summary>
         /// 上一篇博客的id
         /// </summary>
