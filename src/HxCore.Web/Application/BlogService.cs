@@ -30,8 +30,16 @@ namespace HxCore.Web.Application
                 PageIndex = pageIndex,
                 PageSize = 10
             };
-            var result = await _client.PostAsync<PageModel<BlogQueryModel>>(url, param);
-            return result;
+            try
+            {
+                var result = await _client.PostAsync<Hx.Sdk.UnifyResult.RESTfulResult<PageModel<BlogQueryModel>>>(url, param);
+                if (!result.Succeeded) throw new Exception(result.Message);
+                return result.Data;
+            }
+            catch
+            {
+                return new PageModel<BlogQueryModel>() { };
+            }
         }
 
         /// <summary>

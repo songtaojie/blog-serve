@@ -1,6 +1,7 @@
 ﻿using HxCore.Model;
 using HxCore.Web.Application;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.WebUtilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ namespace HxCore.Web.Pages.Home
     {
         [Inject]
         private BlogService Service { get; set; }
-
+        [Inject]
+        private NavigationManager NavigationManager { get; set; }
         [Parameter]
         public int PageIndex { get; set; } = 0;
 
@@ -20,19 +22,13 @@ namespace HxCore.Web.Pages.Home
 
         protected override async Task OnInitializedAsync()
         {
+            var uri = NavigationManager.ToAbsoluteUri(NavigationManager.Uri);
+            QueryHelpers.ParseQuery(uri.Query).TryGetValue("p", out Microsoft.Extensions.Primitives.StringValues p);
+            Console.WriteLine(NavigationManager.Uri);
+            int.TryParse(p, out int pageIndex);
+            PageIndex = pageIndex;
             await base.OnInitializedAsync();
             await Task.CompletedTask;
-        }
-
-        protected override async Task OnAfterRenderAsync(bool firstRender)
-        {
-            await Articles();
-            await base.OnAfterRenderAsync(firstRender);
-        }
-        public async Task Articles()
-        {
-            //var result = await Service.GetArticleList(PageIndex);
-            //blogList = result.Items;
         }
     }
 }
