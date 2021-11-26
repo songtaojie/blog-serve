@@ -31,14 +31,14 @@ namespace HxCore.Services
         [CacheData(AbsoluteExpiration = 5)]
         public async Task<SqlSugarPageModel<BlogQueryModel>> GetBlogsAsync(BlogQueryParam param)
         {
-            var result = await this.Db.Queryable<T_Blog,T_User>((b,u) => new JoinQueryInfos(JoinType.Inner,b.CreaterId == u.Id))
+            var result = await this.Db.Queryable<T_Blog,T_Account>((b,u) => new JoinQueryInfos(JoinType.Inner,b.CreaterId == u.Id))
                 .Where((b, u) => b.Publish == ConstKey.Yes && b.Deleted == ConstKey.No)
                 .OrderBy((b, u) => b.PublishDate, OrderByType.Desc)
                 .Select((b, u) => new BlogQueryModel
                 {
                     Id = b.Id,
                     NickName = u.NickName,
-                    UserName = u.UserName,
+                    UserName = u.AccountName,
                     Title = b.Title,
                     PureContent = b.PureContent,
                     ReadCount = b.ReadCount,

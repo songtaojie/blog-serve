@@ -81,7 +81,7 @@ namespace HxCore.Entity.Entities
         /// <summary>
         /// 博客类型，是转发，原创，还是翻译等
         /// </summary> 
-        public T_BlogType_Enum BlogTypeId { get; set; }
+        public BlogType_Enum BlogType { get; set; }
 
         /// <summary>
         /// 转载或者翻译需要有来源链接

@@ -6,7 +6,7 @@ namespace HxCore.Model.Admin.User
     /// <summary>
     /// 用户详情页model
     /// </summary>
-    public class UserDetailModel : IAutoMapper<T_User>
+    public class UserDetailModel : IAutoMapper<T_Account>
     {
         /// <summary>
         /// 用户id

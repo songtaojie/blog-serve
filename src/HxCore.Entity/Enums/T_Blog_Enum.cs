@@ -10,7 +10,7 @@ namespace HxCore.Enums
     /// <summary>
     /// 文章类型
     /// </summary>
-    public enum T_BlogType_Enum
+    public enum BlogType_Enum
     {
         /// <summary>
         /// 原创
@@ -23,6 +23,29 @@ namespace HxCore.Enums
         /// </summary>
         [Description("转载")]
         Reprint = 1,
+        /// <summary>
+        /// 翻译
+        /// </summary>
+        [Description("翻译")]
+        Translation = 2
+    }
+
+    /// <summary>
+    /// 文章类型
+    /// </summary>
+    public enum PageTarget_Enum
+    {
+        /// <summary>
+        /// 在新页面打开
+        /// </summary>
+        [Description("在新页面打开")]
+        Blank = 0,
+
+        /// <summary>
+        /// 转载
+        /// </summary>
+        [Description("转载")]
+        Self = 1,
         /// <summary>
         /// 翻译
         /// </summary>

@@ -11,7 +11,7 @@ namespace HxCore.Model.Admin.User
     /// <summary>
     /// 用户查询model
     /// </summary>
-    public class UserQueryModel:IAutoMapper<T_User>
+    public class UserQueryModel:IAutoMapper<T_Account>
     {
         /// <summary>
         /// 用户id

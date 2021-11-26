@@ -97,11 +97,11 @@ namespace HxCore.Services.Admin
 
 
         /// <inheritdoc cref="IRoleService.GetListByUserAsync"/>
-        public async Task<List<RoleQueryModel>> GetListByUserAsync(string userId)
+        public async Task<List<RoleQueryModel>> GetListByUserAsync(string accountId)
         {
             var query = from r in this.Repository.DetachedEntities
-                        join ru in this.Repository.Context.Set<T_UserRole>() on r.Id equals ru.RoleId
-                        where ru.UserId == userId
+                        join ru in this.Repository.Context.Set<T_AccountRole>() on r.Id equals ru.RoleId
+                        where ru.AccountId == accountId
                         && r.Deleted == ConstKey.No
                         && r.Disabled == ConstKey.No
                         select new RoleQueryModel
@@ -170,24 +170,24 @@ namespace HxCore.Services.Admin
         }
 
         /// <inheritdoc cref="IRoleService.CheckIsSuperAdminAsync"/>
-        public async Task<bool> CheckIsSuperAdminAsync(string userId)
+        public async Task<bool> CheckIsSuperAdminAsync(string accountId)
         {
             var query = from r in this.Repository.DetachedEntities
-                        join ur in Db.Set<T_UserRole>() on r.Id equals ur.RoleId
+                        join ur in Db.Set<T_AccountRole>() on r.Id equals ur.RoleId
                         where r.Deleted == ConstKey.No
-                        && ur.UserId == userId
+                        && ur.AccountId == accountId
                         && r.Code == ConstKey.SuperAdminCode
                         select r.Id;
             return await query.AnyAsync();
         }
 
         /// <inheritdoc cref="IRoleService.GetUserRoleAsync"/>
-        public async Task<List<Model.Admin.User.UserRoleModel>> GetUserRoleAsync(string userId)
+        public async Task<List<Model.Admin.User.UserRoleModel>> GetUserRoleAsync(string accountId)
         {
             var query = from r in this.Repository.DetachedEntities
-                        join ur in this.Db.Set<T_UserRole>().AsNoTracking() on r.Id equals ur.RoleId
+                        join ur in this.Db.Set<T_AccountRole>().AsNoTracking() on r.Id equals ur.RoleId
                         where r.Deleted == ConstKey.No
-                        && ur.UserId == userId
+                        && ur.AccountId == accountId
                         select new Model.Admin.User.UserRoleModel
                         {
                             RoleId = r.Id,

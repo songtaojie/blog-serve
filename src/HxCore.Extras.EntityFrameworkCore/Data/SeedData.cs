@@ -17,8 +17,8 @@ namespace HxCore.Extras.EntityFrameworkCore
     public class SeedData
     {
         //初始化用户
-        private static readonly string UserId = Guid.NewGuid().ToString();
-        private static readonly string UserName = "SuperAdmin";
+        private static readonly string AccountId = Guid.NewGuid().ToString();
+        private static readonly string AccountName = "SuperAdmin";
         /// <summary>
         /// 执行迁移文件并初始化数据
         /// </summary>
@@ -58,22 +58,21 @@ namespace HxCore.Extras.EntityFrameworkCore
         /// <param name="context"></param>
         private static void EnsureAllSeedData(DbContext context)
         {
-            var userInfoDb = context.Set<T_User>();
+            var userInfoDb = context.Set<T_Account>();
             if (!userInfoDb.Any())
             {
                 ConsoleHelper.WriteSuccessLine("T_User being populated");
-                var user = new T_User()
+                var user = new T_Account()
                 {
-                    Id = UserId,
-                    UserName = UserName,
+                    Id = AccountId,
+                    AccountName = AccountName,
                     SuperAdmin = ConstKey.Yes,
                     PassWord = "123456".MD5TwoEncrypt(),
-                    Activate = ConstKey.Yes,
                     Email = "stjworkemail@163.com",
                     NickName = "超级管理员",
                     LastLoginTime = DateTime.Now
                 };
-                user.SetCreater(UserId, UserName);
+                user.SetCreater(AccountId, AccountName);
                 userInfoDb.Add(user);
                 context.SaveChanges();
             }
@@ -108,7 +107,7 @@ namespace HxCore.Extras.EntityFrameworkCore
                     Disabled = ConstKey.No,
                     OrderSort = 0,
                 };
-                role.SetCreater(UserId, UserName);
+                role.SetCreater(AccountId, AccountName);
                 roleDb.Add(role);
                 context.SaveChanges();
             }
@@ -117,14 +116,14 @@ namespace HxCore.Extras.EntityFrameworkCore
                 ConsoleHelper.WriteWarningLine("T_Role already populated");
             }
             //用户角色表
-            var userRoleDb = context.Set<T_UserRole>();
+            var userRoleDb = context.Set<T_AccountRole>();
             if (!userRoleDb.Any())
             {
                 ConsoleHelper.WriteSuccessLine("T_UserRole being populated");
-                var userRole = new T_UserRole
+                var userRole = new T_AccountRole
                 {
                     Id = Helper.GetSnowId(),
-                    UserId = UserId,
+                    AccountId = AccountId,
                     RoleId = roleId
                 };
                 userRoleDb.Add(userRole);
@@ -142,29 +141,13 @@ namespace HxCore.Extras.EntityFrameworkCore
         /// <param name="context"></param>
         private static void EnsureEnumSeedData(DbContext context)
         {
-            var blogTypeDb = context.Set<T_BlogType>();
-            if (!blogTypeDb.Any())
-            {
-                ConsoleHelper.WriteSuccessLine("T_BlogType being populated");
-                foreach (var blogType in GetBlogTypeList())
-                {
-                    blogType.SetCreater(UserId, UserName);
-                    blogTypeDb.Add(blogType);
-                }
-                context.SaveChanges();
-            }
-            else
-            {
-                ConsoleHelper.WriteWarningLine("T_BlogType already populated");
-            }
-
             var categoryDb = context.Set<T_Category>();
             if (!categoryDb.Any())
             {
                 ConsoleHelper.WriteSuccessLine("T_Category being populated");
                 foreach (var category in GetCategoryList())
                 {
-                    category.SetCreater(UserId, UserName);
+                    category.SetCreater(AccountId, AccountName);
                     categoryDb.Add(category);
                 }
                 context.SaveChanges();
@@ -175,31 +158,6 @@ namespace HxCore.Extras.EntityFrameworkCore
             }
         }
 
-
-        private static List<T_BlogType> GetBlogTypeList()
-        {
-            return new List<T_BlogType>
-            {
-               new T_BlogType
-                {
-                    Id = Helper.GetSnowId(),
-                    Name="原创",
-                    OrderIndex = 0
-                },
-                new T_BlogType
-                {
-                    Id = Helper.GetSnowId(),
-                    Name="转载",
-                    OrderIndex = 1
-                },
-                new T_BlogType
-                {
-                    Id = Helper.GetSnowId(),
-                    Name="翻译",
-                    OrderIndex = 2
-                }
-            };
-        }
 
         private static List<T_Category> GetCategoryList()
         {
@@ -253,7 +211,7 @@ namespace HxCore.Extras.EntityFrameworkCore
                     Description = "系统内置，请勿删除",
                     OrderSort = 0
                 };
-                menu.SetCreater(UserId, UserName);
+                menu.SetCreater(AccountId, AccountName);
                 addList.Add(menu);
                 
                 //添加按钮
@@ -315,7 +273,7 @@ namespace HxCore.Extras.EntityFrameworkCore
                     Description = "系统内置，请勿删除",
                     OrderSort = 1
                 };
-                menu.SetCreater(UserId, UserName);
+                menu.SetCreater(AccountId, AccountName);
                 addList.Add(moduleMenu);
                 menuDb.AddRange(addList);
                 context.SaveChanges();

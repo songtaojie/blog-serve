@@ -16,31 +16,15 @@ namespace HxCore.WebApi.Controllers
     [SkipRouteAuthorization]
     public class EnumController : BaseAdminController
     {
-        private IRepository<T_BlogType> _repository;
+        private IRepository<T_Category> _repository;
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="repository"></param>
-        public EnumController(IRepository<T_BlogType> repository)
+        public EnumController(IRepository<T_Category> repository)
         {
             _repository = repository;
         }
-        /// <summary>
-        /// 获取博客类型的列表
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet,HttpPost]
-        public List<BlogTypeModel> GetBlogTypeList()
-        {
-            var list = _repository.Where(b => b.Deleted == ConstKey.No)
-                .Select(b => new BlogTypeModel
-                {
-                    Id = b.Id.ToString(),
-                    Name = b.Name
-                }).ToList();
-            return list;
-        }
-
         /// <summary>
         /// 获取博客类型的列表
         /// </summary>

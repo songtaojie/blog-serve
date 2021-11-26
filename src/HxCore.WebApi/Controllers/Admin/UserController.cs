@@ -64,10 +64,10 @@ namespace HxCore.WebApi.Controllers.Admin
         ///  获取用户所拥有的的角色信息
         /// </summary>
         /// <returns></returns>
-        [HttpGet("{userId}")]
-        public async Task<List<UserRoleModel>> GetRoleByIdAsync(string userId)
+        [HttpGet("{accountId}")]
+        public async Task<List<UserRoleModel>> GetRoleByIdAsync(string accountId)
         {
-            var result = await _service.GetRoleByIdAsync(userId);
+            var result = await _service.GetRoleByIdAsync(accountId);
             return result;
         }
         #endregion

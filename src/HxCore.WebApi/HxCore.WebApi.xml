@@ -511,17 +511,11 @@
             枚举的控制器
             </summary>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.EnumController.#ctor(Hx.Sdk.DatabaseAccessor.IRepository{HxCore.Entity.Entities.T_BlogType})">
+        <member name="M:HxCore.WebApi.Controllers.EnumController.#ctor(Hx.Sdk.DatabaseAccessor.IRepository{HxCore.Entity.Entities.T_Category})">
             <summary>
             构造函数
             </summary>
             <param name="repository"></param>
-        </member>
-        <member name="M:HxCore.WebApi.Controllers.EnumController.GetBlogTypeList">
-            <summary>
-            获取博客类型的列表
-            </summary>
-            <returns></returns>
         </member>
         <member name="M:HxCore.WebApi.Controllers.EnumController.GetCategoryList">
             <summary>

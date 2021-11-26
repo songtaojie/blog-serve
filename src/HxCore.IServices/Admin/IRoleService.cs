@@ -57,9 +57,9 @@ namespace HxCore.IServices.Admin
         /// <summary>
         /// 获取某个用户的角色数据
         /// </summary>
-        /// <param name="userId">用户id</param>
+        /// <param name="accountId">账号id</param>
         /// <returns></returns>
-        Task<List<RoleQueryModel>> GetListByUserAsync(string userId);
+        Task<List<RoleQueryModel>> GetListByUserAsync(string accountId);
 
         /// <summary>
         /// 获取所有的角色菜单
@@ -70,15 +70,15 @@ namespace HxCore.IServices.Admin
         /// <summary>
         /// 获取用户角色信息
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="accountId">账号id</param>
         /// <returns></returns>
-        Task<List<Model.Admin.User.UserRoleModel>> GetUserRoleAsync(string userId);
+        Task<List<Model.Admin.User.UserRoleModel>> GetUserRoleAsync(string accountId);
 
         /// <summary>
         /// 检查用户是否是超级管理员
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="accountId">账号id</param>
         /// <returns></returns>
-        Task<bool> CheckIsSuperAdminAsync(string userId);
+        Task<bool> CheckIsSuperAdminAsync(string accountId);
     }
 }

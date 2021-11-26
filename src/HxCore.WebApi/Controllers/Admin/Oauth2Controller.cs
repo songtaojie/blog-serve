@@ -59,7 +59,7 @@ namespace HxCore.WebApi.Controllers.Admin
         public async Task<LoginVm> Authorize(LoginParam param)
         {
             string md5pwd = param.PassWord.MD5TwoEncrypt();
-            T_User userInfo = await _userService.FirstOrDefaultAsync(u => u.UserName == param.UserName && u.PassWord == md5pwd);
+            T_Account userInfo = await _userService.FirstOrDefaultAsync(u => u.AccountName == param.UserName && u.PassWord == md5pwd);
             if (userInfo == null) throw new UserFriendlyException("用户名或密码错误", ErrorCodeEnum.Error);
             await _userService.UpdateLoginInfoAsync(userInfo.Id);
             LoginVm result = await BuildJwtResult(userInfo);
@@ -97,20 +97,20 @@ namespace HxCore.WebApi.Controllers.Admin
         {
             if (string.IsNullOrEmpty(token)) throw new UserFriendlyException("token无效，请重新登录！", ErrorCodeEnum.NoAccessError);
             var tokenModel = JwtHelper.SerializeJwt(token);
-            T_User userInfo = await _userService.FindAsync(tokenModel.UserId);
+            T_Account userInfo = await _userService.FindAsync(tokenModel.UserId);
             if (userInfo == null) throw new UserFriendlyException("token解析失败，请重新登录！", ErrorCodeEnum.NoAccessError);
             LoginVm result = await BuildJwtResult(userInfo);
             return result;
         }
 
-        private async Task<LoginVm> BuildJwtResult(T_User userInfo)
+        private async Task<LoginVm> BuildJwtResult(T_Account userInfo)
         {
             JwtModel jwtModel = new JwtModel
             {
                 IsSuperAdmin = Helper.IsYes(userInfo.SuperAdmin),
                 UserId = userInfo.Id,
                 NickName = userInfo.NickName,
-                UserName = userInfo.UserName,
+                UserName = userInfo.AccountName,
                 Expiration = TimeSpan.FromSeconds(1 * 60),
             };
             var roleList = await _roleService.GetListByUserAsync(userInfo.Id);

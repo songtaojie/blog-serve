@@ -6,9 +6,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace HxCore.Entity.Entities
 {
     /// <summary>
-    /// 用户信息类
+    /// 后台账户表
     /// </summary>
-    public class T_User : Hx.Sdk.DatabaseAccessor.StatusEntityBase
+    public class T_Account : Hx.Sdk.DatabaseAccessor.StatusEntityBase
     {
         /// <summary>
         /// 主键
@@ -21,11 +21,11 @@ namespace HxCore.Entity.Entities
             set => base.Id = value; 
         }
         /// <summary>
-        /// 用户名称
+        /// 账户
         /// </summary>
         [MaxLength(36)]
         [Required]
-        public string UserName
+        public string AccountName
         {
             get; set;
         }
@@ -44,6 +44,7 @@ namespace HxCore.Entity.Entities
         /// </summary>
         [MaxLength(36)]
         public string NickName { get; set; }
+
         /// <summary>
         /// 邮箱
         /// </summary>
@@ -53,17 +54,13 @@ namespace HxCore.Entity.Entities
         {
             set; get;
         }
-        /// <summary>
-        /// 第三方登录唯一标识
-        /// </summary>
-        [MaxLength(80)]
-        public string OpenId { get; set; }
 
         /// <summary>
         /// 是否锁定
         /// </summary>
         [Column(TypeName = "char(1)")]
         public string Lock { set; get; } = ConstKey.No;
+
         /// <summary>
         /// 头像存储文件路径
         /// </summary>
@@ -82,14 +79,6 @@ namespace HxCore.Entity.Entities
             get; set;
         } = ConstKey.No;
 
-        /// <summary>
-        /// 是否激活
-        /// </summary>
-        [Column(TypeName = "char(1)")]
-        public string Activate
-        {
-            get; set;
-        } = ConstKey.No;
         /// <summary>
         /// 用户注册时间
         /// </summary>

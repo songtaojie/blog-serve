@@ -9,7 +9,7 @@ namespace HxCore.Model.Admin.User
     /// <summary>
     ///用户的添加或者编辑model
     /// </summary>
-    public class UserCreateModel : IAutoMapper<T_User>
+    public class UserCreateModel : IAutoMapper<T_Account>
     {
         /// <summary>
         /// 用户id

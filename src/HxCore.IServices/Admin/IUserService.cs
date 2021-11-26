@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace HxCore.IServices.Admin
 {
 
-    public interface IUserService : IBaseStatusService<T_User>
+    public interface IUserService : IBaseStatusService<T_Account>
     {
         /// <summary>
         /// 获取详情数据
@@ -30,7 +30,7 @@ namespace HxCore.IServices.Admin
         /// </summary>
         /// <param name="userId">用户标识</param>
         /// <returns></returns>
-        Task<List<UserRoleModel>> GetRoleByIdAsync(string userId);
+        Task<List<UserRoleModel>> GetRoleByIdAsync(string accountId);
 
         /// <summary>
         /// 获取用户列表数据

@@ -19,11 +19,11 @@ using Hx.Sdk.Core;
 
 namespace HxCore.Services.Admin
 {
-    public class UserService : BaseStatusService<T_User>, IUserService
+    public class UserService : BaseStatusService<T_Account>, IUserService
     {
         private IRoleService _roleService;
         private IIds4RoleService _ids4RoleService;
-        public UserService(IRepository<T_User,MasterDbContextLocator> userDal, IRoleService roleService, IIds4RoleService ids4RoleService) : base(userDal)
+        public UserService(IRepository<T_Account,MasterDbContextLocator> userDal, IRoleService roleService, IIds4RoleService ids4RoleService) : base(userDal)
         {
             _roleService = roleService;
             _ids4RoleService = ids4RoleService;
@@ -36,7 +36,7 @@ namespace HxCore.Services.Admin
             createModel.VerifyParam();
             //var existEmail = await this.ExistAsync(u => u.Email == createModel.Email);
             //if (existEmail) throw new UserFriendlyException("邮箱已存在", ErrorCodeEnum.AddError);
-            var entity = this.Mapper.Map<T_User>(createModel);
+            var entity = this.Mapper.Map<T_Account>(createModel);
             entity.PassWord = createModel.PassWord.MD5TwoEncrypt();
             return await this.InsertAsync(entity);
         }
@@ -97,26 +97,28 @@ namespace HxCore.Services.Admin
         public async Task<bool> AssignRoleAsync(AssignRoleModel model)
         {
             model.VerifyParam();
-            var user = await this.Db.Set<T_User>().FindAsync(model.UserId);
-            if (user == null) throw new UserFriendlyException("用户不存在", ErrorCodeEnum.DataNull);
+            var user = await this.Db.Set<T_Account>().FindAsync(model.AccountId);
+            if (user == null) throw new UserFriendlyException("账号不存在", ErrorCodeEnum.DataNull);
             try
             {
                 //先删除用户原来的角色
-                var userRoleList = await this.Db.Set<T_UserRole>().Where(ur => ur.UserId == model.UserId).ToListAsync();
+                var userRoleList = await this.Db.Set<T_AccountRole>()
+                    .Where(ur => ur.AccountId == model.AccountId)
+                    .ToListAsync();
                 if (userRoleList.Any())
                 {
-                    this.Db.Set<T_UserRole>().RemoveRange(userRoleList);
+                    this.Db.Set<T_AccountRole>().RemoveRange(userRoleList);
                 }
                 //再添加新的
                 var addUserRoleList = model.RoleIds.Where(r => !string.IsNullOrEmpty(r))
                     .Distinct()
-                    .Select(r => new T_UserRole
+                    .Select(r => new T_AccountRole
                     {
                         Id = Helper.GetSnowId(),
-                        UserId = model.UserId,
+                        AccountId = model.AccountId,
                         RoleId = r
                     });
-                await this.Db.Set<T_UserRole>().AddRangeAsync(addUserRoleList);
+                await this.Db.Set<T_AccountRole>().AddRangeAsync(addUserRoleList);
                 return await this.Repository.SaveNowAsync() > 1;
             }
             catch (Exception)
@@ -132,7 +134,7 @@ namespace HxCore.Services.Admin
         public async Task<UserDetailModel> GetAsync(string id)
         {
             var userDetail = await this.Repository.Where(u => u.Id == id)
-                .Select(u => this.Mapper.Map<T_User, UserDetailModel>(u))
+                .Select(u => this.Mapper.Map<T_Account, UserDetailModel>(u))
                 .FirstOrDefaultAsync();
             if (userDetail == null) throw new UserFriendlyException("用户信息不存在", ErrorCodeEnum.DataNull);
             return userDetail;
@@ -159,17 +161,17 @@ namespace HxCore.Services.Admin
             {
                 var userIds = result.Items.Select(u => u.Id).ToArray();
                 var roles = await (from r in this.Db.Set<T_Role>()
-                                   join ur in this.Db.Set<T_UserRole>() on r.Id equals ur.RoleId
-                                   where userIds.Contains(ur.UserId)
+                                   join ur in this.Db.Set<T_AccountRole>() on r.Id equals ur.RoleId
+                                   where userIds.Contains(ur.AccountId)
                                    select new
                                    {
-                                       ur.UserId,
+                                       ur.AccountId,
                                        ur.RoleId,
                                        RoleName = r.Name
                                    }).ToListAsync();
                 result.Items.ForEach(u =>
                 {
-                    var roleNames = roles.Where(r => r.UserId == u.Id).Select(r=>r.RoleName);
+                    var roleNames = roles.Where(r => r.AccountId == u.Id).Select(r=>r.RoleName);
                     if(roleNames.Any()) u.UserRoleName = string.Join(",", roleNames);
                 });
             }
@@ -177,11 +179,11 @@ namespace HxCore.Services.Admin
 
         }
         /// <inheritdoc cref="HxCore.IServices.Admin.IUserService.GetRoleByIdAsync"/>
-        public async Task<List<UserRoleModel>> GetRoleByIdAsync(string userId)
+        public async Task<List<UserRoleModel>> GetRoleByIdAsync(string accountId)
         {
             var roles = await(from r in this.Db.Set<T_Role>()
-                              join ur in this.Db.Set<T_UserRole>() on r.Id equals ur.RoleId
-                              where ur.UserId == userId 
+                              join ur in this.Db.Set<T_AccountRole>() on r.Id equals ur.RoleId
+                              where ur.AccountId == accountId
                               && r.Deleted == ConstKey.No
                               select new UserRoleModel
                               {
@@ -212,11 +214,11 @@ namespace HxCore.Services.Admin
         public async Task<bool> CheckUserNameAsync(string userName)
         {
             if (string.IsNullOrEmpty(userName)) 
-                throw new UserFriendlyException("请输入用户名", ErrorCodeEnum.ParamsInValidError)
+                throw new UserFriendlyException("请输入账户名", ErrorCodeEnum.ParamsInValidError)
                     .SetUnifyResultStatusCode(ErrorCodeEnum.SystemError.GetHashCode());
-            var user = await this.Repository.FirstOrDefaultAsync(u => u.UserName == userName);
+            var user = await this.Repository.FirstOrDefaultAsync(u => u.AccountName == userName);
             if (user != null) 
-                throw new UserFriendlyException("已存在该用户名", ErrorCodeEnum.SystemError)
+                throw new UserFriendlyException("已存在该账户名", ErrorCodeEnum.SystemError)
                     .SetUnifyResultStatusCode(ErrorCodeEnum.SystemError.GetHashCode());
             return true;
         }
@@ -239,7 +241,7 @@ namespace HxCore.Services.Admin
         /// </summary>
         /// <param name="entity">实体</param>
         /// <returns></returns>
-        public override T_User BeforeInsert(T_User entity)
+        public override T_Account BeforeInsert(T_Account entity)
         {
             if (entity != null)
             {

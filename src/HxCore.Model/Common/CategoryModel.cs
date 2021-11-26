@@ -10,7 +10,7 @@ namespace HxCore.Model
     /// <summary>
     /// 分类
     /// </summary>
-    public class CategoryModel: IAutoMapper<T_BlogType>
+    public class CategoryModel: IAutoMapper<T_Category>
     {
         /// <summary>
         /// 主键（long）

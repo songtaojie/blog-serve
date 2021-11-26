@@ -13,9 +13,9 @@ namespace HxCore.Model.Admin.User
     public class AssignRoleModel
     {
         /// <summary>
-        /// 用户id
+        ///账户id
         /// </summary>
-        public string UserId { get; set; }
+        public string AccountId { get; set; }
 
         /// <summary>
         /// 角色id集合
@@ -27,8 +27,8 @@ namespace HxCore.Model.Admin.User
         /// </summary>
         public virtual void VerifyParam()
         {
-            if (string.IsNullOrWhiteSpace(UserId))
-                throw new UserFriendlyException("用户标识不能为空", ErrorCodeEnum.ParamsInValidError);
+            if (string.IsNullOrWhiteSpace(AccountId))
+                throw new UserFriendlyException("账户标识不能为空", ErrorCodeEnum.ParamsInValidError);
             if (RoleIds == null || !RoleIds.Any())
                 throw new UserFriendlyException("角色不能为空", ErrorCodeEnum.ParamsInValidError);
 

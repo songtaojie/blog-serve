@@ -8,7 +8,7 @@ namespace HxCore.Entity.Entities
     /// <summary>
     /// 用户角色关联表
     /// </summary>
-    public class T_UserRole : Hx.Sdk.DatabaseAccessor.IEntity
+    public class T_AccountRole : Hx.Sdk.DatabaseAccessor.IEntity
     {
         /// <summary>
         /// 主键
@@ -18,11 +18,11 @@ namespace HxCore.Entity.Entities
         public string Id { get; set; }
 
         /// <summary>
-        /// 用户ID
+        /// 账号ID
         /// </summary>
         [MaxLength(36)]
         [Required]
-        public string UserId { get; set; }
+        public string AccountId { get; set; }
 
         /// <summary>
         /// 角色ID

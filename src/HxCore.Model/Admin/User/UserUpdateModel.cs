@@ -12,7 +12,7 @@ namespace HxCore.Model.Admin.User
     /// <summary>
     ///用户编辑model
     /// </summary>
-    public class UserUpdateModel : IAutoMapper<T_User>
+    public class UserUpdateModel : IAutoMapper<T_Account>
     {
         /// <summary>
         /// 用户id
