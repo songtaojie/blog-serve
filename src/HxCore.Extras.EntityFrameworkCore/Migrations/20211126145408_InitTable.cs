@@ -87,13 +87,13 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                     IsTop = table.Column<string>(type: "char(1)", nullable: true),
                     BlogTags = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true),
                     CanCmt = table.Column<string>(type: "char(1)", nullable: true),
-                    ReadCount = table.Column<long>(type: "bigint", nullable: false),
-                    FavCount = table.Column<long>(type: "bigint", nullable: false),
-                    CmtCount = table.Column<long>(type: "bigint", nullable: false),
+                    ReadCount = table.Column<int>(type: "int", nullable: false),
+                    FavCount = table.Column<int>(type: "int", nullable: false),
+                    CmtCount = table.Column<int>(type: "int", nullable: false),
                     CoverImgUrl = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true),
                     CategoryId = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true),
                     BlogType = table.Column<int>(type: "int", nullable: false),
-                    SourceLink = table.Column<string>(type: "text", nullable: true),
+                    SourceLink = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
                     CreateTime = table.Column<DateTime>(type: "datetime", nullable: false),
                     CreaterId = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true),
                     Creater = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true),
@@ -113,38 +113,12 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false),
-                    BlogId = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true),
                     Content = table.Column<string>(type: "text", nullable: true),
-                    ContentHtml = table.Column<string>(type: "text", nullable: true),
-                    ForwardUrl = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true),
-                    Location = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true),
-                    City = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                    ContentHtml = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_T_BlogExtend", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "T_BlogTag",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false),
-                    Name = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true),
-                    Description = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true),
-                    OrderIndex = table.Column<int>(type: "int", nullable: true),
-                    CreateTime = table.Column<DateTime>(type: "datetime", nullable: false),
-                    CreaterId = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true),
-                    Creater = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true),
-                    LastModifyTime = table.Column<DateTime>(type: "datetime", nullable: true),
-                    LastModifier = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true),
-                    LastModifierId = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true),
-                    Deleted = table.Column<string>(type: "char(1)", nullable: true),
-                    Disabled = table.Column<string>(type: "char(1)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_T_BlogTag", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -410,9 +384,6 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
 
             migrationBuilder.DropTable(
                 name: "T_BlogExtend");
-
-            migrationBuilder.DropTable(
-                name: "T_BlogTag");
 
             migrationBuilder.DropTable(
                 name: "T_Category");

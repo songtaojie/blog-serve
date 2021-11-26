@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HxCore.Extras.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    [Migration("20211126140724_InitTable")]
+    [Migration("20211126145408_InitTable")]
     partial class InitTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,112 +18,6 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
                 .HasAnnotation("ProductVersion", "5.0.9");
-
-            modelBuilder.Entity("HxCore.Entity.Entities.Blog.T_NoticeInfo", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("Content")
-                        .HasMaxLength(2000)
-                        .HasColumnType("varchar(2000)");
-
-                    b.Property<DateTime>("CreateTime")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("Creater")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("CreaterId")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("Deleted")
-                        .HasColumnType("char(1)");
-
-                    b.Property<string>("Disabled")
-                        .HasColumnType("char(1)");
-
-                    b.Property<string>("LastModifier")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("LastModifierId")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<DateTime?>("LastModifyTime")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("Link")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<int?>("OrderIndex")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Target")
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("T_NoticeInfo");
-                });
-
-            modelBuilder.Entity("HxCore.Entity.Entities.Blog.T_TagInfo", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("BGColor")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<DateTime>("CreateTime")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("Creater")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("CreaterId")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("Deleted")
-                        .HasColumnType("char(1)");
-
-                    b.Property<string>("Disabled")
-                        .HasColumnType("char(1)");
-
-                    b.Property<string>("LastModifier")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("LastModifierId")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<DateTime?>("LastModifyTime")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<int?>("OrderIndex")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("T_TagInfo");
-                });
 
             modelBuilder.Entity("HxCore.Entity.Entities.T_Account", b =>
                 {
@@ -308,8 +202,8 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("varchar(36)");
 
-                    b.Property<long>("CmtCount")
-                        .HasColumnType("bigint");
+                    b.Property<int>("CmtCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("CoverImgUrl")
                         .HasMaxLength(255)
@@ -332,8 +226,8 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                     b.Property<string>("Disabled")
                         .HasColumnType("char(1)");
 
-                    b.Property<long>("FavCount")
-                        .HasColumnType("bigint");
+                    b.Property<int>("FavCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("IsTop")
                         .HasColumnType("char(1)");
@@ -362,11 +256,12 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("varchar(1000)");
 
-                    b.Property<long>("ReadCount")
-                        .HasColumnType("bigint");
+                    b.Property<int>("ReadCount")
+                        .HasColumnType("int");
 
                     b.Property<string>("SourceLink")
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -384,82 +279,15 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("varchar(36)");
 
-                    b.Property<string>("BlogId")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("City")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
                     b.Property<string>("Content")
                         .HasColumnType("text");
 
                     b.Property<string>("ContentHtml")
                         .HasColumnType("text");
 
-                    b.Property<string>("ForwardUrl")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Location")
-                        .HasMaxLength(255)
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("Id");
 
                     b.ToTable("T_BlogExtend");
-                });
-
-            modelBuilder.Entity("HxCore.Entity.Entities.T_BlogTag", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<DateTime>("CreateTime")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("Creater")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("CreaterId")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("Deleted")
-                        .HasColumnType("char(1)");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
-
-                    b.Property<string>("Disabled")
-                        .HasColumnType("char(1)");
-
-                    b.Property<string>("LastModifier")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<string>("LastModifierId")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<DateTime?>("LastModifyTime")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar(36)");
-
-                    b.Property<int?>("OrderIndex")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("T_BlogTag");
                 });
 
             modelBuilder.Entity("HxCore.Entity.Entities.T_Category", b =>
@@ -729,6 +557,61 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                     b.ToTable("T_Module");
                 });
 
+            modelBuilder.Entity("HxCore.Entity.Entities.T_NoticeInfo", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<string>("Content")
+                        .HasMaxLength(2000)
+                        .HasColumnType("varchar(2000)");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Creater")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<string>("CreaterId")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<string>("Deleted")
+                        .HasColumnType("char(1)");
+
+                    b.Property<string>("Disabled")
+                        .HasColumnType("char(1)");
+
+                    b.Property<string>("LastModifier")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<string>("LastModifierId")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<DateTime?>("LastModifyTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Link")
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
+
+                    b.Property<int?>("OrderIndex")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Target")
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("T_NoticeInfo");
+                });
+
             modelBuilder.Entity("HxCore.Entity.Entities.T_OperateLog", b =>
                 {
                     b.Property<string>("Id")
@@ -867,6 +750,57 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("T_RoleMenu");
+                });
+
+            modelBuilder.Entity("HxCore.Entity.Entities.T_TagInfo", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<string>("BGColor")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Creater")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<string>("CreaterId")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<string>("Deleted")
+                        .HasColumnType("char(1)");
+
+                    b.Property<string>("Disabled")
+                        .HasColumnType("char(1)");
+
+                    b.Property<string>("LastModifier")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<string>("LastModifierId")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<DateTime?>("LastModifyTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<int?>("OrderIndex")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("T_TagInfo");
                 });
 
             modelBuilder.Entity("HxCore.Entity.Entities.T_TimeLine", b =>

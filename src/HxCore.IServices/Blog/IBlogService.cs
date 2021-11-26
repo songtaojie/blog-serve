@@ -26,23 +26,6 @@ namespace HxCore.IServices
         /// <returns></returns>
         Task<bool> UpdateAsync(BlogManageCreateModel blogModel);
 
-        /// <summary>
-        /// 获取博客标签列表
-        /// </summary>
-        /// <returns></returns>
-        Task<PageModel<Model.Admin.Blog.BlogManageQueryModel>> QueryBlogListAsync(Model.Admin.Blog.BlogManageQueryParam param);
-        /// <summary>
-        /// 获取博客标签列表
-        /// </summary>
-        /// <returns></returns>
-        Task<List<BlogManagePersonTag>> GetTagListAsync();
-
-        /// <summary>
-        /// 获取博客详情-后台管理
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task<BlogManageDetailModel> GetDetailAsync(string id);
-
+    
     }
 }

@@ -1,6 +1,8 @@
-﻿using Hx.Sdk.DatabaseAccessor;
+﻿using Hx.Sdk.Common.Extensions;
+using Hx.Sdk.DatabaseAccessor;
 using HxCore.Entity;
 using HxCore.Entity.Entities;
+using HxCore.Enums;
 using System.Collections.Generic;
 
 namespace HxCore.Model.Admin.Blog
@@ -40,10 +42,12 @@ namespace HxCore.Model.Admin.Blog
         /// <summary>
         /// 文章类型
         /// </summary>
-        public string BlogTypeId
-        {
-            get; set;
-        }
+        public BlogType_Enum BlogType { get; set; }
+
+        /// <summary>
+        /// 文章类型-描述
+        /// </summary>
+        public string BlogType_V => BlogType.GetDescription();
 
         /// <summary>
         /// 系统分类
@@ -62,19 +66,10 @@ namespace HxCore.Model.Admin.Blog
         }
 
         /// <summary>
-        /// 个人置顶
+        /// 是否置顶
         /// </summary>
-        public string PersonTop
-        {
-            get; set;
-        } = ConstKey.No;
-        /// <summary>
-        /// 仅自己可见
-        /// </summary>
-        public string Private
-        {
-            get; set;
-        } = ConstKey.No;
+        public string IsTop { get; set; } = ConstKey.No;
+
         /// <summary>
         /// 是否发布
         /// </summary>

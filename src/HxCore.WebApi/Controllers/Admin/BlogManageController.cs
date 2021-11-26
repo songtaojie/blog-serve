@@ -4,6 +4,7 @@ using HxCore.IServices;
 using HxCore.Model.Admin.Blog;
 using HxCore.WebApi.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
+using SqlSugar;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,13 +16,16 @@ namespace HxCore.WebApi.Controllers.Admin
     public class BlogManageController : BaseAdminController
     {
         private readonly IBlogService _blogService;
+        private readonly IBlogQuery _blogQuery;
         /// <summary>
         ///构造函数
         /// </summary>
         /// <param name="blogService"></param>
-        public BlogManageController(IBlogService blogService)
+        /// <param name="blogQuery"></param>
+        public BlogManageController(IBlogService blogService, IBlogQuery blogQuery)
         {
             _blogService = blogService;
+            _blogQuery = blogQuery;
         }
         #region 博客查询
         /// <summary>
@@ -29,9 +33,9 @@ namespace HxCore.WebApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageModel<BlogManageQueryModel>> GetPage(BlogManageQueryParam param)
+        public async Task<SqlSugarPageModel<BlogManageQueryModel>> GetPage(BlogManageQueryParam param)
         {
-            var result = await _blogService.QueryBlogListAsync(param);
+            var result = await _blogQuery.QueryBlogListAsync(param);
             return result;
         }
 
@@ -43,7 +47,7 @@ namespace HxCore.WebApi.Controllers.Admin
         [SkipRouteAuthorization]
         public async Task<List<BlogManagePersonTag>> GetTagList()
         {
-            return await _blogService.GetTagListAsync();
+            return await _blogQuery.GetTagListAsync();
         }
 
         /// <summary>
@@ -53,7 +57,7 @@ namespace HxCore.WebApi.Controllers.Admin
         [HttpGet("{id}")]
         public async Task<BlogManageDetailModel> Get(string id)
         {
-            return await _blogService.GetDetailAsync(id);
+            return await _blogQuery.GetDetailAsync(id);
         }
 
         #endregion

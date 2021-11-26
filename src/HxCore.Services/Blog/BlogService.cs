@@ -47,7 +47,6 @@ namespace HxCore.Services
             var blogExtend = new T_BlogExtend
             {
                 Id = entity.Id,
-                BlogId = entity.Id,
                 Content = blogModel.Content,
                 ContentHtml = blogModel.ContentHtml
             };
@@ -90,8 +89,8 @@ namespace HxCore.Services
         {
             List<string> addBlogTagIds = new List<string>();
             if (personTags == null || personTags.Count == 0) return addBlogTagIds;
-            List<T_BlogTag> addTagEntityList = new List<T_BlogTag>();
-            var tagRepository = this.Repository.Change<T_BlogTag>();
+            List<T_TagInfo> addTagEntityList = new List<T_TagInfo>();
+            var tagRepository = this.Repository.Change<T_TagInfo>();
             personTags.ForEach(p =>
             {
                 if (!string.IsNullOrEmpty(p.Name))
@@ -100,7 +99,7 @@ namespace HxCore.Services
                             && r.CreaterId == UserContext.UserId).Result;
                     if (tag == null)
                     {
-                        tag = new T_BlogTag
+                        tag = new T_TagInfo
                         {
                             Id = Helper.GetSnowId(),
                             Name = p.Name
@@ -118,74 +117,6 @@ namespace HxCore.Services
             return addBlogTagIds;
         }
         #endregion
-
-        #region 后台管理-查询
-        /// <summary>
-        /// 获取博客标签列表
-        /// </summary>
-        /// <returns></returns>
-        public Task<PageModel<BlogManageQueryModel>> QueryBlogListAsync(BlogManageQueryParam param)
-        {
-            var query = from b in this.Repository.DetachedEntities
-                        where b.Deleted == ConstKey.No
-                        orderby b.PublishDate descending,b.CreateTime descending
-                        select new BlogManageQueryModel
-                        {
-                            Id = b.Id.ToString(),
-                            Publish = b.Publish,
-                            ReadCount = b.ReadCount,
-                            Title = b.Title,
-                            CmtCount = b.CmtCount,
-                            CreateTime = b.CreateTime,
-                            PublishDate = b.PublishDate,
-                            Creater = b.Creater,
-                            isMarkDown = b.MarkDown == ConstKey.Yes
-                        };
-            return query.ToOrderAndPageListAsync(param);
-        }
-
-        public async Task<BlogManageDetailModel> GetDetailAsync(string id)
-        {
-            var detailModel = await (from b in this.Repository.DetachedEntities
-                                     join be in this.ExtendRepository.DetachedEntities on b.Id equals be.BlogId
-                                     where b.Id == id && b.Deleted == ConstKey.No
-                                     select Mapper.Map(b,new BlogManageDetailModel
-                                     { 
-                                        Content = be.Content
-                                     }))
-                                   .FirstOrDefaultAsync();
-            if (detailModel == null) throw new UserFriendlyException("该文章不存在",ErrorCodeEnum.DataNull);
-            if (!string.IsNullOrEmpty(detailModel.BlogTags))
-            {
-                var tagRepository = this.Repository.Change<T_BlogTag>();
-                var blogtagIds = detailModel.BlogTags.Split(",").ToArray();
-                detailModel.PersonTags = await tagRepository.Where(t => blogtagIds.Contains(t.Id))
-                    .AsNoTracking()
-                    .Select(t => new BlogManagePersonTag
-                    {
-                        Id = t.Id,
-                        Name = t.Name
-                    }).ToListAsync();
-            }
-            return detailModel;
-        }
-        /// <summary>
-        /// 获取博客标签列表
-        /// </summary>
-        /// <returns></returns>
-        public async Task<List<BlogManagePersonTag>> GetTagListAsync()
-        {
-            var tagRepository = this.Repository.Change<T_BlogTag>();
-            return await tagRepository.Where(t => t.CreaterId == UserContext.UserId)
-                .AsNoTracking()
-                .Select(t => new BlogManagePersonTag
-                {
-                    Id = t.Id.ToString(),
-                    Name = t.Name
-                }).ToListAsync();
-        }
-        #endregion
-
     }
 
 }

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HxCore.Entity.Entities.Blog
+namespace HxCore.Entity.Entities
 {
     /// <summary>
     /// 公告通知

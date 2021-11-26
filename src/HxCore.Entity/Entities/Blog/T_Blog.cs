@@ -46,7 +46,7 @@ namespace HxCore.Entity.Entities
         public string IsTop { get; set; } = ConstKey.No;
       
         /// <summary>
-        /// 博客的个人标签，对应的是BlogTag表中主键，以，号隔开
+        /// 博客的个人标签，对应的是Tag表中主键，以，号隔开
         /// </summary>
         [MaxLength(40)]
         public string BlogTags { get; set; }
@@ -59,15 +59,17 @@ namespace HxCore.Entity.Entities
         /// <summary>
         /// 阅读量
         /// </summary>
-        public long ReadCount { get; set; }
+        public int ReadCount { get; set; }
         /// <summary>
         /// 被收藏次数
         /// </summary>
-        public long FavCount { get; set; }
+        public int FavCount { get; set; }
+
         /// <summary>
         /// 被评论次数
         /// </summary>
-        public long CmtCount { get; set; }
+        public int CmtCount { get; set; }
+
         /// <summary>
         /// 封面图url地址
         /// </summary>
@@ -81,11 +83,12 @@ namespace HxCore.Entity.Entities
         /// <summary>
         /// 博客类型，是转发，原创，还是翻译等
         /// </summary> 
-        public BlogType_Enum BlogType { get; set; }
+        public BlogType_Enum BlogType { get; set; } = BlogType_Enum.Original;
 
         /// <summary>
         /// 转载或者翻译需要有来源链接
         /// </summary>
+        [MaxLength(500)]
         public string SourceLink { get; set; }
     }
 }

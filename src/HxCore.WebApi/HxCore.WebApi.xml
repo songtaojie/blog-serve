@@ -9,11 +9,12 @@
             后台管理博客管理
             </summary>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.BlogManageController.#ctor(HxCore.IServices.IBlogService)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.BlogManageController.#ctor(HxCore.IServices.IBlogService,HxCore.IServices.IBlogQuery)">
              <summary>
             构造函数
              </summary>
              <param name="blogService"></param>
+             <param name="blogQuery"></param>
         </member>
         <member name="M:HxCore.WebApi.Controllers.Admin.BlogManageController.GetPage(HxCore.Model.Admin.Blog.BlogManageQueryParam)">
             <summary>

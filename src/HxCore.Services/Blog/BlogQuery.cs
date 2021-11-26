@@ -8,6 +8,7 @@ using HxCore.Enums;
 using HxCore.Extras.SqlSugar.Repositories;
 using HxCore.IServices;
 using HxCore.Model;
+using HxCore.Model.Admin.Blog;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
@@ -28,10 +29,11 @@ namespace HxCore.Services
             _webManager = webManager;
         }
 
+        #region 客户端-查询
         [CacheData(AbsoluteExpiration = 5)]
         public async Task<SqlSugarPageModel<BlogQueryModel>> GetBlogsAsync(BlogQueryParam param)
         {
-            var result = await this.Db.Queryable<T_Blog,T_Account>((b,u) => new JoinQueryInfos(JoinType.Inner,b.CreaterId == u.Id))
+            var result = await this.Db.Queryable<T_Blog, T_Account>((b, u) => new JoinQueryInfos(JoinType.Inner, b.CreaterId == u.Id))
                 .Where((b, u) => b.Publish == ConstKey.Yes && b.Deleted == ConstKey.No)
                 .OrderBy((b, u) => b.PublishDate, OrderByType.Desc)
                 .Select((b, u) => new BlogQueryModel
@@ -52,8 +54,6 @@ namespace HxCore.Services
             return result;
         }
 
-
-        #region 客户端-查询
         [CacheData(AbsoluteExpiration = 5)]
         public async Task<BlogDetailModel> FindById(string id)
         {
@@ -103,6 +103,84 @@ namespace HxCore.Services
                 blogModel.NextId = nextBlog.Id.ToString();
                 blogModel.NextTitle = nextBlog.Title;
             }
+        }
+        #endregion
+
+        #region 后台管理-查询
+        /// <summary>
+        /// 获取博客标签列表
+        /// </summary>
+        /// <returns></returns>
+        public async Task<SqlSugarPageModel<BlogManageQueryModel>> QueryBlogListAsync(BlogManageQueryParam param)
+        {
+            var query = this.Repository.Entities.Where(b => b.Deleted == ConstKey.No)
+                    .OrderBy(b => b.PublishDate, OrderByType.Desc)
+                    .OrderBy(b => b.CreateTime, OrderByType.Desc)
+                    .Select(b => new BlogManageQueryModel
+                    {
+                        Id = b.Id,
+                        Publish = b.Publish,
+                        ReadCount = b.ReadCount,
+                        Title = b.Title,
+                        CmtCount = b.CmtCount,
+                        CreateTime = b.CreateTime,
+                        PublishDate = b.PublishDate,
+                        Creater = b.Creater,
+                        isMarkDown = b.MarkDown == ConstKey.Yes
+                    });
+            return await query.ToPagedListAsync(param.PageIndex,param.PageSize);
+        }
+
+
+        public async Task<BlogManageDetailModel> GetDetailAsync(string id)
+        {
+            var detailModel = await this.Db.Queryable<T_Blog, T_BlogExtend>((b, be) => new JoinQueryInfos(JoinType.Inner, b.Id == be.Id))
+               .Where((b, be) => b.Publish == ConstKey.Yes && b.Deleted == ConstKey.No)
+               .OrderBy((b, be) => b.PublishDate, OrderByType.Desc)
+               .Select((b, be) => new BlogManageDetailModel
+               {
+                   Id = b.Id,
+                   Title = b.Title,
+                   BlogType = b.BlogType,
+                   CanCmt = b.CanCmt,
+                   Content = be.Content,
+                   Publish = b.Publish,
+                   BlogTags = b.BlogTags,
+                   IsTop = b.IsTop,
+                   CategoryId = b.CategoryId,
+                   CoverImgUrl = b.CoverImgUrl,
+                   MarkDown = b.MarkDown
+               }).FirstAsync();
+
+            if (detailModel == null) throw new UserFriendlyException("该文章不存在", ErrorCodeEnum.DataNull);
+            if (!string.IsNullOrEmpty(detailModel.BlogTags))
+            {
+                var tagRepository = this.Repository.Change<T_TagInfo>();
+                var blogtagIds = detailModel.BlogTags.Split(",").ToArray();
+                detailModel.PersonTags = await tagRepository.Entities.Where(t => blogtagIds.Contains(t.Id))
+                    .Select(t => new BlogManagePersonTag
+                    {
+                        Id = t.Id,
+                        Name = t.Name
+                    }).ToListAsync();
+            }
+            return detailModel;
+        }
+
+
+        /// <summary>
+        /// 获取博客标签列表
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<BlogManagePersonTag>> GetTagListAsync()
+        {
+            var tagRepository = this.Repository.Change<T_TagInfo>();
+            return await tagRepository.Entities.Where(t => t.Deleted == ConstKey.No)
+                .Select(t => new BlogManagePersonTag
+                {
+                    Id = t.Id.ToString(),
+                    Name = t.Name
+                }).ToListAsync();
         }
         #endregion
     }
