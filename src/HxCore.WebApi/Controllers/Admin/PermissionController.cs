@@ -1,5 +1,5 @@
 ﻿using Hx.Sdk.Attributes;
-using HxCore.IServices.Admin;
+using HxCore.IServices;
 using HxCore.Model.Admin.Menu;
 using HxCore.WebApi.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;

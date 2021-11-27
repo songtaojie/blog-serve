@@ -1,11 +1,9 @@
 ﻿using Hx.Sdk.Common.Helper;
 using Hx.Sdk.DatabaseAccessor;
-using Hx.Sdk.Entity;
 using Hx.Sdk.Entity.Page;
 using Hx.Sdk.Extensions;
 using HxCore.Entity;
 using HxCore.Entity.Entities;
-using HxCore.IServices.Admin;
 using HxCore.Model.Admin.Module;
 using System;
 using System.Collections.Generic;
@@ -14,8 +12,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Hx.Sdk.FriendlyException;
 using HxCore.Enums;
+using HxCore.IServices;
 
-namespace HxCore.Services.Admin
+namespace HxCore.Services
 {
     public class ModuleService : BaseStatusService<T_Module>, IModuleService
     {

@@ -20,13 +20,22 @@ namespace HxCore.WebApi.Controllers
             _eventBus = eventBus;
         }
 
-
+        /// <summary>
+        /// 测试发布
+        /// </summary>
+        /// <param name="basePush"></param>
+        /// <returns></returns>
         [HttpPost]
         public BasePush PublishTest(BasePush basePush)
         {
             return basePush;
         }
 
+        /// <summary>
+        /// 测试接受
+        /// </summary>
+        /// <param name="basePush"></param>
+        /// <returns></returns>
         [HttpPost]
         [DotNetCore.CAP.CapSubscribe("Hx.Sdk.Cap.Test")]
         public BasePush SubscribeTest(BasePush basePush)

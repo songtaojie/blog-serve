@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HxCore.IServices.Admin
+namespace HxCore.IServices
 {
     /// <summary>
     /// 操作日志接口

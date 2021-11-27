@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HxCore.IServices.Admin
+namespace HxCore.IServices
 {
 
     public interface IUserService : IBaseStatusService<T_Account>

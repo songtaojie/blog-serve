@@ -1,5 +1,4 @@
 ﻿using Hx.Sdk.Core;
-using HxCore.IServices.Admin;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Hx.Sdk.Extensions;
 using Hx.Sdk.Attributes;
+using HxCore.IServices;
 
 namespace Microsoft.AspNetCore.Authorization
 {

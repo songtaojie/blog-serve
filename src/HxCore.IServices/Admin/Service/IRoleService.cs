@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HxCore.IServices.Admin
+namespace HxCore.IServices
 {
     public interface IRoleService : IBaseStatusService<T_Role>
     {

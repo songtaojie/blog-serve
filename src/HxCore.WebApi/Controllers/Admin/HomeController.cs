@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Hx.Sdk.Attributes;
 using Hx.Sdk.Core;
 using Hx.Sdk.Entity.Page;
-using HxCore.IServices.Admin;
+using HxCore.IServices;
 using HxCore.IServices.SignalR;
 using HxCore.Model.Admin.OperateLog;
 using Microsoft.AspNetCore.Authorization;

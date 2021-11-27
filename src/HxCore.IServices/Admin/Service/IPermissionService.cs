@@ -3,7 +3,7 @@ using HxCore.Model.Admin.Menu;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace HxCore.IServices.Admin
+namespace HxCore.IServices
 {
     public interface IPermissionService : IBaseStatusService<T_Menu>
     {

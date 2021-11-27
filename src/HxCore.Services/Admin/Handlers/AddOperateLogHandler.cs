@@ -1,4 +1,4 @@
-﻿using HxCore.IServices.Admin;
+﻿using HxCore.IServices;
 using HxCore.Model.NotificationHandlers;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

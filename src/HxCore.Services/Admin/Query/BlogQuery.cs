@@ -13,7 +13,6 @@ using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HxCore.Services
@@ -131,7 +130,6 @@ namespace HxCore.Services
             return await query.ToPagedListAsync(param.PageIndex,param.PageSize);
         }
 
-
         public async Task<BlogManageDetailModel> GetDetailAsync(string id)
         {
             var detailModel = await this.Db.Queryable<T_Blog, T_BlogExtend>((b, be) => new JoinQueryInfos(JoinType.Inner, b.Id == be.Id))
@@ -166,7 +164,6 @@ namespace HxCore.Services
             }
             return detailModel;
         }
-
 
         /// <summary>
         /// 获取博客标签列表

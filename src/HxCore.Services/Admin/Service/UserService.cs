@@ -1,6 +1,5 @@
 ﻿using Hx.Sdk.DatabaseAccessor;
 using HxCore.Entity.Entities;
-using HxCore.IServices.Admin;
 using HxCore.Model.Admin.User;
 using System;
 using System.Collections.Generic;
@@ -16,8 +15,9 @@ using Microsoft.EntityFrameworkCore;
 using Hx.Sdk.Common.Helper;
 using HxCore.IServices.Ids4;
 using Hx.Sdk.Core;
+using HxCore.IServices;
 
-namespace HxCore.Services.Admin
+namespace HxCore.Services
 {
     public class UserService : BaseStatusService<T_Account>, IUserService
     {

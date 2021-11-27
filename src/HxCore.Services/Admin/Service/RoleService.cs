@@ -9,11 +9,11 @@ using Hx.Sdk.DatabaseAccessor;
 using Hx.Sdk.Extensions;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using HxCore.IServices.Admin;
 using Hx.Sdk.FriendlyException;
 using HxCore.Enums;
+using HxCore.IServices;
 
-namespace HxCore.Services.Admin
+namespace HxCore.Services
 {
 
     public class RoleService : BaseStatusService<T_Role>, IRoleService
@@ -100,10 +100,9 @@ namespace HxCore.Services.Admin
         public async Task<List<RoleQueryModel>> GetListByUserAsync(string accountId)
         {
             var query = from r in this.Repository.DetachedEntities
-                        join ru in this.Repository.Context.Set<T_AccountRole>() on r.Id equals ru.RoleId
-                        where ru.AccountId == accountId
-                        && r.Deleted == ConstKey.No
-                        && r.Disabled == ConstKey.No
+                        join ru in this.Repository.Context.Set<T_AccountRole>() on r.Id equals ru.RoleId into ru_temp
+                        from ru in ru_temp.DefaultIfEmpty()
+                        where ru.AccountId == accountId && r.Deleted == ConstKey.No 
                         select new RoleQueryModel
                         {
                             Id = r.Id,

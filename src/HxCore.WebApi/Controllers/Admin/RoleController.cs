@@ -1,6 +1,6 @@
 ﻿using Hx.Sdk.Core;
 using Hx.Sdk.Entity.Page;
-using HxCore.IServices.Admin;
+using HxCore.IServices;
 using HxCore.IServices.Ids4;
 using HxCore.Model.Admin.Role;
 using HxCore.WebApi.Controllers.Base;
