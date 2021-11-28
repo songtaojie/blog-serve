@@ -17,19 +17,16 @@ namespace HxCore.Entity.Entities
         /// </summary>
         [MaxLength(100)]
         public string SiteName { get; set; }
-
         /// <summary>
         /// 网站链接
         /// </summary>
         [MaxLength(500)]
         public string Link { get; set; }
-
         /// <summary>
         /// 网站logo
         /// </summary>
         [MaxLength(200)]
         public string Logo { get; set; }
-
         /// <summary>
         /// 排序
         /// </summary>

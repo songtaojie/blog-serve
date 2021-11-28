@@ -19,6 +19,11 @@ namespace HxCore.Options
         public string BaseUrl { get; set; }
 
         /// <summary>
+        /// 大小
+        /// </summary>
+        public long? MaxSize { get; set; }
+
+        /// <summary>
         /// 图片配置
         /// </summary>
         public ImageSettings Image { get; set; }
@@ -30,10 +35,10 @@ namespace HxCore.Options
         /// <param name="name"></param>
         public void PostConfigure(string name, AttachSettingsOptions options)
         {
-            RootPath ??= "fileupload";
+            RootPath ??= "resources";
+            MaxSize = 2048;
             Image ??= new ImageSettings
             {
-                MaxSize = 2048,
                 MakeThumbnail = false,
                 MakeLetterWater = false
             };
@@ -51,11 +56,6 @@ namespace HxCore.Options
         public string Format { get; set; }
 
         /// <summary>
-        /// 大小
-        /// </summary>
-        public long? MaxSize { get; set; }
-
-        /// <summary>
         /// 是否可以缩略图
         /// </summary>
         public bool? MakeThumbnail { get; set; }
@@ -63,12 +63,12 @@ namespace HxCore.Options
         /// <summary>
         /// 缩略图的宽度
         /// </summary>
-        public int ThumsizeW { get; set; }
+        public int ThumbnailW { get; set; }
 
         /// <summary>
         /// 缩略图的高度
         /// </summary>
-        public int ThumsizeH { get; set; }
+        public int ThumbnailH { get; set; }
 
         /// <summary>
         /// 是否添加水印

@@ -151,7 +151,6 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                     SiteName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
                     Link = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
                     Logo = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true),
-                    SortCode = table.Column<byte>(type: "tinyint", nullable: false),
                     OrderIndex = table.Column<int>(type: "int", nullable: true),
                     CreateTime = table.Column<DateTime>(type: "datetime", nullable: false),
                     CreaterId = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true),
@@ -243,7 +242,7 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false),
-                    Content = table.Column<string>(type: "varchar(2000)", maxLength: 2000, nullable: true),
+                    Content = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
                     Link = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
                     Target = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
                     OrderIndex = table.Column<int>(type: "int", nullable: true),
@@ -352,7 +351,6 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                     Content = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
                     Link = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
                     Target = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
-                    PublishDate = table.Column<DateTime>(type: "datetime", nullable: false),
                     CreateTime = table.Column<DateTime>(type: "datetime", nullable: false),
                     CreaterId = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true),
                     Creater = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true),

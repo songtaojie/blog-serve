@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HxCore.Extras.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    [Migration("20211126145408_InitTable")]
+    [Migration("20211128134841_InitTable")]
     partial class InitTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -391,9 +391,6 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<sbyte>("SortCode")
-                        .HasColumnType("tinyint");
-
                     b.HasKey("Id");
 
                     b.ToTable("T_FriendLink");
@@ -565,8 +562,8 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasColumnType("varchar(36)");
 
                     b.Property<string>("Content")
-                        .HasMaxLength(2000)
-                        .HasColumnType("varchar(2000)");
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
 
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime");
@@ -845,9 +842,6 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                     b.Property<string>("Link")
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
-
-                    b.Property<DateTime>("PublishDate")
-                        .HasColumnType("datetime");
 
                     b.Property<string>("Target")
                         .HasMaxLength(10)

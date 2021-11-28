@@ -261,4 +261,5 @@ __pycache__/
 *.pyc
 *.Development.json
 *.Production.json
+resources/
 

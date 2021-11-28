@@ -28,7 +28,7 @@ namespace HxCore.Model.Admin.Notice
         /// <summary>
         /// 跳转方式
         /// </summary>
-        public string Target { get; set; }
+        public string Target { get; set; } = "_blank";
         /// <summary>
         /// 排序
         /// </summary>

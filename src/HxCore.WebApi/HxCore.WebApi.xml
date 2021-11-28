@@ -481,7 +481,7 @@
         </member>
         <member name="T:HxCore.WebApi.Controllers.Admin.TimeLineController">
             <summary>
-            公告通知控制器
+            时间轴控制器
             </summary>
         </member>
         <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineController.#ctor(HxCore.IServices.ITimeLineService,HxCore.IServices.ITimeLineQuery)">
@@ -493,35 +493,35 @@
         </member>
         <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineController.GetPageAsync(HxCore.Model.Admin.TimeLine.TimeLineQueryParam)">
             <summary>
-            获取友情链接分页列表
+            获取时间轴分页列表
             </summary>
             <returns></returns>
         </member>
         <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineController.GetAsync(System.String)">
             <summary>
-            获取接口详情数据
+            获取时间轴详情数据
             </summary>
             <returns></returns>
         </member>
         <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineController.AddAsync(HxCore.Model.Admin.TimeLine.TimeLineCreateModel)">
             <summary>
-            添加接口
+            添加时间轴
             </summary>
             <param name="createModel"></param>
             <returns></returns>
         </member>
         <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineController.UpdateAsync(HxCore.Model.Admin.TimeLine.TimeLineCreateModel)">
             <summary>
-            编辑接口
+            编辑时间轴
             </summary>
             <param name="updateModel"></param>
             <returns></returns>
         </member>
         <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineController.DeleteAsync(System.String)">
             <summary>
-            删除接口
+            删除时间轴
             </summary>
-            <param name="id">要删除的接口的id</param>
+            <param name="id">要删除的时间轴的id</param>
             <returns></returns>
         </member>
         <member name="T:HxCore.WebApi.Controllers.Admin.UserController">
