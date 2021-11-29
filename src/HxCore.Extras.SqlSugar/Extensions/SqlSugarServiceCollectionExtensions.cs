@@ -18,33 +18,33 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 添加 SqlSugar 拓展
         /// </summary>
         /// <param name="services"></param>
+        /// <param name="config"></param>
+        /// <param name="buildAction"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddSqlSugar(this IServiceCollection services, ConnectionConfig config, Action<ISqlSugarClient> buildAction = default)
+        {
+            return services.AddSqlSugar(new ConnectionConfig[] { config }, buildAction);
+        }
+
+
+        /// <summary>
+        /// 添加 SqlSugar 拓展
+        /// </summary>
+        /// <param name="services"></param>
         /// <param name="sqlSugarSettings"></param>
         /// <param name="buildAction"></param>
         /// <returns></returns>
-        public static IServiceCollection AddSqlSugar(this IServiceCollection services, ConnectionConfig[] sqlSugarSettings = default, Action<ISqlSugarClient> buildAction = default)
+        public static IServiceCollection AddSqlSugar(this IServiceCollection services, ConnectionConfig[] sqlSugarSettings, Action<ISqlSugarClient> buildAction = default)
         {
             // 注册 SqlSugar 客户端
-            services.AddScoped<ISqlSugarClient>(sp =>
+            services.AddScoped<ISqlSugarClient>(u =>
             {
-                var config = sp.GetRequiredService<IConfiguration>();
-                if (sqlSugarSettings == null || !sqlSugarSettings.Any())
-                {
-                    sqlSugarSettings = config.GetSection("SqlSugarSettings").Get<ConnectionConfig[]>();
-                }
-                var enabledSqlLog = config.GetSection("DbSettings:EnabledSqlLog").Get<bool?>();
                 var sqlSugarClient = new SqlSugarClient(sqlSugarSettings.ToList());
-                if (enabledSqlLog == true)
-                {
-                    sqlSugarClient.Aop.OnLogExecuting = (sql, pars) =>
-                    {
-                        Console.WriteLine(SqlProfiler.ParameterFormat(sql,pars));
-                        Console.WriteLine();
-                    };
-                }
                 buildAction?.Invoke(sqlSugarClient);
 
                 return sqlSugarClient;
             });
+
 
             // 注册非泛型仓储
             services.AddScoped<ISqlSugarRepository, SqlSugarRepository>();

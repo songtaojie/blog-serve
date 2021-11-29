@@ -19,12 +19,17 @@ namespace HxCore.Model
         /// <summary>
         /// 附件类型，0：文件，1：图片
         /// </summary>
-        public AttachType AttachType { get; set; }
+        public AttachType AttachType { get; set; } = AttachType.Image;
 
         /// <summary>
         /// 附件存储的路径，不设置使用默认路径
         /// </summary>
         public string Path { get; set; }
+
+        /// <summary>
+        /// 文件名字
+        /// </summary>
+        public string FileName { get; set; }
 
         /// <summary>
         /// 是否进行缩略图，仅对图片有效

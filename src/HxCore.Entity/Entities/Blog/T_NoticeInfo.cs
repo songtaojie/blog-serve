@@ -15,7 +15,8 @@ namespace HxCore.Entity.Entities
         /// <summary>
         /// 通知内容
         /// </summary>
-        [MaxLength(500)]
+        [MaxLength(1000)]
+        [Required]
         public string Content { get; set; }
 
         /// <summary>

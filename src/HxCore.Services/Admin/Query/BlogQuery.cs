@@ -80,7 +80,7 @@ namespace HxCore.Services
         }
         private async Task GetPreBlogInfo(BlogDetailModel blogModel)
         {
-            var preBlog = await this.Repository.Entities
+            var preBlog = await this.Db.Queryable<T_Blog>()
                     .Where(b => b.CreaterId == blogModel.UserId && b.PublishDate < blogModel.PublishDate)
                     .OrderBy(b=>b.PublishDate,OrderByType.Desc)
                     .FirstAsync();
@@ -93,7 +93,7 @@ namespace HxCore.Services
 
         private async Task GetNextBlogInfo(BlogDetailModel blogModel)
         {
-            var nextBlog = await this.Repository.Entities
+            var nextBlog = await this.Db.Queryable<T_Blog>()
                 .Where(b => b.CreaterId == blogModel.UserId && b.PublishDate > blogModel.PublishDate)
                 .OrderBy(b => b.CreateTime)
                 .FirstAsync();
@@ -112,7 +112,7 @@ namespace HxCore.Services
         /// <returns></returns>
         public async Task<SqlSugarPageModel<BlogManageQueryModel>> QueryBlogListAsync(BlogManageQueryParam param)
         {
-            var query = this.Repository.Entities.Where(b => b.Deleted == ConstKey.No)
+            var query = this.Db.Queryable<T_Blog>().Where(b => b.Deleted == ConstKey.No)
                     .OrderBy(b => b.PublishDate, OrderByType.Desc)
                     .OrderBy(b => b.CreateTime, OrderByType.Desc)
                     .Select(b => new BlogManageQueryModel

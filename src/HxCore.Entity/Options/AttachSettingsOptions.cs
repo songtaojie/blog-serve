@@ -36,7 +36,7 @@ namespace HxCore.Options
         public void PostConfigure(string name, AttachSettingsOptions options)
         {
             RootPath ??= "resources";
-            MaxSize = 2048;
+            MaxSize ??= 2*1024 * 1024;
             Image ??= new ImageSettings
             {
                 MakeThumbnail = false,

@@ -23,9 +23,9 @@ using System.Threading.Tasks;
 namespace HxCore.Extensions.Authentication
 {
     /// <summary>
-    /// jwt处理程序
+    /// jwt身份验证处理程序
     /// </summary>
-    public class MyJwtBearerHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+    public class JwtAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         /// <summary>
         /// 构造函数
@@ -34,7 +34,7 @@ namespace HxCore.Extensions.Authentication
         /// <param name="logger"></param>
         /// <param name="encoder"></param>
         /// <param name="clock"></param>
-        public MyJwtBearerHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) 
+        public JwtAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) 
             : base(options, logger, encoder, clock)
         {
         }
@@ -57,7 +57,7 @@ namespace HxCore.Extensions.Authentication
         {
             Response.ContentType = "application/json";
             Response.StatusCode = StatusCodes.Status200OK;
-            base.Response.Headers.Append(HeaderNames.WWWAuthenticate, nameof(MyJwtBearerHandler));
+            base.Response.Headers.Append(HeaderNames.WWWAuthenticate, nameof(JwtAuthenticationHandler));
             JsonSerializerSettings setting = new JsonSerializerSettings()
             {
                 ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
@@ -82,7 +82,7 @@ namespace HxCore.Extensions.Authentication
         {
             base.Response.ContentType = "application/json";
             base.Response.StatusCode = StatusCodes.Status200OK;
-            base.Response.Headers.Append(HeaderNames.WWWAuthenticate, nameof(MyJwtBearerHandler));
+            base.Response.Headers.Append(HeaderNames.WWWAuthenticate, nameof(JwtAuthenticationHandler));
             Newtonsoft.Json.JsonSerializerSettings setting = new Newtonsoft.Json.JsonSerializerSettings()
             {
                 ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()

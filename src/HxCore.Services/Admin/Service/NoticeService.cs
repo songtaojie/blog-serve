@@ -18,7 +18,7 @@ namespace HxCore.Services
         {
             var entity = this.Mapper.Map<T_NoticeInfo>(createModel);
             this.BeforeInsert(entity);
-            entity.SetDisable(createModel.IsEnabled ? StatusEntityEnum.Yes : StatusEntityEnum.No, UserContext.UserId, UserContext.UserName);
+            entity.SetDisable(createModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes, UserContext.UserId, UserContext.UserName);
             await this.Repository.InsertAsync(entity);
             return await this.Repository.SaveNowAsync() > 0;
         }
@@ -29,7 +29,7 @@ namespace HxCore.Services
             var entity = await this.FindAsync(updateModel.Id);
             if (entity == null) throw new UserFriendlyException("该公告通知不存在", ErrorCodeEnum.DataNull);
             entity = this.Mapper.Map(updateModel, entity);
-            entity.SetDisable(updateModel.IsEnabled ? StatusEntityEnum.Yes : StatusEntityEnum.No, UserContext.UserId, UserContext.UserName);
+            entity.SetDisable(updateModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes, UserContext.UserId, UserContext.UserName);
             this.BeforeUpdate(entity);
             await this.Repository.UpdateAsync(entity);
             return await this.Repository.SaveNowAsync() > 0;

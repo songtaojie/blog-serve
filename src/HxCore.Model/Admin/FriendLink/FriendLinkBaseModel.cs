@@ -17,6 +17,11 @@ namespace HxCore.Model.Admin.FriendLink
         public string Id { get; set; }
 
         /// <summary>
+        /// 网站代码code
+        /// </summary>
+        public string SiteCode { get; set; }
+
+        /// <summary>
         /// 网站名称
         /// </summary>
         public string SiteName { get; set; }

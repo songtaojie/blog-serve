@@ -18,7 +18,7 @@ namespace HxCore.Services
 
         public async Task<SqlSugarPageModel<BannerQueryModel>> QueryNoticePageAsync(BannerQueryParam param)
         {
-            var query = this.Repository.Entities.Where(r => r.Deleted == ConstKey.No)
+            var query = this.Db.Queryable<T_BannerInfo>().Where(r => r.Deleted == ConstKey.No)
                    .OrderBy(r => r.OrderIndex, OrderByType.Desc)
                    .OrderBy(r => r.CreateTime, OrderByType.Desc)
                    .Select(r => new BannerQueryModel
@@ -35,12 +35,19 @@ namespace HxCore.Services
         }
         public async Task<BannerDetailModel> GetDetailAsync(string id)
         {
-            var entity = await this.Repository.FirstOrDefaultAsync(r => r.Id == id);
-            if (entity == null) throw new UserFriendlyException("该条数据不存在", ErrorCodeEnum.DataNull);
-            var detailModel = this.Mapper.Map(entity, new BannerDetailModel
-            {
-                IsEnabled = entity.Disabled == ConstKey.No
-            });
+            var detailModel = await this.Repository.Entities.Where(r=>r.Id == id)
+                .Select(r => new BannerDetailModel
+                {
+                    Id = r.Id,
+                    Title = r.Title,
+                    Link = r.Link,
+                    ImgUrl = r.ImgUrl,
+                    OrderIndex = r.OrderIndex,
+                    Target = r.Target,
+                    IsEnabled = r.Disabled == ConstKey.No
+                })
+                .FirstAsync(r => r.Id == id);
+            if (detailModel == null) throw new UserFriendlyException("该条数据不存在", ErrorCodeEnum.DataNull);
             return detailModel;
         }
 

@@ -22,7 +22,8 @@ namespace HxCore.Services.Admin.Query
 
         public async Task<SqlSugarPageModel<TimeLineQueryModel>> QueryTimeLinePageAsync(TimeLineQueryParam param)
         {
-            var query = this.Repository.Entities.Where(r => r.Deleted == ConstKey.No)
+            var query = this.Repository.Entities
+                   .Where(r => r.Deleted == ConstKey.No)
                    .OrderBy(r => r.CreateTime, OrderByType.Desc)
                    .Select(r => new TimeLineQueryModel
                    {
@@ -36,12 +37,17 @@ namespace HxCore.Services.Admin.Query
         }
         public async Task<TimeLineDetailModel> GetDetailAsync(string id)
         {
-            var entity = await this.Repository.FirstOrDefaultAsync(r => r.Id == id);
-            if (entity == null) throw new UserFriendlyException("该条数据不存在", ErrorCodeEnum.DataNull);
-            var detailModel = this.Mapper.Map(entity, new TimeLineDetailModel
-            {
-                IsEnabled = entity.Disabled == ConstKey.No
-            });
+            var detailModel = await this.Repository.Entities.Where(r=>r.Id == id)
+                .Select(r => new TimeLineDetailModel
+                {
+                    Id = r.Id,
+                    Content = r.Content,
+                    Link = r.Link,
+                    Target = r.Target,
+                    IsEnabled = r.Disabled == ConstKey.No
+                })
+                .FirstAsync(r => r.Id == id);
+            if (detailModel == null) throw new UserFriendlyException("该条数据不存在", ErrorCodeEnum.DataNull);
             return detailModel;
         }
 

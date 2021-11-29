@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HxCore.Extras.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    [Migration("20211128134841_InitTable")]
+    [Migration("20211129060923_InitTable")]
     partial class InitTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,6 +147,7 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasColumnType("char(1)");
 
                     b.Property<string>("ImgUrl")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
@@ -173,6 +174,7 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasColumnType("varchar(10)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
@@ -387,7 +389,13 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                     b.Property<int?>("OrderIndex")
                         .HasColumnType("int");
 
+                    b.Property<string>("SiteCode")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
+
                     b.Property<string>("SiteName")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
@@ -562,8 +570,9 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasColumnType("varchar(36)");
 
                     b.Property<string>("Content")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime");
@@ -808,8 +817,9 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasColumnType("varchar(36)");
 
                     b.Property<string>("Content")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime");

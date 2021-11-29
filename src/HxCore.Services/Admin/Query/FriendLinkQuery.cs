@@ -23,29 +23,37 @@ namespace HxCore.Services
         /// <returns></returns>
         public async Task<SqlSugarPageModel<FriendLinkQueryModel>> QueryFriendLinkPageAsync(FriendLinkQueryParam param)
         {
-            var query = this.Repository.Entities.Where(f => f.Deleted == ConstKey.No)
-                    .OrderBy(f => f.OrderIndex, OrderByType.Desc)
-                    .OrderBy(f => f.CreateTime, OrderByType.Desc)
-                    .Select(f => new FriendLinkQueryModel
+            var query = this.Repository.Entities.Where(r => r.Deleted == ConstKey.No)
+                    .OrderBy(r => r.OrderIndex, OrderByType.Desc)
+                    .OrderBy(r => r.CreateTime, OrderByType.Desc)
+                    .Select(r => new FriendLinkQueryModel
                     {
-                        Id = f.Id,
-                        Link = f.Link,
-                        SiteName = f.SiteName,
-                        OrderIndex = f.OrderIndex,
-                        Logo = f.Logo,
-                        IsEnabled = f.Disabled ==  ConstKey.No
+                        Id = r.Id,
+                        Link = r.Link,
+                        SiteCode = r.SiteCode,
+                        SiteName = r.SiteName,
+                        OrderIndex = r.OrderIndex,
+                        Logo = r.Logo,
+                        IsEnabled = r.Disabled ==  ConstKey.No
                     });
             return await query.ToPagedListAsync(param.PageIndex, param.PageSize);
         }
 
         public async Task<FriendLinkDetailModel> GetDetailAsync(string id)
         {
-            var entity = await this.Repository.FirstOrDefaultAsync(f => f.Id == id);
-            if (entity == null) throw new UserFriendlyException("该友情链接不存在", ErrorCodeEnum.DataNull);
-            var detailModel = this.Mapper.Map(entity,new FriendLinkDetailModel
-            {
-                IsEnabled = entity.Disabled ==  ConstKey.No
-            });
+            var detailModel = await this.Repository.Entities
+                .Where(r => r.Id == id)
+                .Select(r => new FriendLinkDetailModel
+                {
+                    Id = r.Id,
+                    Link = r.Link,
+                    SiteCode = r.SiteCode,
+                    SiteName = r.SiteName,
+                    OrderIndex = r.OrderIndex,
+                    Logo = r.Logo,
+                    IsEnabled = r.Disabled == ConstKey.No
+                }).FirstAsync();
+            if (detailModel == null) throw new UserFriendlyException("该友情链接不存在", ErrorCodeEnum.DataNull);
             return detailModel;
         }
         #endregion

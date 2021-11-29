@@ -11,7 +11,7 @@ namespace HxCore.Model.Admin.Notice
     /// <summary>
     /// 友情链接创建；类
     /// </summary>
-    public class NoticeCreateModel: NoticeBaseModel,IAutoMapper<T_FriendLink>
+    public class NoticeCreateModel: NoticeBaseModel,IAutoMapper<T_NoticeInfo>
     {
     }
 }

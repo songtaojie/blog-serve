@@ -55,8 +55,8 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false),
-                    Title = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
-                    ImgUrl = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
+                    Title = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    ImgUrl = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false),
                     Link = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
                     Target = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
                     OrderIndex = table.Column<int>(type: "int", nullable: true),
@@ -148,7 +148,8 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false),
-                    SiteName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true),
+                    SiteCode = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
+                    SiteName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false),
                     Link = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
                     Logo = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true),
                     OrderIndex = table.Column<int>(type: "int", nullable: true),
@@ -242,7 +243,7 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false),
-                    Content = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
+                    Content = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false),
                     Link = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
                     Target = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
                     OrderIndex = table.Column<int>(type: "int", nullable: true),
@@ -348,7 +349,7 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false),
-                    Content = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
+                    Content = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false),
                     Link = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: true),
                     Target = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: true),
                     CreateTime = table.Column<DateTime>(type: "datetime", nullable: false),

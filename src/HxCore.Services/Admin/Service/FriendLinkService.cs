@@ -19,9 +19,10 @@ namespace HxCore.Services
         #region 新增编辑
         public async Task<bool> InsertAsync(FriendLinkCreateModel createModel)
         {
+            if(await this.ExistAsync(r=>r.SiteCode == createModel.SiteCode)) throw new UserFriendlyException("网站Code已存在", ErrorCodeEnum.AddError);
             var entity = this.Mapper.Map<T_FriendLink>(createModel);
             this.BeforeInsert(entity);
-            entity.SetDisable(createModel.IsEnabled?StatusEntityEnum.Yes: StatusEntityEnum.No, UserContext.UserId, UserContext.UserName);
+            entity.SetDisable(createModel.IsEnabled?StatusEntityEnum.No: StatusEntityEnum.Yes, UserContext.UserId, UserContext.UserName);
             await this.Repository.InsertAsync(entity);
             return await this.Repository.SaveNowAsync() > 0;
         }
@@ -29,10 +30,11 @@ namespace HxCore.Services
         public async Task<bool> UpdateAsync(FriendLinkCreateModel updateModel)
         {
             if (string.IsNullOrEmpty(updateModel.Id)) throw new UserFriendlyException("无效的标识", ErrorCodeEnum.ParamsNullError);
+            if (await this.ExistAsync(r => r.SiteCode == updateModel.SiteCode && r.Id != updateModel.Id)) throw new UserFriendlyException("网站Code已存在", ErrorCodeEnum.AddError);
             var entity = await this.FindAsync(updateModel.Id);
             if (entity == null) throw new UserFriendlyException("该友情链接不存在", ErrorCodeEnum.DataNull);
             entity = this.Mapper.Map(updateModel, entity);
-            entity.SetDisable(updateModel.IsEnabled ? StatusEntityEnum.Yes : StatusEntityEnum.No, UserContext.UserId, UserContext.UserName);
+            entity.SetDisable(updateModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes, UserContext.UserId, UserContext.UserName);
             this.BeforeUpdate(entity);
             await this.Repository.UpdateAsync(entity);
             return await this.Repository.SaveNowAsync() > 0;

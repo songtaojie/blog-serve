@@ -18,28 +18,35 @@ namespace HxCore.Services
        
         public async Task<SqlSugarPageModel<NoticeQueryModel>> QueryNoticePageAsync(NoticeQueryParam param)
         {
-            var query = this.Repository.Entities.Where(n => n.Deleted == ConstKey.No)
-                   .OrderBy(n => n.OrderIndex, OrderByType.Desc)
-                   .OrderBy(n => n.CreateTime, OrderByType.Desc)
-                   .Select(n => new NoticeQueryModel
+            var query = this.Db.Queryable<T_NoticeInfo>()
+                   .Where(r => r.Deleted == ConstKey.No)
+                   .OrderBy(r => r.OrderIndex, OrderByType.Desc)
+                   .OrderBy(r => r.CreateTime, OrderByType.Desc)
+                   .Select(r => new NoticeQueryModel
                    {
-                       Id = n.Id,
-                       Link = n.Link,
-                       Content = n.Content,
-                       OrderIndex = n.OrderIndex,
-                       Target = n.Target,
-                       IsEnabled = n.Disabled == ConstKey.No
+                       Id = r.Id,
+                       Link = r.Link,
+                       Content = r.Content,
+                       OrderIndex = r.OrderIndex,
+                       Target = r.Target,
+                       IsEnabled = r.Disabled == ConstKey.No
                    });
             return await query.ToPagedListAsync(param.PageIndex, param.PageSize);
         }
         public async Task<NoticeDetailModel> GetDetailAsync(string id)
         {
-            var entity = await this.Repository.FirstOrDefaultAsync(f => f.Id == id);
-            if (entity == null) throw new UserFriendlyException("该公告通知不存在", ErrorCodeEnum.DataNull);
-            var detailModel = this.Mapper.Map(entity, new NoticeDetailModel
-            {
-                IsEnabled = entity.Disabled == ConstKey.No
-            });
+            var detailModel = await this.Repository.Entities.Where(r=>r.Id == id)
+                .Select(r => new NoticeDetailModel
+                {
+                    Id = r.Id,
+                    Link = r.Link,
+                    Content = r.Content,
+                    OrderIndex = r.OrderIndex,
+                    Target = r.Target,
+                    IsEnabled = r.Disabled == ConstKey.No
+                })
+                .FirstAsync(f => f.Id == id);
+            if (detailModel == null) throw new UserFriendlyException("该公告通知不存在", ErrorCodeEnum.DataNull);
             return detailModel;
         }
 

@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using MediatR;
 using System.Linq;
 using HxCore.Services.SignalR;
+using System;
+
 namespace HxCore.WebApi
 {
     /// <summary>
@@ -56,7 +58,22 @@ namespace HxCore.WebApi
             #region 数据库链接，上下文
             ConsoleHelper.WriteInfoLine(Configuration.GetConnectionString("MySqlConnectionString"));
             services.AddDatabaseAccessor();
-            services.AddSqlSugar();
+            var sqlSugurSetting = new SqlSugar.ConnectionConfig
+            {
+                ConnectionString = Configuration.GetConnectionString("MySqlConnectionString"),
+                DbType = SqlSugar.DbType.MySql,
+                IsAutoCloseConnection = true,
+                AopEvents = new SqlSugar.AopEvents
+                {
+                    //多库状态下每个库必须单独绑定打印事件，否则只会打印第一个库的sql日志
+                    OnLogExecuting = (sql, pars) =>
+                    {
+                        Console.WriteLine(SqlSugar.SqlProfiler.ParameterFormat(sql, pars));
+                        Console.WriteLine();
+                    }
+                }
+            };
+            services.AddSqlSugar(sqlSugurSetting);
             #endregion
 
             #region MVC，路由配置
@@ -68,7 +85,6 @@ namespace HxCore.WebApi
                 {
                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
                 })
-                //.AddUnifyResult()
                 //.AddJsonOptions(json => {
                 //    json.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
                 //    json.JsonSerializerOptions.Converters.Add(new DateTimeNullConverter());
@@ -133,7 +149,6 @@ namespace HxCore.WebApi
             // 然后是授权中间件
             app.UseAuthorization();
             app.UseCookiePolicy();
-            //app.UseStatusCodePages();
             //app.UseCap();
             // 短路中间件，配置Controller路由
             //app.UseConsulService(lifetime);

@@ -635,11 +635,11 @@
             <param name="userContext"></param>
             <param name="options">附件配置</param>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.AttachController.Upload(Microsoft.AspNetCore.Http.IFormFile)">
+        <member name="M:HxCore.WebApi.Controllers.AttachController.Upload(HxCore.Model.UploadParam)">
             <summary>
             附件上传
             </summary>
-            <param name="file">上传的文件</param>
+            <param name="param">上传的文件</param>
             <returns></returns>
         </member>
         <member name="M:HxCore.WebApi.Controllers.AttachController.GetMdTemplate">

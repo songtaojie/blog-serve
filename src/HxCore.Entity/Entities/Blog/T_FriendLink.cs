@@ -13,9 +13,17 @@ namespace HxCore.Entity.Entities
     public class T_FriendLink: Hx.Sdk.DatabaseAccessor.StatusEntityBase
     {
         /// <summary>
+        /// 网站代码code
+        /// </summary>
+        [MaxLength(100)]
+        [Required]
+        public string SiteCode { get; set; }
+
+        /// <summary>
         /// 网站名称
         /// </summary>
         [MaxLength(100)]
+        [Required]
         public string SiteName { get; set; }
         /// <summary>
         /// 网站链接
