@@ -731,7 +731,7 @@
             测试控制器
             </summary>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.TestController.#ctor(Hx.Sdk.EventBus.IEventBus)">
+        <member name="M:HxCore.WebApi.Controllers.TestController.#ctor(HxCore.IServices.IMenuQuery)">
             <summary>
             控制器
             </summary>

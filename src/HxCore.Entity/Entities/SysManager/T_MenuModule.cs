@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Hx.Sdk.DatabaseAccessor.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace HxCore.Entity
 {
