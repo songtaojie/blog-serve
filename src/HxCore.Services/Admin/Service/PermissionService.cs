@@ -60,6 +60,7 @@ namespace HxCore.Services.Admin
             if (string.IsNullOrEmpty(model.Id)) throw new Hx.Sdk.FriendlyException.UserFriendlyException("无效的标识", ErrorCodeEnum.UpdateError);
             var entity = await this.FindAsync(model.Id);
             if (entity == null) throw new Hx.Sdk.FriendlyException.UserFriendlyException("未找到角色信息", ErrorCodeEnum.DataNull);
+            bool isSystem = entity.IsSystem;//是否是系统内置菜单
             entity = this.Mapper.Map(model, entity);
             var disabled = model.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
             entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
@@ -80,6 +81,11 @@ namespace HxCore.Services.Admin
                     ModuleId = m
                 });
                 await this.Db.Set<T_MenuModule>().AddRangeAsync(addModules);
+            }
+            if (isSystem)
+            {
+                return await this.UpdatePartialAsync(entity, new string[] { "Name", "Description", "OrderSort", "Icon", 
+                    "LastModifier", "LastModifyTime","LastModifierId" });
             }
             return await this.UpdateAsync(entity);
         }

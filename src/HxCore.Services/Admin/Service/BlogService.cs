@@ -31,8 +31,6 @@ namespace HxCore.Services
                 entity.PublishDate = DateTime.Now;
             }
             entity.PureContent = HtmlHelper.FilterHtml(blogModel.Content, 1000);
-            var addBlogTagIds = await AddBlogTags(blogModel.PersonTags);
-            entity.BlogTags = string.Join(",", addBlogTagIds);
             this.BeforeInsert(entity);
             // 扩展表
             var blogExtend = new T_BlogExtend
@@ -58,9 +56,6 @@ namespace HxCore.Services
                 entity.PublishDate = DateTime.Now;
             }
             entity.PureContent = HtmlHelper.FilterHtml(blogModel.Content, 1000);
-            //再添加
-            var addBlogTagIds = await AddBlogTags(blogModel.PersonTags);
-            entity.BlogTags = string.Join(",", addBlogTagIds);
             this.BeforeUpdate(entity);
             //扩展表
             extendEntity.Content = blogModel.Content;
@@ -72,40 +67,93 @@ namespace HxCore.Services
         }
 
         /// <summary>
-        /// 添加博客标签
+        /// 添加或者更新标签
         /// </summary>
-        /// <param name="personTags"></param>
+        /// <param name="tagModel"></param>
         /// <returns></returns>
-        private async Task<List<string>> AddBlogTags(List<BlogManagePersonTag> personTags)
+        public async Task<bool> AddOrUpdateTagAsync(TagModel tagModel)
         {
-            List<string> addBlogTagIds = new List<string>();
-            if (personTags == null || personTags.Count == 0) return addBlogTagIds;
-            List<T_TagInfo> addTagEntityList = new List<T_TagInfo>();
             var tagRepository = this.Repository.Change<T_TagInfo>();
-            personTags.ForEach(p =>
+            if (string.IsNullOrEmpty(tagModel.Id))
             {
-                if (!string.IsNullOrEmpty(p.Name))
+                var tag = await tagRepository.FirstOrDefaultAsync(r => r.Name == tagModel.Name.Trim());
+                if (tag != null) throw new UserFriendlyException($"已存在名称为【{tagModel.Name}】的标签", ErrorCodeEnum.AddError);
+                tag = new T_TagInfo
                 {
-                    var tag = tagRepository.FirstOrDefaultAsync(r => r.Name == p.Name.Trim()
-                            && r.CreaterId == UserContext.UserId).Result;
-                    if (tag == null)
-                    {
-                        tag = new T_TagInfo
-                        {
-                            Id = Helper.GetSnowId(),
-                            Name = p.Name
-                        };
-                        tag.SetCreater(UserContext.UserId, UserContext.UserName);
-                        addTagEntityList.Add(tag);
-                    }
-                    addBlogTagIds.Add(tag.Id);
-                }
-            });
-            if (addTagEntityList.Count > 0)
-            {
-                await tagRepository.InsertAsync(addTagEntityList);
+                    Id = Helper.GetSnowId(),
+                    Name = tagModel.Name,
+                    BGColor = tagModel.BGColor,
+                    OrderSort = tagModel.OrderSort
+                };
+                tag.SetCreater(UserContext.UserId, UserContext.UserName);
+                tag.SetDisable(tagModel.IsEnabled? StatusEntityEnum.No:StatusEntityEnum.Yes, UserContext.UserId, UserContext.UserName);
+                await tagRepository.InsertAsync(tag);
             }
-            return addBlogTagIds;
+            else
+            {
+                var isExist = await tagRepository.AnyAsync(r => r.Name == tagModel.Name.Trim() && r.Id != tagModel.Id);
+                if (isExist) throw new UserFriendlyException($"已存在名称为【{tagModel.Name}】的标签", ErrorCodeEnum.UpdateError);
+                var tag = await tagRepository.FindAsync(tagModel.Id);
+                if(tag == null) throw new UserFriendlyException("标签不存在", ErrorCodeEnum.DataNull);
+                tag.Name = tagModel.Name;
+                tag.BGColor = tagModel.BGColor;
+                tag.OrderSort = tagModel.OrderSort;
+                tag.SetDisable(tagModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes, UserContext.UserId, UserContext.UserName);
+                await tagRepository.UpdateAsync(tag);
+            }
+            return await tagRepository.SaveNowAsync() > 0;
+        }
+
+        /// <summary>
+        /// 添加或者更新栏目
+        /// </summary>
+        /// <param name="categoryModel"></param>
+        /// <returns></returns>
+        public async Task<bool> AddOrUpdateCategoryAsync(CategoryModel categoryModel)
+        {
+            var categoryRepository = this.Repository.Change<T_Category>();
+            if (string.IsNullOrEmpty(categoryModel.Id))
+            {
+                var category = await categoryRepository.FirstOrDefaultAsync(r => r.Name == categoryModel.Name.Trim());
+                if (category != null) throw new UserFriendlyException($"已存在名称为【{categoryModel.Name}】的栏目", ErrorCodeEnum.AddError);
+                category = new T_Category
+                {
+                    Id = Helper.GetSnowId(),
+                    Name = categoryModel.Name,
+                    Description = categoryModel.Description,
+                    OrderSort = categoryModel.OrderSort
+                };
+                category.SetCreater(UserContext.UserId, UserContext.UserName);
+                category.SetDisable(categoryModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes, UserContext.UserId, UserContext.UserName);
+                await categoryRepository.InsertAsync(category);
+            }
+            else
+            {
+                var isExist = await categoryRepository.AnyAsync(r => r.Name == categoryModel.Name.Trim() && r.Id != categoryModel.Id);
+                if (isExist) throw new UserFriendlyException($"已存在名称为【{categoryModel.Name}】的栏目", ErrorCodeEnum.UpdateError);
+                var category = await categoryRepository.FindAsync(categoryModel.Id);
+                if (category == null) throw new UserFriendlyException("栏目不存在", ErrorCodeEnum.DataNull);
+                category.Name = categoryModel.Name;
+                category.Description = categoryModel.Description;
+                category.OrderSort = categoryModel.OrderSort;
+                category.SetDisable(categoryModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes, UserContext.UserId, UserContext.UserName);
+                await categoryRepository.UpdateAsync(category);
+            }
+            return await categoryRepository.SaveNowAsync() > 0;
+        }
+
+        public async Task<bool> DeleteTagAsync(string tagId)
+        {
+            var tagRepository = this.Repository.Change<T_TagInfo>();
+            await tagRepository.DeleteNowAsync(tagId);
+            return true;
+        }
+
+        public async Task<bool> DeleteCategoryAsync(string categoryId)
+        {
+            var tagRepository = this.Repository.Change<T_Category>();
+            await tagRepository.DeleteNowAsync(categoryId);
+            return true;
         }
         #endregion
     }

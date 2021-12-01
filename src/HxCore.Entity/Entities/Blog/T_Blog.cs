@@ -40,7 +40,7 @@ namespace HxCore.Entity.Entities
         [DataType(DataType.DateTime)]
         public DateTime? PublishDate { get; set; }
         /// <summary>
-        /// 置顶 Y权值加10年
+        /// 置顶
         /// </summary>
         [Column(TypeName = "char(1)")]
         public string IsTop { get; set; } = ConstKey.No;

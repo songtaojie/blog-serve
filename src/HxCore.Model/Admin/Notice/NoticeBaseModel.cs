@@ -32,7 +32,7 @@ namespace HxCore.Model.Admin.Notice
         /// <summary>
         /// 排序
         /// </summary>
-        public int? OrderIndex { get; set; }
+        public int OrderSort { get; set; }
 
         /// <summary>
         /// 是否启用

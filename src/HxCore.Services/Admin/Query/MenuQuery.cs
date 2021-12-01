@@ -23,7 +23,7 @@ namespace HxCore.Services.Admin.Query
         public async Task<SqlSugarPageModel<MenuQueryModel>> QueryNoticePageAsync(MenuQueryParam param)
         {
             var query = this.Db.Queryable<T_BannerInfo>().Where(r => r.Deleted == ConstKey.No)
-                   .OrderBy(r => r.OrderIndex, OrderByType.Desc)
+                   .OrderBy(r => r.OrderSort, OrderByType.Desc)
                    .OrderBy(r => r.CreateTime, OrderByType.Desc)
                    .Select(r => new MenuQueryModel
                    {
@@ -34,8 +34,6 @@ namespace HxCore.Services.Admin.Query
         }
         public async Task<MenuDetailModel> GetDetailAsync(string id)
         {
-            var test = await this.Db.Queryable<T_MenuModule>().FirstAsync();
-
 
             var detailModel = await this.Repository.Entities.Where(r => r.Id == id)
                 .Select(r => new MenuDetailModel

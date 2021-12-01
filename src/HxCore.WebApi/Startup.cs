@@ -63,7 +63,11 @@ namespace HxCore.WebApi
                 ConnectionString = Configuration.GetConnectionString("MySqlConnectionString"),
                 DbType = SqlSugar.DbType.MySql,
                 IsAutoCloseConnection = true,
-                AopEvents = new SqlSugar.AopEvents
+            };
+            //开启日志记录
+            if (Configuration.GetValue<bool>("DbSettings:EnabledSqlLog", false))
+            {
+                sqlSugurSetting.AopEvents = new SqlSugar.AopEvents
                 {
                     //多库状态下每个库必须单独绑定打印事件，否则只会打印第一个库的sql日志
                     OnLogExecuting = (sql, pars) =>
@@ -71,16 +75,14 @@ namespace HxCore.WebApi
                         Console.WriteLine(SqlSugar.SqlProfiler.ParameterFormat(sql, pars));
                         Console.WriteLine();
                     }
-                }
-            };
+                };
+            }
             services.AddSqlSugar(sqlSugurSetting);
             #endregion
 
             #region MVC，路由配置
-            services.AddControllers(options =>
-                {
-                    options.Filters.Add(new RequestActionFilter());
-                })
+            services.AddControllers()
+                .AddMvcFilter<RequestActionFilter>()
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
@@ -93,7 +95,6 @@ namespace HxCore.WebApi
             #endregion
 
             #region MediatR
-            //services.AddMediatR(typeof(Startup));
             services.AddMediatR(App.Assemblies.ToArray());
             #endregion 
 
@@ -111,7 +112,7 @@ namespace HxCore.WebApi
             #endregion
 
             #region CAP
-            if(Configuration.GetValue<bool>("CapRabbitMQSettings:Enabled")) services.AddCapRabbitMQ();
+            if(Configuration.GetValue<bool>("CapRabbitMQSettings:Enabled",false)) services.AddCapRabbitMQ();
             #endregion
             //#region 原生的依赖注入
             //使用时记得把ConfigureContainer中的Autofac注入去掉,
@@ -137,7 +138,7 @@ namespace HxCore.WebApi
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseStaticFiles();
             app.UseRouting();//路由中间件
@@ -153,15 +154,12 @@ namespace HxCore.WebApi
             // 短路中间件，配置Controller路由
             //app.UseConsulService(lifetime);
             app.UseDatabaseAccessor();
-            if(Configuration.GetValue<bool?>("CapRabbitMQSettings:Enabled") == true) app.UseCapRabbitMQ();
+            if(Configuration.GetValue("CapRabbitMQSettings:Enabled",false)) app.UseCapRabbitMQ();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action}/{id?}");
-                //这里要说下，为啥地址要写 /api/xxx 
-                //因为我前后端分离了，而且使用的是代理模式，所以如果你不用/api/xxx的这个规则的话，会出现跨域问题，
-                //毕竟这个不是我的controller的路由，而且自己定义的路由
                 endpoints.MapHub<ChatHub>("/chathub");
             });
         }

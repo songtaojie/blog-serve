@@ -13,7 +13,7 @@ namespace HxCore.IServices
     public interface IBlogService: IBaseStatusService<T_Blog>
     {
         /// <summary>
-        /// 插入一条数据
+        /// 添加博客
         /// </summary>
         /// <param name="blogModel"></param>
         /// <returns></returns>
@@ -26,6 +26,32 @@ namespace HxCore.IServices
         /// <returns></returns>
         Task<bool> UpdateAsync(BlogManageCreateModel blogModel);
 
-    
+        /// <summary>
+        /// 添加或更新博客标签
+        /// </summary>
+        /// <param name="tagModel"></param>
+        /// <returns></returns>
+        Task<bool> AddOrUpdateTagAsync(TagModel tagModel);
+
+        /// <summary>
+        /// 添加或更新博客分类
+        /// </summary>
+        /// <param name="tagModel"></param>
+        /// <returns></returns>
+        Task<bool> AddOrUpdateCategoryAsync(CategoryModel tagModel);
+
+        /// <summary>
+        /// 删除标签
+        /// </summary>
+        /// <param name="tagId">标签id</param>
+        /// <returns></returns>
+        Task<bool> DeleteTagAsync(string tagId);
+
+        /// <summary>
+        /// 删除栏目
+        /// </summary>
+        /// <param name="categoryId">栏目id</param>
+        /// <returns></returns>
+        Task<bool> DeleteCategoryAsync(string categoryId);
     }
 }

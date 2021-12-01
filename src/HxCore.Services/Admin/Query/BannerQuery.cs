@@ -19,7 +19,7 @@ namespace HxCore.Services
         public async Task<SqlSugarPageModel<BannerQueryModel>> QueryNoticePageAsync(BannerQueryParam param)
         {
             var query = this.Db.Queryable<T_BannerInfo>().Where(r => r.Deleted == ConstKey.No)
-                   .OrderBy(r => r.OrderIndex, OrderByType.Desc)
+                   .OrderBy(r => r.OrderSort, OrderByType.Desc)
                    .OrderBy(r => r.CreateTime, OrderByType.Desc)
                    .Select(r => new BannerQueryModel
                    {
@@ -27,7 +27,7 @@ namespace HxCore.Services
                        Title = r.Title,
                        Link = r.Link,
                        ImgUrl = r.ImgUrl,
-                       OrderIndex = r.OrderIndex,
+                       OrderSort = r.OrderSort,
                        Target = r.Target,
                        IsEnabled = r.Disabled == ConstKey.No
                    });
@@ -42,7 +42,7 @@ namespace HxCore.Services
                     Title = r.Title,
                     Link = r.Link,
                     ImgUrl = r.ImgUrl,
-                    OrderIndex = r.OrderIndex,
+                    OrderSort = r.OrderSort,
                     Target = r.Target,
                     IsEnabled = r.Disabled == ConstKey.No
                 })

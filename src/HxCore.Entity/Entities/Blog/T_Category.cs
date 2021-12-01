@@ -12,14 +12,16 @@ namespace HxCore.Entity.Entities
         /// </summary>
         [MaxLength(40)]
         public string Name { get; set; }
-        /// <summary>
-        /// 排序
-        /// </summary>
-        public int? OrderIndex { get; set; }
+        
         /// <summary>
         /// 描述
         /// </summary>
         [MaxLength(200)]
         public string Description { get; set; }
+
+        /// <summary>
+        /// 排序
+        /// </summary>
+        public int OrderSort { get; set; }
     }
 }

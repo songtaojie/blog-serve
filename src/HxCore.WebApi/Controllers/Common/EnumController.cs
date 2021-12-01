@@ -5,6 +5,7 @@ using Hx.Sdk.DatabaseAccessor;
 using HxCore.Entity;
 using HxCore.Entity.Entities;
 using HxCore.Model;
+using HxCore.Model.Admin.Blog;
 using HxCore.WebApi.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,7 +37,7 @@ namespace HxCore.WebApi.Controllers
             return categoryRepository.Where(b => b.Deleted == ConstKey.No)
                 .Select(c => new CategoryModel
                 {
-                    Id = c.Id.ToString(),
+                    Id = c.Id,
                     Name = c.Name
                 }).ToList();
         }

@@ -1,15 +1,17 @@
-﻿using System;
+﻿using Hx.Sdk.DatabaseAccessor;
+using HxCore.Entity.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HxCore.Model.Admin.Banner
+namespace HxCore.Model.Admin.Blog
 {
     /// <summary>
-    /// 友情链接基础model
+    /// 博客栏目model
     /// </summary>
-    public class BannerBaseModel
+    public class CategoryModel:IAutoMapper<T_Category>
     {
         /// <summary>
         /// 主键
@@ -17,24 +19,14 @@ namespace HxCore.Model.Admin.Banner
         public string Id { get; set; }
 
         /// <summary>
-        /// 标题
+        /// 分类名字
         /// </summary>
-        public string Title { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
-        /// 图片地址
+        /// 描述
         /// </summary>
-        public string ImgUrl { get; set; }
-
-        /// <summary>
-        /// 链接
-        /// </summary>
-        public string Link { get; set; }
-
-        /// <summary>
-        /// 跳转方式，值为_Blank/_Self/_Parent/_Top
-        /// </summary>
-        public string Target { get; set; }
+        public string Description { get; set; }
 
         /// <summary>
         /// 排序

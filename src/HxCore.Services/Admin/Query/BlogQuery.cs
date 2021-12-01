@@ -22,10 +22,10 @@ namespace HxCore.Services
     /// </summary>
     public class BlogQuery : BaseQuery<T_Blog>, IBlogQuery
     {
-        private readonly IWebManager _webManager;
-        public BlogQuery(ISqlSugarRepository<T_Blog> repository, IWebManager webManager) :base(repository)
+        private readonly ISqlSugarRepository<T_TagInfo> _tagRepository;
+        public BlogQuery(ISqlSugarRepository<T_Blog> repository, ISqlSugarRepository<T_TagInfo> tagRepository) :base(repository)
         {
-            _webManager = webManager;
+            _tagRepository = tagRepository;
         }
 
         #region 客户端-查询
@@ -171,13 +171,86 @@ namespace HxCore.Services
         /// <returns></returns>
         public async Task<List<BlogManagePersonTag>> GetTagListAsync()
         {
-            var tagRepository = this.Repository.Change<T_TagInfo>();
-            return await tagRepository.Entities.Where(t => t.Deleted == ConstKey.No)
+            return await _tagRepository.Entities.Where(t => t.Deleted == ConstKey.No)
                 .Select(t => new BlogManagePersonTag
                 {
-                    Id = t.Id.ToString(),
+                    Id = t.Id,
                     Name = t.Name
                 }).ToListAsync();
+        }
+
+        #endregion
+
+        #region 标签/栏目-后台管理
+
+        public async Task<TagModel> GetTagDetailAsync(string tagId)
+        {
+            var detail = await _tagRepository.Entities.Where(r => r.Id == tagId)
+                .Select(r => new TagModel
+                {
+                    Id = r.Id,
+                    BGColor = r.BGColor,
+                    Name = r.Name,
+                    OrderSort = r.OrderSort,
+                    IsEnabled = r.Disabled == ConstKey.No
+                })
+                .FirstAsync();
+            if (detail == null) throw new UserFriendlyException("该标签不存在", ErrorCodeEnum.DataNull);
+            return detail;
+        }
+
+        public async Task<CategoryModel> GetCategoryDetailAsync(string categoryId)
+        {
+            var categoryRepository = this.Repository.Change<T_Category>();
+            var detail = await categoryRepository.Entities.Where(r => r.Id == categoryId)
+                .Select(r => new CategoryModel
+                {
+                    Id = r.Id,
+                    Name = r.Name,
+                    OrderSort = r.OrderSort,
+                    Description = r.Description,
+                    IsEnabled = r.Disabled == ConstKey.No
+                })
+                .FirstAsync();
+            if (detail == null) throw new UserFriendlyException("该栏目不存在", ErrorCodeEnum.DataNull);
+            return detail;
+        }
+
+        public async Task<SqlSugarPageModel<TagModel>> QueryTagPageAsync(BasePageParam param)
+        {
+            var list = await _tagRepository.Entities
+                .Where(r => r.Deleted == ConstKey.No)
+                .OrderBy(r=>r.OrderSort, OrderByType.Desc)
+                .OrderBy(r=>r.CreateTime, OrderByType.Desc)
+                .Select(r => new TagModel
+                {
+                    Id = r.Id,
+                    BGColor = r.BGColor,
+                    Name = r.Name,
+                    OrderSort = r.OrderSort,
+                    IsEnabled = r.Disabled == ConstKey.No
+                })
+                .ToPagedListAsync(param.PageIndex, param.PageSize);
+            return list;
+        }
+
+        public async Task<SqlSugarPageModel<CategoryModel>> QueryCategoryPageAsync(BasePageParam param)
+        {
+            var categoryRepository = this.Repository.Change<T_Category>();
+            var list = await categoryRepository.Entities
+                .Where(r=>r.Deleted == ConstKey.No)
+                .OrderBy(r => r.OrderSort, OrderByType.Desc)
+                .OrderBy(r => r.CreateTime, OrderByType.Desc)
+                .Select(r => new CategoryModel
+                {
+                    Id = r.Id,
+                    Name = r.Name,
+                    OrderSort = r.OrderSort,
+                    Description = r.Description,
+                    IsEnabled = r.Disabled == ConstKey.No
+                })
+                .ToPagedListAsync(param.PageIndex, param.PageSize);
+            return list;
         }
         #endregion
     }

@@ -20,14 +20,14 @@ namespace HxCore.Services
         {
             var query = this.Db.Queryable<T_NoticeInfo>()
                    .Where(r => r.Deleted == ConstKey.No)
-                   .OrderBy(r => r.OrderIndex, OrderByType.Desc)
+                   .OrderBy(r => r.OrderSort, OrderByType.Desc)
                    .OrderBy(r => r.CreateTime, OrderByType.Desc)
                    .Select(r => new NoticeQueryModel
                    {
                        Id = r.Id,
                        Link = r.Link,
                        Content = r.Content,
-                       OrderIndex = r.OrderIndex,
+                       OrderSort = r.OrderSort,
                        Target = r.Target,
                        IsEnabled = r.Disabled == ConstKey.No
                    });
@@ -41,7 +41,7 @@ namespace HxCore.Services
                     Id = r.Id,
                     Link = r.Link,
                     Content = r.Content,
-                    OrderIndex = r.OrderIndex,
+                    OrderSort = r.OrderSort,
                     Target = r.Target,
                     IsEnabled = r.Disabled == ConstKey.No
                 })

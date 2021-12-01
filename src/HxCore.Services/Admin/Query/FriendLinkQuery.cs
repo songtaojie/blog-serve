@@ -24,7 +24,7 @@ namespace HxCore.Services
         public async Task<SqlSugarPageModel<FriendLinkQueryModel>> QueryFriendLinkPageAsync(FriendLinkQueryParam param)
         {
             var query = this.Repository.Entities.Where(r => r.Deleted == ConstKey.No)
-                    .OrderBy(r => r.OrderIndex, OrderByType.Desc)
+                    .OrderBy(r => r.OrderSort, OrderByType.Desc)
                     .OrderBy(r => r.CreateTime, OrderByType.Desc)
                     .Select(r => new FriendLinkQueryModel
                     {
@@ -32,7 +32,7 @@ namespace HxCore.Services
                         Link = r.Link,
                         SiteCode = r.SiteCode,
                         SiteName = r.SiteName,
-                        OrderIndex = r.OrderIndex,
+                        OrderSort = r.OrderSort,
                         Logo = r.Logo,
                         IsEnabled = r.Disabled ==  ConstKey.No
                     });
@@ -49,7 +49,7 @@ namespace HxCore.Services
                     Link = r.Link,
                     SiteCode = r.SiteCode,
                     SiteName = r.SiteName,
-                    OrderIndex = r.OrderIndex,
+                    OrderSort = r.OrderSort,
                     Logo = r.Logo,
                     IsEnabled = r.Disabled == ConstKey.No
                 }).FirstAsync();

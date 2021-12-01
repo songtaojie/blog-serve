@@ -79,6 +79,33 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:HxCore.WebApi.Controllers.Admin.BlogManageController.GetTagPage(Hx.Sdk.Entity.Page.BasePageParam)">
+            <summary>
+            获取博客标签列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HxCore.WebApi.Controllers.Admin.BlogManageController.GetTagDetail(System.String)">
+            <summary>
+            获取博客标签详情数据
+            </summary>
+            <param name="tagId">标签id</param>
+            <returns></returns>
+        </member>
+        <member name="M:HxCore.WebApi.Controllers.Admin.BlogManageController.GetCategoryPage(Hx.Sdk.Entity.Page.BasePageParam)">
+            <summary>
+            获取博客栏目列表
+            </summary>
+            <param name="param">查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:HxCore.WebApi.Controllers.Admin.BlogManageController.GetCategoryDetail(System.String)">
+            <summary>
+            获取博客栏目详情数据
+            </summary>
+            <param name="categoryId">栏目id</param>
+            <returns></returns>
+        </member>
         <member name="M:HxCore.WebApi.Controllers.Admin.BlogManageController.Add(HxCore.Model.Admin.Blog.BlogManageCreateModel)">
             <summary>
             添加博客
@@ -98,6 +125,34 @@
             博客删除
             </summary>
             <param name="id">要删除的博客的</param>
+            <returns></returns>
+        </member>
+        <member name="M:HxCore.WebApi.Controllers.Admin.BlogManageController.AddOrUpdateTag(HxCore.Model.Admin.Blog.TagModel)">
+            <summary>
+            添加或者更新标签
+            </summary>
+            <param name="tagModel">标签信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:HxCore.WebApi.Controllers.Admin.BlogManageController.AddOrUpdateCategory(HxCore.Model.Admin.Blog.CategoryModel)">
+            <summary>
+            添加或者更新栏目
+            </summary>
+            <param name="categoryModel">栏目信息</param>
+            <returns></returns>
+        </member>
+        <member name="M:HxCore.WebApi.Controllers.Admin.BlogManageController.DeleteTag(System.String)">
+            <summary>
+            博客标签
+            </summary>
+            <param name="tagId">要删除的标签id</param>
+            <returns></returns>
+        </member>
+        <member name="M:HxCore.WebApi.Controllers.Admin.BlogManageController.DeleteCategory(System.String)">
+            <summary>
+            博客博客栏目
+            </summary>
+            <param name="categoryId">要删除的栏目id</param>
             <returns></returns>
         </member>
         <member name="T:HxCore.WebApi.Controllers.Admin.FriendLinkController">

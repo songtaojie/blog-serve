@@ -44,6 +44,6 @@ namespace HxCore.Model.Admin.FriendLink
         /// <summary>
         /// 排序
         /// </summary>
-        public int? OrderIndex { get; set; }
+        public int OrderSort { get; set; }
     }
 }

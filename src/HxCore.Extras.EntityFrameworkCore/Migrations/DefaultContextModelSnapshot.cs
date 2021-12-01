@@ -164,7 +164,7 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
-                    b.Property<int?>("OrderIndex")
+                    b.Property<int>("OrderSort")
                         .HasColumnType("int");
 
                     b.Property<string>("Target")
@@ -333,7 +333,7 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("varchar(40)");
 
-                    b.Property<int?>("OrderIndex")
+                    b.Property<int>("OrderSort")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -384,7 +384,7 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
 
-                    b.Property<int?>("OrderIndex")
+                    b.Property<int>("OrderSort")
                         .HasColumnType("int");
 
                     b.Property<string>("SiteCode")
@@ -604,7 +604,7 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
-                    b.Property<int?>("OrderIndex")
+                    b.Property<int>("OrderSort")
                         .HasColumnType("int");
 
                     b.Property<string>("Target")
@@ -799,7 +799,7 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("varchar(36)");
 
-                    b.Property<int?>("OrderIndex")
+                    b.Property<int>("OrderSort")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

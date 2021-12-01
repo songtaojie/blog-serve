@@ -1,4 +1,5 @@
-﻿using HxCore.Model;
+﻿using Hx.Sdk.Entity.Page;
+using HxCore.Model;
 using HxCore.Model.Admin.Blog;
 using SqlSugar;
 using System.Collections.Generic;
@@ -43,6 +44,35 @@ namespace HxCore.IServices
         /// </summary>
         /// <returns></returns>
         Task<List<BlogManagePersonTag>> GetTagListAsync();
+
         #endregion
+
+        #region 标签/栏目-后台管理
+        /// <summary>
+        /// 获取博客标签列表数据
+        /// </summary>
+        /// <returns></returns>
+        Task<SqlSugarPageModel<TagModel>> QueryTagPageAsync(BasePageParam param);
+
+        /// <summary>
+        /// 获取博客标签详情数据
+        /// </summary>
+        /// <param name="tagId">标签id</param>
+        /// <returns></returns>
+        Task<TagModel> GetTagDetailAsync(string tagId);
+
+        /// <summary>
+        /// 获取博客栏目列表数据
+        /// </summary>
+        /// <returns></returns>
+        Task<SqlSugarPageModel<CategoryModel>> QueryCategoryPageAsync(BasePageParam param);
+
+        /// <summary>
+        /// 获取栏目详情数据
+        /// </summary>
+        /// <param name="categoryId">栏目id</param>
+        /// <returns></returns>
+        Task<CategoryModel> GetCategoryDetailAsync(string categoryId);
+        #endregion 
     }
 }

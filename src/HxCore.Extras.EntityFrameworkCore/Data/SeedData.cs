@@ -166,19 +166,19 @@ namespace HxCore.Extras.EntityFrameworkCore
                 new T_Category{
                     Name="前端",
                     Id = Helper.GetSnowId(),
-                    OrderIndex = 0
+                    OrderSort = 0
                 },
                 new T_Category
                 {
                     Name="后端",
                     Id = Helper.GetSnowId(),
-                    OrderIndex = 1
+                    OrderSort = 1
                 },
                 new T_Category
                 {
                     Name="编程语言",
                     Id = Helper.GetSnowId(),
-                    OrderIndex = 2
+                    OrderSort = 2
                 }
             };
         }
