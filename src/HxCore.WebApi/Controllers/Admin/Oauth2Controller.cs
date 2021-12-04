@@ -107,8 +107,7 @@ namespace HxCore.WebApi.Controllers.Admin
                 IsSuperAdmin = Helper.IsYes(userInfo.SuperAdmin),
                 UserId = userInfo.Id,
                 NickName = userInfo.NickName,
-                UserName = userInfo.AccountName,
-                Expiration = TimeSpan.FromSeconds(1 * 60),
+                UserName = userInfo.AccountName
             };
             var roleList = await _roleService.GetListByUserAsync(userInfo.Id);
             if (roleList.Count > 0)

@@ -54,10 +54,6 @@ namespace HxCore.Model.Admin.User
         public string AvatarUrl { get; set; }
 
         /// <summary>
-        /// 是否激活
-        /// </summary>
-        public string Activate { get; set; } 
-        /// <summary>
         /// 用户注册时间
         /// </summary>
         public DateTime RegisterTime { get; set; }

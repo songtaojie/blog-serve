@@ -38,6 +38,11 @@ namespace HxCore.Extensions.Authentication
         }
 
         /// <summary>
+        /// 过期时间,单位：秒
+        /// </summary>
+        public int Expiration { get; set; } = 0;
+
+        /// <summary>
         /// 允许的路由
         /// </summary>
         public List<string> AllowRoutes { get; set; }
@@ -75,10 +80,5 @@ namespace HxCore.Extensions.Authentication
         /// 角色Id
         /// </summary>
         public string RoleId { get; set; }
-
-        /// <summary>
-        /// 过期时间
-        /// </summary>
-        public TimeSpan Expiration { get; set; }
     }
 }

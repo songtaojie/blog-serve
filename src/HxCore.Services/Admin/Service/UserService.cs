@@ -130,24 +130,6 @@ namespace HxCore.Services
 
         #region 查询
 
-        /// <inheritdoc cref="HxCore.IServices.Admin.IUserService.GetAsync"/>
-        public async Task<UserDetailModel> GetAsync(string id)
-        {
-            var userDetail = await this.Repository.Where(u => u.Id == id)
-                .Select(u => this.Mapper.Map<T_Account, UserDetailModel>(u))
-                .FirstOrDefaultAsync();
-            if (userDetail == null) throw new UserFriendlyException("用户信息不存在", ErrorCodeEnum.DataNull);
-            return userDetail;
-        }
-
-        /// <summary>
-        /// 获取当前用户的详情数据
-        /// </summary>
-        /// <returns></returns>
-        public async Task<UserDetailModel> GetCurrentUserInfoAsync()
-        {
-            return await GetAsync(UserContext.UserId);
-        }
 
         /// <inheritdoc cref="HxCore.IServices.Admin.IUserService.QueryUserPageAsync"/>
         public async Task<PageModel<UserQueryModel>> QueryUserPageAsync(UserQueryParam param)
@@ -177,20 +159,6 @@ namespace HxCore.Services
             }
             return result;
 
-        }
-        /// <inheritdoc cref="HxCore.IServices.Admin.IUserService.GetRoleByIdAsync"/>
-        public async Task<List<UserRoleModel>> GetRoleByIdAsync(string accountId)
-        {
-            var roles = await(from r in this.Db.Set<T_Role>()
-                              join ur in this.Db.Set<T_AccountRole>() on r.Id equals ur.RoleId
-                              where ur.AccountId == accountId
-                              && r.Deleted == ConstKey.No
-                              select new UserRoleModel
-                              {
-                                  RoleId = r.Id,
-                                  RoleName = r.Name
-                              }).ToListAsync();
-            return roles;
         }
         #endregion
 

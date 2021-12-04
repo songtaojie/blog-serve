@@ -584,11 +584,12 @@
             用户管理控制器
             </summary>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.UserController.#ctor(HxCore.IServices.IUserService)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.UserController.#ctor(HxCore.IServices.IUserService,HxCore.IServices.IUserQuery)">
              <summary>
             构造函数
              </summary>
              <param name="service"></param>
+             <param name="query"></param>
         </member>
         <member name="M:HxCore.WebApi.Controllers.Admin.UserController.GetPageAsync(HxCore.Model.Admin.User.UserQueryParam)">
             <summary>

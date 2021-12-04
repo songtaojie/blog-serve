@@ -30,7 +30,7 @@ namespace HxCore.Extensions.Authentication
                 new Claim(ClaimTypes.Name, model.UserName),
                 new Claim(ClaimTypes.GivenName, model.NickName),
                 new Claim(ClaimTypes.NameIdentifier, model.UserId),
-                new Claim(ClaimTypes.Expiration, DateTime.Now.AddSeconds(model.Expiration.TotalSeconds).ToString()),
+                new Claim(ClaimTypes.Expiration, DateTime.Now.AddSeconds(settings.Expiration).ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat,$"{new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds()}"),
                 new Claim(JwtRegisteredClaimNames.Iss,settings.Issuer),
                 new Claim(JwtRegisteredClaimNames.Aud,settings.Audience)
@@ -51,7 +51,7 @@ namespace HxCore.Extensions.Authentication
                 audience: settings.Audience,
                 claims: claims,
                 notBefore: now,
-                expires: now.Add(model.Expiration),
+                expires: now.AddSeconds(settings.Expiration),
                 signingCredentials: creds
             );
             // 生成 Token
@@ -63,7 +63,7 @@ namespace HxCore.Extensions.Authentication
                 UserId = model.UserId,
                 UserName = model.UserName,
                 AccessToken = encodedJwt,
-                ExpiresIn = model.Expiration.TotalSeconds,
+                ExpiresIn = settings.Expiration,
             };
             return responseJson;
         }

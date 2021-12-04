@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Hx.Sdk.Core;
 using Hx.Sdk.DependencyInjection;
 using HxCore.Extras.SqlSugar.Repositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,15 +18,16 @@ namespace HxCore.Services
         protected readonly ISqlSugarRepository<T> Repository;
         protected readonly SqlSugarClient Db;
         /// <summary>
-        /// AutoMapper映射对象
+        /// 用户上下文
         /// </summary>
-        protected IMapper Mapper { get; }
+        protected IUserContext UserContext { get; }
+
 
         public BaseQuery(ISqlSugarRepository<T> repository)
         {
             Repository = repository;
             this.Db = Repository.Context;
-            this.Mapper = repository.ServiceProvider.GetRequiredService<IMapper>();
+            this.UserContext = repository.ServiceProvider.GetRequiredService<IUserContext>();
         }
     }
 }

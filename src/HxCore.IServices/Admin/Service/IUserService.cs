@@ -11,33 +11,6 @@ namespace HxCore.IServices
 
     public interface IUserService : IBaseStatusService<T_Account>
     {
-        /// <summary>
-        /// 获取详情数据
-        /// </summary>
-        /// <param name="id">主键id</param>
-        /// <returns></returns>
-        Task<UserDetailModel> GetAsync(string id);
-
-        /// <summary>
-        /// 获取当前用户详情数据
-        /// </summary>
-        /// <param name="id">主键id</param>
-        /// <returns></returns>
-        Task<UserDetailModel> GetCurrentUserInfoAsync();
-
-        /// <summary>
-        /// 获取用户所拥有的的角色信息
-        /// </summary>
-        /// <param name="userId">用户标识</param>
-        /// <returns></returns>
-        Task<List<UserRoleModel>> GetRoleByIdAsync(string accountId);
-
-        /// <summary>
-        /// 获取用户列表数据
-        /// </summary>
-        /// <returns></returns>
-        Task<PageModel<UserQueryModel>> QueryUserPageAsync(UserQueryParam param);
-
         #region 修改类
         /// <summary>
         /// 插入一条数据
