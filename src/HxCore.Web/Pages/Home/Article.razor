@@ -1,24 +1,24 @@
 ﻿@using HxCore.Web.Common;
-<article class="blog-list d-flex flex-column justify-content-start">
+<article class="hx-article d-flex flex-column justify-content-start">
     @foreach (var blog in blogList)
     {
-        <div class="blog-item  mb-2 bg-white " data-id="@blog.Id" data-scroll-reveal="enter bottom over 1s">
-            <div class="blog-item-content">
-                <div class="blog-item-title">
+        <div class="hx-article-item  mb-2 bg-white " data-id="@blog.Id" data-scroll-reveal="enter bottom over 1s">
+            <div class="hx-article-item-content">
+                <div class="hx-article-item-title">
                     <h4>
                         <a target="_blank" href="@(WebManager.GetFullUrl("","/article/"+blog.Id))">@blog.Title</a>
                     </h4>
                 </div>
             </div>
-            <div class="blog-item-summary blog-content-nowrap">
+            <div class="hx-article-item-summary hx-article-content-nowrap">
                 <p>
                     @blog.PureContent
                 </p>
             </div>
-            <div class="blog-item-user d-flex justify-content-start align-items-center">
+            <div class="hx-article-footer d-flex justify-content-start align-items-center">
                 <div class="hx-avatar _32x32  hx-circle mr-2">
                     <a>
-                        <img src="@blog.AvatarUrl" />
+                        <img src="@(string.IsNullOrEmpty(blog.AvatarUrl)?"static/avatar1.jpg":blog.AvatarUrl)" />
                     </a>
                 </div>
                 <div class="mr-1">@blog.UserName</div>

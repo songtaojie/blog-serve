@@ -35,10 +35,6 @@ namespace HxCore.Web.Pages.Home
         }
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender)
-            {
-                await JS.InvokeAsync<IJSObjectReference>("import", "./my.js");
-            }
             await base.OnAfterRenderAsync(firstRender);
         }
         public async Task Articles()
