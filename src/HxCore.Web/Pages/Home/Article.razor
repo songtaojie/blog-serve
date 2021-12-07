@@ -3,21 +3,19 @@
     @foreach (var blog in blogList)
     {
         <div class="hx-article-item d-flex  mb-2 bg-white" data-id="@blog.Id" data-scroll-reveal="enter bottom over 1s">
-            <div class="hx-article-cover  mr-2">
+            <div class="hx-article-cover  mr-3">
                 <img src="@blog.CoverImgUrl" />
             </div>
-            <div class="hx-article-abstract d-flex flex-column">
+            <div class="hx-article-abstract d-flex flex-fill flex-column">
                  <div class="hx-article-title">
                     <h4>
                         <a target="_blank" href="@(WebManager.GetFullUrl("","/article/"+blog.Id))">@blog.Title</a>
                     </h4>
                 </div>
                 <div class="hx-article-content hx-nowrap">
-                    <p>
-                        @blog.PureContent
-                    </p>
+                    <p>@blog.PureContent</p>
                 </div>
-                <div class="hx-article-footer d-flex justify-content-start align-items-center">
+                <div class="hx-article-footer d-flex justify-content-start align-items-center mt-auto">
                     <div class="hx-avatar _32x32  hx-circle mr-2">
                         <img src="@(string.IsNullOrEmpty(blog.AvatarUrl)?"static/avatar1.jpg":blog.AvatarUrl)" />
                     </div>

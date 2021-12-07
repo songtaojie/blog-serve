@@ -76,7 +76,7 @@ namespace HxCore.Model.Admin.Blog
         /// <summary>
         /// 个人标签
         /// </summary>
-        public string BlogTags
+        public List<string> BlogTags
         {
             get; set;
         }

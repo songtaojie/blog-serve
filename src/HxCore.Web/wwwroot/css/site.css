@@ -1,7 +1,9 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font: 15px "Microsoft YaHei", Arial, Helvetica, sans-serif;
+    color: #555;
+    background-color: #f6f6f6;
 }
 
 a, .btn-link {
@@ -48,3 +50,8 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+    /**bootstrap*/
+.d-flex:not(.flex-column) > .flex-fill {
+    width: 0;
+}

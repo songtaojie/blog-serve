@@ -8,6 +8,7 @@ using HxCore.Model.Admin.Blog;
 using Hx.Sdk.DatabaseAccessor;
 using Hx.Sdk.FriendlyException;
 using HxCore.Enums;
+using System.Linq;
 
 namespace HxCore.Services
 {
@@ -26,11 +27,12 @@ namespace HxCore.Services
         public async Task<bool> InsertAsync(BlogManageCreateModel blogModel)
         {
             var entity = this.Mapper.Map<T_Blog>(blogModel);
-            if (blogModel.IsPublish)
+            if (blogModel.IsPublish) entity.PublishDate = DateTime.Now;
+            entity.PureContent = HtmlHelper.FilterHtml(blogModel.Content, 100);
+            if (blogModel.BlogTags != null && blogModel.BlogTags.Any())
             {
-                entity.PublishDate = DateTime.Now;
+                entity.BlogTags = string.Join(",", blogModel.BlogTags);
             }
-            entity.PureContent = HtmlHelper.FilterHtml(blogModel.Content, 1000);
             this.BeforeInsert(entity);
             // 扩展表
             var blogExtend = new T_BlogExtend
@@ -51,11 +53,13 @@ namespace HxCore.Services
             var extendEntity = await this.ExtendRepository.FindAsync(blogModel.Id);
             if (entity == null && extendEntity == null) throw new UserFriendlyException("文章不存在",ErrorCodeEnum.DataNull);
             entity = this.Mapper.Map(blogModel, entity);
-            if (blogModel.IsPublish)
+            entity.BlogTags = String.Empty;
+            if (blogModel.BlogTags != null && blogModel.BlogTags.Any())
             {
-                entity.PublishDate = DateTime.Now;
+                entity.BlogTags = string.Join(",", blogModel.BlogTags);
             }
-            entity.PureContent = HtmlHelper.FilterHtml(blogModel.Content, 1000);
+            if (blogModel.IsPublish) entity.PublishDate = DateTime.Now;
+            entity.PureContent = HtmlHelper.FilterHtml(blogModel.Content, 100);
             this.BeforeUpdate(entity);
             //扩展表
             extendEntity.Content = blogModel.Content;

@@ -6,6 +6,7 @@ using Hx.Sdk.FriendlyException;
 using HxCore.Entity;
 using HxCore.Enums;
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -80,7 +81,8 @@ namespace HxCore.Services
                 entity.Id = Helper.GetSnowId();
                 if (UserContext != null && UserContext.IsAuthenticated)
                 {
-                    entity.SetCreater(UserContext.UserId, UserContext.UserName);
+                    string nickName = UserContext.GetClaimValueByType(System.Security.Claims.ClaimTypes.GivenName).FirstOrDefault();
+                    entity.SetCreater(UserContext.UserId, nickName??UserContext.UserName);
                 }
             }
             return entity;
@@ -90,7 +92,8 @@ namespace HxCore.Services
         {
             if (entity != null && UserContext != null && UserContext.IsAuthenticated)
             {
-                entity.SetModifier(UserContext.UserId, UserContext.UserName);
+                string nickName = UserContext.GetClaimValueByType(System.Security.Claims.ClaimTypes.GivenName).FirstOrDefault();
+                entity.SetModifier(UserContext.UserId, nickName??UserContext.UserName);
             }
             return entity;
         }

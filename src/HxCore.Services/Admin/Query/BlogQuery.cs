@@ -38,8 +38,7 @@ namespace HxCore.Services
                 .Select((b, u) => new BlogQueryModel
                 {
                     Id = b.Id,
-                    NickName = u.NickName,
-                    UserName = u.AccountName,
+                    Publisher = b.Creater,
                     Title = b.Title,
                     PureContent = b.PureContent,
                     ReadCount = b.ReadCount,

@@ -25,24 +25,9 @@ namespace HxCore.Model
             get; set;
         }
         /// <summary>
-        /// 博客内容
+        /// 发布者
         /// </summary>
-        public string Content
-        {
-            get; set;
-        }
-        /// <summary>
-        /// 用户名
-        /// </summary>
-        public string UserName { get; set; }
-        /// <summary>
-        /// 昵称
-        /// </summary>
-        public string NickName { get; set; }
-        ///// <summary>
-        ///// 首页显示的内容
-        ///// </summary>
-        //public string PureContent => HtmlHelper.FilterHtml(Content, 100);
+        public string Publisher { get; set; }
         /// <summary>
         /// 纯粹的内容，首页列表需要显示的内容
         /// </summary>
