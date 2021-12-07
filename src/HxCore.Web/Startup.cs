@@ -33,6 +33,7 @@ namespace HxCore.Web
         {
             services.AddWebManager();
             services.AddHxHttpClient();
+            services.AddNativeMemoryCache();
             var mvcBuilder = services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();

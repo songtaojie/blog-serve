@@ -33,8 +33,12 @@
     transition: -webkit-box-shadow .2s ease;
     -webkit-transition: -webkit-box-shadow .2s ease;
 }
+.hx-article-cover {
+    
+}
 
-.hx-article-item-content {
+
+.hx-article-abstract {
     background: 0 0;
     margin: 0;
     padding: 0;
@@ -46,35 +50,32 @@
     width: 100%;
 }
 
-.hx-article-item-summary {
+.hx-article-content {
     margin-bottom: .35rem;
     color: #999;
     font-size: 1em;
     line-height: 2.1rem;
 }
 
-.hx-article-content-nowrap {
+.hx-nowrap {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-
-    .blog-content-nowrap p {
+    .hx-nowrap p {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
 
-.blog-item-title {
+.hx-article-title {
     width: 100%;
 }
-
-    .blog-item-title a {
+    .hx-article-title a {
         color: #3d3d3d;
         font-weight: 700;
     }
-
-        .blog-item-title a:hover {
+        .hx-article-title a:hover {
             color: #4183c4;
             text-decoration: none;
         }
@@ -87,19 +88,13 @@
     transition: color .1s ease;
     -webkit-transition: color .1s ease;
 }
-
-.blog-read-num,
-.blog-comment-num {
-    color: #3399ea;
-}
-
-.blog-read-text,
+.hx-article-read-text,
 .blog-comment-text {
     color: #8a8a8a;
 }
 
-.blog-read:hover .hx-text-gray,
-.blog-comment:hover .hx-text-gray {
+.hx-article-read:hover .hx-text-gray,
+.hx-article-cmt:hover .hx-text-gray {
     color: #157dcf;
 }
 /*头像*/
@@ -107,10 +102,20 @@
     position: relative;
     display: inline-block;
 }
-    .hx-avatar _80x80 img,
-    .hx-avatar _50x50 img,
-    .hx-avatar _32x32 img {
-        width: 100%;
-        height: 100%;
-        display: inline-block;
-    }
+.hx-circle {
+    border-radius: 50% !important;
+    -o-object-fit: cover;
+    object-fit: cover;
+    overflow: hidden;
+}
+._32x32 {
+    width:2rem;
+    height:2rem;
+}
+.hx-avatar._80x80 img,
+.hx-avatar._50x50 img,
+.hx-avatar._32x32 img {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+}
