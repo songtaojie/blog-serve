@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using HxCore.Web.Common;
 using Microsoft.JSInterop;
 using Microsoft.Extensions.Caching.Distributed;
+using HxCore.Model.Client;
 
 namespace HxCore.Web.Pages.Home
 {

@@ -9,6 +9,7 @@ using HxCore.Extras.SqlSugar.Repositories;
 using HxCore.IServices;
 using HxCore.Model;
 using HxCore.Model.Admin.Blog;
+using HxCore.Model.Client;
 using SqlSugar;
 using System;
 using System.Collections.Generic;

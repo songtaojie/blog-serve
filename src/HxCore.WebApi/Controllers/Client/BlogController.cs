@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using SqlSugar;
 using MediatR;
 using HxCore.Model.NotificationHandlers;
+using HxCore.Model.Client;
 
 namespace HxCore.WebApi.Controllers.Client
 {

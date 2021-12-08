@@ -2,6 +2,7 @@
 using Hx.Sdk.Entity.Page;
 using Hx.Sdk.UnifyResult;
 using HxCore.Model;
+using HxCore.Model.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;

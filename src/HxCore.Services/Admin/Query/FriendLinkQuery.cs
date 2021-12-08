@@ -5,7 +5,9 @@ using HxCore.Enums;
 using HxCore.Extras.SqlSugar.Repositories;
 using HxCore.IServices;
 using HxCore.Model.Admin.FriendLink;
+using HxCore.Model.Client;
 using SqlSugar;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HxCore.Services
@@ -55,6 +57,24 @@ namespace HxCore.Services
                 }).FirstAsync();
             if (detailModel == null) throw new UserFriendlyException("该友情链接不存在", ErrorCodeEnum.DataNull);
             return detailModel;
+        }
+
+
+        #endregion
+
+        #region 客户端查询
+        public async Task<List<FriendLinkModel>> GetListAsync()
+        {
+            return await this.Repository.Entities.Where(r => r.Deleted == ConstKey.No && r.Disabled == ConstKey.No)
+                   .OrderBy(r => r.OrderSort, OrderByType.Desc)
+                   .OrderBy(r => r.CreateTime, OrderByType.Desc)
+                   .Select(r => new FriendLinkModel
+                   {
+                       Link = r.Link,
+                       SiteName = r.SiteName,
+                       Logo = r.Logo
+                   })
+                   .ToListAsync();
         }
         #endregion
     }

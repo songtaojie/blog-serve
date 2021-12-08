@@ -5,7 +5,9 @@ using HxCore.Enums;
 using HxCore.Extras.SqlSugar.Repositories;
 using HxCore.IServices;
 using HxCore.Model.Admin.Notice;
+using HxCore.Model.Client;
 using SqlSugar;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace HxCore.Services
@@ -15,7 +17,8 @@ namespace HxCore.Services
         public NoticeQuery(ISqlSugarRepository<T_NoticeInfo> repository) : base(repository)
         {
         }
-       
+
+        #region 管理后台
         public async Task<SqlSugarPageModel<NoticeManageQueryModel>> QueryNoticePageAsync(NoticeManageQueryParam param)
         {
             var query = this.Db.Queryable<T_NoticeInfo>()
@@ -35,7 +38,7 @@ namespace HxCore.Services
         }
         public async Task<NoticeManageDetailModel> GetDetailAsync(string id)
         {
-            var detailModel = await this.Repository.Entities.Where(r=>r.Id == id)
+            var detailModel = await this.Repository.Entities.Where(r => r.Id == id)
                 .Select(r => new NoticeManageDetailModel
                 {
                     Id = r.Id,
@@ -49,6 +52,21 @@ namespace HxCore.Services
             if (detailModel == null) throw new UserFriendlyException("该公告通知不存在", ErrorCodeEnum.DataNull);
             return detailModel;
         }
+        #endregion
 
+        public async Task<List<NoticeModel>> GetListAsync(int count)
+        {
+            return await this.Db.Queryable<T_NoticeInfo>()
+                  .Where(r => r.Deleted == ConstKey.No && r.Disabled == ConstKey.No)
+                  .OrderBy(r => r.OrderSort, OrderByType.Desc)
+                  .OrderBy(r => r.CreateTime, OrderByType.Desc)
+                  .Select(r => new NoticeModel
+                  {
+                      Link = r.Link,
+                      Content = r.Content,
+                      Target = r.Target
+                  })
+                  .ToListAsync();
+        }
     }
 }

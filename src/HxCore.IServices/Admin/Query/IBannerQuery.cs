@@ -1,4 +1,5 @@
 ﻿using HxCore.Model.Admin.Banner;
+using HxCore.Model.Client;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace HxCore.IServices
     /// </summary>
     public interface IBannerQuery
     {
+        #region 后台管理
         /// <summary>
         /// 获取首页横幅列表
         /// </summary>
@@ -25,5 +27,15 @@ namespace HxCore.IServices
         /// <param name="id"></param>
         /// <returns></returns>
         Task<BannerManageDetailModel> GetDetailAsync(string id);
+        #endregion
+
+        #region 管理端
+        /// <summary>
+        /// 获取首页横幅列表
+        /// </summary>
+        /// <param name="count">获取数量</param>
+        /// <returns></returns>
+        Task<List<BannerModel>> GetListAsync(int count);
+        #endregion
     }
 }

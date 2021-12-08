@@ -1,6 +1,7 @@
 ﻿using Hx.Sdk.Entity.Page;
 using HxCore.Model;
 using HxCore.Model.Admin.Blog;
+using HxCore.Model.Client;
 using SqlSugar;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace HxCore.IServices
         /// 获取博客标签列表
         /// </summary>
         /// <returns></returns>
-        Task<SqlSugarPageModel<BlogQueryModel>> GetBlogsAsync(Model.BlogQueryParam param);
+        Task<SqlSugarPageModel<BlogQueryModel>> GetBlogsAsync(BlogQueryParam param);
 
         /// <summary>
         /// 获取博客详情数据

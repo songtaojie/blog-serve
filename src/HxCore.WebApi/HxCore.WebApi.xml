@@ -4,45 +4,45 @@
         <name>HxCore.WebApi</name>
     </assembly>
     <members>
-        <member name="T:HxCore.WebApi.Controllers.Admin.BannerController">
+        <member name="T:HxCore.WebApi.Controllers.Admin.BannerManageController">
             <summary>
             首页横幅控制器
             </summary>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.BannerController.#ctor(HxCore.IServices.IBannerService,HxCore.IServices.IBannerQuery)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.BannerManageController.#ctor(HxCore.IServices.IBannerService,HxCore.IServices.IBannerQuery)">
              <summary>
             构造函数
              </summary>
              <param name="service">服务类接口</param>
              <param name="query">查询类接口</param>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.BannerController.GetPageAsync(HxCore.Model.Admin.Banner.BannerQueryParam)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.BannerManageController.GetPageAsync(HxCore.Model.Admin.Banner.BannerManageQueryParam)">
             <summary>
             获取首页横幅分页列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.BannerController.GetAsync(System.String)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.BannerManageController.GetAsync(System.String)">
             <summary>
             获取首页横幅详情数据
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.BannerController.AddAsync(HxCore.Model.Admin.Banner.BannerCreateModel)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.BannerManageController.AddAsync(HxCore.Model.Admin.Banner.BannerManageCreateModel)">
             <summary>
             添加首页横幅
             </summary>
             <param name="createModel"></param>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.BannerController.UpdateAsync(HxCore.Model.Admin.Banner.BannerCreateModel)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.BannerManageController.UpdateAsync(HxCore.Model.Admin.Banner.BannerManageCreateModel)">
             <summary>
             编辑首页横幅
             </summary>
             <param name="updateModel"></param>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.BannerController.DeleteAsync(System.String)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.BannerManageController.DeleteAsync(System.String)">
             <summary>
             删除首页横幅
             </summary>
@@ -127,14 +127,14 @@
             <param name="id">要删除的博客的</param>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.BlogManageController.AddOrUpdateTag(HxCore.Model.Admin.Blog.TagModel)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.BlogManageController.AddOrUpdateTag(HxCore.Model.Admin.Blog.TagManageModel)">
             <summary>
             添加或者更新标签
             </summary>
             <param name="tagModel">标签信息</param>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.BlogManageController.AddOrUpdateCategory(HxCore.Model.Admin.Blog.CategoryModel)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.BlogManageController.AddOrUpdateCategory(HxCore.Model.Admin.Blog.CategoryManageModel)">
             <summary>
             添加或者更新栏目
             </summary>
@@ -155,45 +155,45 @@
             <param name="categoryId">要删除的栏目id</param>
             <returns></returns>
         </member>
-        <member name="T:HxCore.WebApi.Controllers.Admin.FriendLinkController">
+        <member name="T:HxCore.WebApi.Controllers.Admin.FriendLinkManageController">
             <summary>
             友情链接控制器
             </summary>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.FriendLinkController.#ctor(HxCore.IServices.IFriendLinkService,HxCore.IServices.IFriendLinkQuery)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.FriendLinkManageController.#ctor(HxCore.IServices.IFriendLinkService,HxCore.IServices.IFriendLinkQuery)">
              <summary>
             构造函数
              </summary>
              <param name="service">服务类接口</param>
              <param name="query">查询类接口</param>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.FriendLinkController.GetPageAsync(HxCore.Model.Admin.FriendLink.FriendLinkQueryParam)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.FriendLinkManageController.GetPageAsync(HxCore.Model.Admin.FriendLink.FriendLinkManageQueryParam)">
             <summary>
             获取友情链接分页列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.FriendLinkController.GetAsync(System.String)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.FriendLinkManageController.GetAsync(System.String)">
             <summary>
             获取接口详情数据
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.FriendLinkController.AddAsync(HxCore.Model.Admin.FriendLink.FriendLinkCreateModel)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.FriendLinkManageController.AddAsync(HxCore.Model.Admin.FriendLink.FriendLinkManageCreateModel)">
             <summary>
             添加接口
             </summary>
             <param name="createModel"></param>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.FriendLinkController.UpdateAsync(HxCore.Model.Admin.FriendLink.FriendLinkCreateModel)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.FriendLinkManageController.UpdateAsync(HxCore.Model.Admin.FriendLink.FriendLinkManageCreateModel)">
             <summary>
             编辑接口
             </summary>
             <param name="updateModel"></param>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.FriendLinkController.DeleteAsync(System.String)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.FriendLinkManageController.DeleteAsync(System.String)">
             <summary>
             删除接口
             </summary>
@@ -312,45 +312,45 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:HxCore.WebApi.Controllers.Admin.NoticeController">
+        <member name="T:HxCore.WebApi.Controllers.Admin.NoticeManageController">
             <summary>
             公告通知控制器
             </summary>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.NoticeController.#ctor(HxCore.IServices.INoticeService,HxCore.IServices.INoticeQuery)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.NoticeManageController.#ctor(HxCore.IServices.INoticeService,HxCore.IServices.INoticeQuery)">
              <summary>
             构造函数
              </summary>
              <param name="service">服务类接口</param>
              <param name="query">查询类接口</param>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.NoticeController.GetPageAsync(HxCore.Model.Admin.Notice.NoticeQueryParam)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.NoticeManageController.GetPageAsync(HxCore.Model.Admin.Notice.NoticeManageQueryParam)">
             <summary>
             获取友情链接分页列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.NoticeController.GetAsync(System.String)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.NoticeManageController.GetAsync(System.String)">
             <summary>
             获取接口详情数据
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.NoticeController.AddAsync(HxCore.Model.Admin.Notice.NoticeCreateModel)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.NoticeManageController.AddAsync(HxCore.Model.Admin.Notice.NoticeManageCreateModel)">
             <summary>
             添加接口
             </summary>
             <param name="createModel"></param>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.NoticeController.UpdateAsync(HxCore.Model.Admin.Notice.NoticeCreateModel)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.NoticeManageController.UpdateAsync(HxCore.Model.Admin.Notice.NoticeManageCreateModel)">
             <summary>
             编辑接口
             </summary>
             <param name="updateModel"></param>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.NoticeController.DeleteAsync(System.String)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.NoticeManageController.DeleteAsync(System.String)">
             <summary>
             删除接口
             </summary>
@@ -534,45 +534,45 @@
             <param name="model">用户提交的数据</param>
             <returns></returns>
         </member>
-        <member name="T:HxCore.WebApi.Controllers.Admin.TimeLineController">
+        <member name="T:HxCore.WebApi.Controllers.Admin.TimeLineManageController">
             <summary>
             时间轴控制器
             </summary>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineController.#ctor(HxCore.IServices.ITimeLineService,HxCore.IServices.ITimeLineQuery)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineManageController.#ctor(HxCore.IServices.ITimeLineService,HxCore.IServices.ITimeLineQuery)">
              <summary>
             构造函数
              </summary>
              <param name="service">服务类接口</param>
              <param name="query">查询类接口</param>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineController.GetPageAsync(HxCore.Model.Admin.TimeLine.TimeLineQueryParam)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineManageController.GetPageAsync(HxCore.Model.Admin.TimeLine.TimeLineManageQueryParam)">
             <summary>
             获取时间轴分页列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineController.GetAsync(System.String)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineManageController.GetAsync(System.String)">
             <summary>
             获取时间轴详情数据
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineController.AddAsync(HxCore.Model.Admin.TimeLine.TimeLineCreateModel)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineManageController.AddAsync(HxCore.Model.Admin.TimeLine.TimeLineManageCreateModel)">
             <summary>
             添加时间轴
             </summary>
             <param name="createModel"></param>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineController.UpdateAsync(HxCore.Model.Admin.TimeLine.TimeLineCreateModel)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineManageController.UpdateAsync(HxCore.Model.Admin.TimeLine.TimeLineManageCreateModel)">
             <summary>
             编辑时间轴
             </summary>
             <param name="updateModel"></param>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineController.DeleteAsync(System.String)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.TimeLineManageController.DeleteAsync(System.String)">
             <summary>
             删除时间轴
             </summary>
@@ -719,25 +719,36 @@
             客户端使用的api
             </summary>
         </member>
-        <member name="T:HxCore.WebApi.Controllers.BlogController">
+        <member name="T:HxCore.WebApi.Controllers.Client.BannerController">
+            <summary>
+            首页横幅控制器
+            </summary>
+        </member>
+        <member name="M:HxCore.WebApi.Controllers.Client.BannerController.#ctor(HxCore.IServices.IBannerQuery)">
+            <summary>
+            控制器
+            </summary>
+            <param name="query">查询接口</param>
+        </member>
+        <member name="T:HxCore.WebApi.Controllers.Client.BlogController">
             <summary>
             博客相关的控制器类
             </summary>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.BlogController.#ctor(HxCore.IServices.IBlogQuery,MediatR.IMediator)">
+        <member name="M:HxCore.WebApi.Controllers.Client.BlogController.#ctor(HxCore.IServices.IBlogQuery,MediatR.IMediator)">
              <summary>
             构造函数
              </summary>
              <param name="blogQuery"></param>
              <param name="mediator"></param>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.BlogController.GetPage(HxCore.Model.BlogQueryParam)">
+        <member name="M:HxCore.WebApi.Controllers.Client.BlogController.Articles(HxCore.Model.Client.BlogQueryParam)">
             <summary>
             获取博客列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.BlogController.Detail(System.String)">
+        <member name="M:HxCore.WebApi.Controllers.Client.BlogController.Detail(System.String)">
             <summary>
             根据博客id获取博客信息
             </summary>

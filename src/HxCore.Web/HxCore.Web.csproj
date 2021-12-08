@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BootstrapBlazor" Version="6.0.18" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HxCore.Model\HxCore.Model.csproj" />
   </ItemGroup>
 

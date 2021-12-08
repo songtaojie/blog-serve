@@ -1,4 +1,5 @@
 ﻿using HxCore.Model.Admin.FriendLink;
+using HxCore.Model.Client;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace HxCore.IServices
     /// </summary>
     public interface IFriendLinkQuery
     {
+        #region 管理后台
         /// <summary>
         /// 获取友情链接列表
         /// </summary>
@@ -25,5 +27,15 @@ namespace HxCore.IServices
         /// <param name="id"></param>
         /// <returns></returns>
         Task<FriendLinkManageDetailModel> GetDetailAsync(string id);
+        #endregion
+
+        #region 客户端
+        /// <summary>
+        /// 获取公告通知列表数据
+        /// </summary>
+        /// <param name="count">要获取的条数</param>
+        /// <returns></returns>
+        Task<List<FriendLinkModel>> GetListAsync();
+        #endregion
     }
 }
