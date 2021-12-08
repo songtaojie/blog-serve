@@ -9,6 +9,7 @@ using Hx.Sdk.DatabaseAccessor;
 using Hx.Sdk.FriendlyException;
 using HxCore.Enums;
 using System.Linq;
+using HxCore.Model.NotificationHandlers;
 
 namespace HxCore.Services
 {
@@ -75,7 +76,7 @@ namespace HxCore.Services
         /// </summary>
         /// <param name="tagModel"></param>
         /// <returns></returns>
-        public async Task<bool> AddOrUpdateTagAsync(TagModel tagModel)
+        public async Task<bool> AddOrUpdateTagAsync(TagManageModel tagModel)
         {
             var tagRepository = this.Repository.Change<T_TagInfo>();
             if (string.IsNullOrEmpty(tagModel.Id))
@@ -113,7 +114,7 @@ namespace HxCore.Services
         /// </summary>
         /// <param name="categoryModel"></param>
         /// <returns></returns>
-        public async Task<bool> AddOrUpdateCategoryAsync(CategoryModel categoryModel)
+        public async Task<bool> AddOrUpdateCategoryAsync(CategoryManageModel categoryModel)
         {
             var categoryRepository = this.Repository.Change<T_Category>();
             if (string.IsNullOrEmpty(categoryModel.Id))
@@ -158,6 +159,16 @@ namespace HxCore.Services
             var tagRepository = this.Repository.Change<T_Category>();
             await tagRepository.DeleteNowAsync(categoryId);
             return true;
+        }
+
+        public async Task<bool> UpdateBlogReadAsync(UpdateBlogReadModel model)
+        {
+            if (string.IsNullOrEmpty(model.Id)) throw new UserFriendlyException("无效的标识", ErrorCodeEnum.ParamsNullError);
+            var entity = await this.FindAsync(model.Id);
+            if (entity == null) throw new UserFriendlyException("文章不存在", ErrorCodeEnum.DataNull);
+            entity.ReadCount += 1;
+            await this.Repository.UpdateIncludeAsync(entity, new string[] { "ReadCount" });
+            return await this.Repository.SaveNowAsync() > 1;
         }
         #endregion
     }

@@ -21,12 +21,12 @@ namespace HxCore.Services
         /// 获取友情链接列表
         /// </summary>
         /// <returns></returns>
-        public async Task<SqlSugarPageModel<FriendLinkQueryModel>> QueryFriendLinkPageAsync(FriendLinkQueryParam param)
+        public async Task<SqlSugarPageModel<FriendLinkManageQueryModel>> QueryFriendLinkPageAsync(FriendLinkManageQueryParam param)
         {
             var query = this.Repository.Entities.Where(r => r.Deleted == ConstKey.No)
                     .OrderBy(r => r.OrderSort, OrderByType.Desc)
                     .OrderBy(r => r.CreateTime, OrderByType.Desc)
-                    .Select(r => new FriendLinkQueryModel
+                    .Select(r => new FriendLinkManageQueryModel
                     {
                         Id = r.Id,
                         Link = r.Link,
@@ -39,11 +39,11 @@ namespace HxCore.Services
             return await query.ToPagedListAsync(param.PageIndex, param.PageSize);
         }
 
-        public async Task<FriendLinkDetailModel> GetDetailAsync(string id)
+        public async Task<FriendLinkManageDetailModel> GetDetailAsync(string id)
         {
             var detailModel = await this.Repository.Entities
                 .Where(r => r.Id == id)
-                .Select(r => new FriendLinkDetailModel
+                .Select(r => new FriendLinkManageDetailModel
                 {
                     Id = r.Id,
                     Link = r.Link,

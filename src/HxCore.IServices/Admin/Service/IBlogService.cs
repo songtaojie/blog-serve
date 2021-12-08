@@ -27,18 +27,25 @@ namespace HxCore.IServices
         Task<bool> UpdateAsync(BlogManageCreateModel blogModel);
 
         /// <summary>
+        /// 更新博客数据
+        /// </summary>
+        /// <param name="model">提交的数据</param>
+        /// <returns></returns>
+        Task<bool> UpdateBlogReadAsync(Model.NotificationHandlers.UpdateBlogReadModel model);
+
+        /// <summary>
         /// 添加或更新博客标签
         /// </summary>
         /// <param name="tagModel"></param>
         /// <returns></returns>
-        Task<bool> AddOrUpdateTagAsync(TagModel tagModel);
+        Task<bool> AddOrUpdateTagAsync(TagManageModel tagModel);
 
         /// <summary>
         /// 添加或更新博客分类
         /// </summary>
         /// <param name="tagModel"></param>
         /// <returns></returns>
-        Task<bool> AddOrUpdateCategoryAsync(CategoryModel tagModel);
+        Task<bool> AddOrUpdateCategoryAsync(CategoryManageModel tagModel);
 
         /// <summary>
         /// 删除标签
@@ -53,5 +60,8 @@ namespace HxCore.IServices
         /// <param name="categoryId">栏目id</param>
         /// <returns></returns>
         Task<bool> DeleteCategoryAsync(string categoryId);
+
+
+
     }
 }

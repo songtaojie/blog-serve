@@ -21,7 +21,7 @@ namespace HxCore.IServices
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<BlogDetailModel> FindById(string id);
+        Task<BlogDetailModel> Detail(string id);
         #endregion
 
         #region 管理后台
@@ -52,27 +52,27 @@ namespace HxCore.IServices
         /// 获取博客标签列表数据
         /// </summary>
         /// <returns></returns>
-        Task<SqlSugarPageModel<TagModel>> QueryTagPageAsync(BasePageParam param);
+        Task<SqlSugarPageModel<TagManageModel>> QueryTagPageAsync(BasePageParam param);
 
         /// <summary>
         /// 获取博客标签详情数据
         /// </summary>
         /// <param name="tagId">标签id</param>
         /// <returns></returns>
-        Task<TagModel> GetTagDetailAsync(string tagId);
+        Task<TagManageModel> GetTagDetailAsync(string tagId);
 
         /// <summary>
         /// 获取博客栏目列表数据
         /// </summary>
         /// <returns></returns>
-        Task<SqlSugarPageModel<CategoryModel>> QueryCategoryPageAsync(BasePageParam param);
+        Task<SqlSugarPageModel<CategoryManageModel>> QueryCategoryPageAsync(BasePageParam param);
 
         /// <summary>
         /// 获取栏目详情数据
         /// </summary>
         /// <param name="categoryId">栏目id</param>
         /// <returns></returns>
-        Task<CategoryModel> GetCategoryDetailAsync(string categoryId);
+        Task<CategoryManageModel> GetCategoryDetailAsync(string categoryId);
         #endregion 
     }
 }

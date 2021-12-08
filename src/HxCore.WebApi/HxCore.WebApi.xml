@@ -724,19 +724,20 @@
             博客相关的控制器类
             </summary>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.BlogController.#ctor(HxCore.IServices.IBlogQuery)">
+        <member name="M:HxCore.WebApi.Controllers.BlogController.#ctor(HxCore.IServices.IBlogQuery,MediatR.IMediator)">
              <summary>
             构造函数
              </summary>
              <param name="blogQuery"></param>
+             <param name="mediator"></param>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.BlogController.GetPageAsync(HxCore.Model.BlogQueryParam)">
+        <member name="M:HxCore.WebApi.Controllers.BlogController.GetPage(HxCore.Model.BlogQueryParam)">
             <summary>
             获取博客列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.BlogController.FindById(System.String)">
+        <member name="M:HxCore.WebApi.Controllers.BlogController.Detail(System.String)">
             <summary>
             根据博客id获取博客信息
             </summary>

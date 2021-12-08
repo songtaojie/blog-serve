@@ -19,7 +19,7 @@
                     <div class="hx-avatar _32x32  hx-circle mr-2">
                         <img src="@(string.IsNullOrEmpty(blog.AvatarUrl)?"static/avatar1.jpg":blog.AvatarUrl)" />
                     </div>
-                    <div class="mr-1">@blog.UserName</div>
+                    <div class="mr-1">@blog.Publisher</div>
                     <div class="mr-1">@(WebHelper.GetDispayDate(blog.PublishDate))</div>
                     <div class="hx-article-read ml-auto">
                         <a>

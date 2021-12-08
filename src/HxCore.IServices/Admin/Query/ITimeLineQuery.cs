@@ -17,13 +17,13 @@ namespace HxCore.IServices
         /// 获取时间轴列表
         /// </summary>
         /// <returns></returns>
-        Task<SqlSugarPageModel<TimeLineQueryModel>> QueryTimeLinePageAsync(TimeLineQueryParam param);
+        Task<SqlSugarPageModel<TimeLineManageQueryModel>> QueryTimeLinePageAsync(TimeLineManageQueryParam param);
 
         /// <summary>
         /// 获取时间轴详情数据
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<TimeLineDetailModel> GetDetailAsync(string id);
+        Task<TimeLineManageDetailModel> GetDetailAsync(string id);
     }
 }

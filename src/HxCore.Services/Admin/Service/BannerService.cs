@@ -14,7 +14,7 @@ namespace HxCore.Services
         {
         }
         #region 新增编辑
-        public async Task<bool> InsertAsync(BannerCreateModel createModel)
+        public async Task<bool> InsertAsync(BannerManageCreateModel createModel)
         {
             if (await this.ExistAsync(r => r.Title == createModel.Title)) throw new UserFriendlyException("该标题已存在", ErrorCodeEnum.AddError);
             var entity = this.Mapper.Map<T_BannerInfo>(createModel);
@@ -24,7 +24,7 @@ namespace HxCore.Services
             return await this.Repository.SaveNowAsync() > 0;
         }
 
-        public async Task<bool> UpdateAsync(BannerCreateModel updateModel)
+        public async Task<bool> UpdateAsync(BannerManageCreateModel updateModel)
         {
             if (string.IsNullOrEmpty(updateModel.Id)) throw new UserFriendlyException("无效的标识", ErrorCodeEnum.ParamsNullError);
             if (await this.ExistAsync(r => r.Title == updateModel.Title && r.Id != updateModel.Id)) throw new UserFriendlyException("该标题已存在", ErrorCodeEnum.AddError);

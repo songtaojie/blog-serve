@@ -18,13 +18,13 @@ namespace HxCore.IServices
         /// </summary>
         /// <param name="createModel"></param>
         /// <returns></returns>
-        Task<bool> InsertAsync(TimeLineCreateModel createModel);
+        Task<bool> InsertAsync(TimeLineManageCreateModel createModel);
 
         /// <summary>
         /// 更新时间轴
         /// </summary>
         /// <param name="updateModel"></param>
         /// <returns></returns>
-        Task<bool> UpdateAsync(TimeLineCreateModel updateModel);
+        Task<bool> UpdateAsync(TimeLineManageCreateModel updateModel);
     }
 }

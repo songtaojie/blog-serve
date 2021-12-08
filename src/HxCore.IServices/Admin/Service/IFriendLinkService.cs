@@ -18,13 +18,13 @@ namespace HxCore.IServices
         /// </summary>
         /// <param name="createModel"></param>
         /// <returns></returns>
-        Task<bool> InsertAsync(FriendLinkCreateModel createModel);
+        Task<bool> InsertAsync(FriendLinkManageCreateModel createModel);
 
         /// <summary>
         /// 更新友情链接
         /// </summary>
         /// <param name="updateModel"></param>
         /// <returns></returns>
-        Task<bool> UpdateAsync(FriendLinkCreateModel updateModel);
+        Task<bool> UpdateAsync(FriendLinkManageCreateModel updateModel);
     }
 }

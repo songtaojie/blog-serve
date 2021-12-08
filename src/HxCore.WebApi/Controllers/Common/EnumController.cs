@@ -31,11 +31,11 @@ namespace HxCore.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet, HttpPost]
-        public List<CategoryModel> GetCategoryList()
+        public List<CategoryManageModel> GetCategoryList()
         {
             var categoryRepository = _repository.Change<T_Category>();
             return categoryRepository.Where(b => b.Deleted == ConstKey.No)
-                .Select(c => new CategoryModel
+                .Select(c => new CategoryManageModel
                 {
                     Id = c.Id,
                     Name = c.Name

@@ -17,13 +17,13 @@ namespace HxCore.IServices
         /// 获取友情链接列表
         /// </summary>
         /// <returns></returns>
-        Task<SqlSugarPageModel<NoticeQueryModel>> QueryNoticePageAsync(NoticeQueryParam param);
+        Task<SqlSugarPageModel<NoticeManageQueryModel>> QueryNoticePageAsync(NoticeManageQueryParam param);
 
         /// <summary>
         /// 获取友情链接详情数据
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<NoticeDetailModel> GetDetailAsync(string id);
+        Task<NoticeManageDetailModel> GetDetailAsync(string id);
     }
 }

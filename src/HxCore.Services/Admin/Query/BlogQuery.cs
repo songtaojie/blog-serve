@@ -53,7 +53,7 @@ namespace HxCore.Services
         }
 
         [CacheData(AbsoluteExpiration = 5)]
-        public async Task<BlogDetailModel> FindById(string id)
+        public async Task<BlogDetailModel> Detail(string id)
         {
             var detail = await this.Db.Queryable<T_Blog, T_BlogExtend>((b, be) => new JoinQueryInfos(JoinType.Inner, b.Id == be.Id))
                 .Where((b, be) => b.Id == id)
@@ -182,10 +182,10 @@ namespace HxCore.Services
 
         #region 标签/栏目-后台管理
 
-        public async Task<TagModel> GetTagDetailAsync(string tagId)
+        public async Task<TagManageModel> GetTagDetailAsync(string tagId)
         {
             var detail = await _tagRepository.Entities.Where(r => r.Id == tagId)
-                .Select(r => new TagModel
+                .Select(r => new TagManageModel
                 {
                     Id = r.Id,
                     BGColor = r.BGColor,
@@ -198,11 +198,11 @@ namespace HxCore.Services
             return detail;
         }
 
-        public async Task<CategoryModel> GetCategoryDetailAsync(string categoryId)
+        public async Task<CategoryManageModel> GetCategoryDetailAsync(string categoryId)
         {
             var categoryRepository = this.Repository.Change<T_Category>();
             var detail = await categoryRepository.Entities.Where(r => r.Id == categoryId)
-                .Select(r => new CategoryModel
+                .Select(r => new CategoryManageModel
                 {
                     Id = r.Id,
                     Name = r.Name,
@@ -215,13 +215,13 @@ namespace HxCore.Services
             return detail;
         }
 
-        public async Task<SqlSugarPageModel<TagModel>> QueryTagPageAsync(BasePageParam param)
+        public async Task<SqlSugarPageModel<TagManageModel>> QueryTagPageAsync(BasePageParam param)
         {
             var list = await _tagRepository.Entities
                 .Where(r => r.Deleted == ConstKey.No)
                 .OrderBy(r=>r.OrderSort, OrderByType.Desc)
                 .OrderBy(r=>r.CreateTime, OrderByType.Desc)
-                .Select(r => new TagModel
+                .Select(r => new TagManageModel
                 {
                     Id = r.Id,
                     BGColor = r.BGColor,
@@ -233,14 +233,14 @@ namespace HxCore.Services
             return list;
         }
 
-        public async Task<SqlSugarPageModel<CategoryModel>> QueryCategoryPageAsync(BasePageParam param)
+        public async Task<SqlSugarPageModel<CategoryManageModel>> QueryCategoryPageAsync(BasePageParam param)
         {
             var categoryRepository = this.Repository.Change<T_Category>();
             var list = await categoryRepository.Entities
                 .Where(r=>r.Deleted == ConstKey.No)
                 .OrderBy(r => r.OrderSort, OrderByType.Desc)
                 .OrderBy(r => r.CreateTime, OrderByType.Desc)
-                .Select(r => new CategoryModel
+                .Select(r => new CategoryManageModel
                 {
                     Id = r.Id,
                     Name = r.Name,

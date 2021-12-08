@@ -14,13 +14,13 @@ namespace HxCore.IServices
         /// </summary>
         /// <param name="createModel"></param>
         /// <returns></returns>
-        Task<bool> InsertAsync(NoticeCreateModel createModel);
+        Task<bool> InsertAsync(NoticeManageCreateModel createModel);
 
         /// <summary>
         /// 更新公告通知
         /// </summary>
         /// <param name="updateModel"></param>
         /// <returns></returns>
-        Task<bool> UpdateAsync(NoticeCreateModel updateModel);
+        Task<bool> UpdateAsync(NoticeManageCreateModel updateModel);
     }
 }

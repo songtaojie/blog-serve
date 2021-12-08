@@ -16,13 +16,13 @@ namespace HxCore.Services
         {
         }
        
-        public async Task<SqlSugarPageModel<NoticeQueryModel>> QueryNoticePageAsync(NoticeQueryParam param)
+        public async Task<SqlSugarPageModel<NoticeManageQueryModel>> QueryNoticePageAsync(NoticeManageQueryParam param)
         {
             var query = this.Db.Queryable<T_NoticeInfo>()
                    .Where(r => r.Deleted == ConstKey.No)
                    .OrderBy(r => r.OrderSort, OrderByType.Desc)
                    .OrderBy(r => r.CreateTime, OrderByType.Desc)
-                   .Select(r => new NoticeQueryModel
+                   .Select(r => new NoticeManageQueryModel
                    {
                        Id = r.Id,
                        Link = r.Link,
@@ -33,10 +33,10 @@ namespace HxCore.Services
                    });
             return await query.ToPagedListAsync(param.PageIndex, param.PageSize);
         }
-        public async Task<NoticeDetailModel> GetDetailAsync(string id)
+        public async Task<NoticeManageDetailModel> GetDetailAsync(string id)
         {
             var detailModel = await this.Repository.Entities.Where(r=>r.Id == id)
-                .Select(r => new NoticeDetailModel
+                .Select(r => new NoticeManageDetailModel
                 {
                     Id = r.Id,
                     Link = r.Link,

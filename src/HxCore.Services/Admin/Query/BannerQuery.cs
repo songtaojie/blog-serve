@@ -16,12 +16,12 @@ namespace HxCore.Services
         {
         }
 
-        public async Task<SqlSugarPageModel<BannerQueryModel>> QueryNoticePageAsync(BannerQueryParam param)
+        public async Task<SqlSugarPageModel<BannerManageQueryModel>> QueryNoticePageAsync(BannerManageQueryParam param)
         {
             var query = this.Db.Queryable<T_BannerInfo>().Where(r => r.Deleted == ConstKey.No)
                    .OrderBy(r => r.OrderSort, OrderByType.Desc)
                    .OrderBy(r => r.CreateTime, OrderByType.Desc)
-                   .Select(r => new BannerQueryModel
+                   .Select(r => new BannerManageQueryModel
                    {
                        Id = r.Id,
                        Title = r.Title,
@@ -33,10 +33,10 @@ namespace HxCore.Services
                    });
             return await query.ToPagedListAsync(param.PageIndex, param.PageSize);
         }
-        public async Task<BannerDetailModel> GetDetailAsync(string id)
+        public async Task<BannerManageDetailModel> GetDetailAsync(string id)
         {
             var detailModel = await this.Repository.Entities.Where(r=>r.Id == id)
-                .Select(r => new BannerDetailModel
+                .Select(r => new BannerManageDetailModel
                 {
                     Id = r.Id,
                     Title = r.Title,

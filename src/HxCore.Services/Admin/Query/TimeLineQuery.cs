@@ -20,12 +20,12 @@ namespace HxCore.Services.Admin.Query
         {
         }
 
-        public async Task<SqlSugarPageModel<TimeLineQueryModel>> QueryTimeLinePageAsync(TimeLineQueryParam param)
+        public async Task<SqlSugarPageModel<TimeLineManageQueryModel>> QueryTimeLinePageAsync(TimeLineManageQueryParam param)
         {
             var query = this.Repository.Entities
                    .Where(r => r.Deleted == ConstKey.No)
                    .OrderBy(r => r.CreateTime, OrderByType.Desc)
-                   .Select(r => new TimeLineQueryModel
+                   .Select(r => new TimeLineManageQueryModel
                    {
                        Id = r.Id,
                        Content = r.Content,
@@ -35,10 +35,10 @@ namespace HxCore.Services.Admin.Query
                    });
             return await query.ToPagedListAsync(param.PageIndex, param.PageSize);
         }
-        public async Task<TimeLineDetailModel> GetDetailAsync(string id)
+        public async Task<TimeLineManageDetailModel> GetDetailAsync(string id)
         {
             var detailModel = await this.Repository.Entities.Where(r=>r.Id == id)
-                .Select(r => new TimeLineDetailModel
+                .Select(r => new TimeLineManageDetailModel
                 {
                     Id = r.Id,
                     Content = r.Content,

@@ -18,7 +18,7 @@ namespace HxCore.Services
         {
         }
         #region 新增编辑
-        public async Task<bool> InsertAsync(TimeLineCreateModel createModel)
+        public async Task<bool> InsertAsync(TimeLineManageCreateModel createModel)
         {
             var entity = this.Mapper.Map<T_TimeLine>(createModel);
             this.BeforeInsert(entity);
@@ -27,7 +27,7 @@ namespace HxCore.Services
             return await this.Repository.SaveNowAsync() > 0;
         }
 
-        public async Task<bool> UpdateAsync(TimeLineCreateModel updateModel)
+        public async Task<bool> UpdateAsync(TimeLineManageCreateModel updateModel)
         {
             if (string.IsNullOrEmpty(updateModel.Id)) throw new UserFriendlyException("无效的标识", ErrorCodeEnum.ParamsNullError);
             var entity = await this.FindAsync(updateModel.Id);

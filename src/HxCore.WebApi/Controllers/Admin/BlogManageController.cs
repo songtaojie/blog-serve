@@ -68,7 +68,7 @@ namespace HxCore.WebApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<SqlSugarPageModel<TagModel>> GetTagPage(BasePageParam param)
+        public async Task<SqlSugarPageModel<TagManageModel>> GetTagPage(BasePageParam param)
         {
             return await _blogQuery.QueryTagPageAsync(param);
         }
@@ -79,7 +79,7 @@ namespace HxCore.WebApi.Controllers.Admin
         /// <param name="tagId">标签id</param>
         /// <returns></returns>
         [HttpGet("{tagId}")]
-        public async Task<TagModel> GetTagDetail(string tagId)
+        public async Task<TagManageModel> GetTagDetail(string tagId)
         {
             return await _blogQuery.GetTagDetailAsync(tagId);
         }
@@ -90,7 +90,7 @@ namespace HxCore.WebApi.Controllers.Admin
         /// <param name="param">查询参数</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<SqlSugarPageModel<CategoryModel>> GetCategoryPage(BasePageParam param)
+        public async Task<SqlSugarPageModel<CategoryManageModel>> GetCategoryPage(BasePageParam param)
         {
             return await _blogQuery.QueryCategoryPageAsync(param);
         }
@@ -101,7 +101,7 @@ namespace HxCore.WebApi.Controllers.Admin
         /// <param name="categoryId">栏目id</param>
         /// <returns></returns>
         [HttpGet("{categoryId}")]
-        public async Task<CategoryModel> GetCategoryDetail(string categoryId)
+        public async Task<CategoryManageModel> GetCategoryDetail(string categoryId)
         {
             return await _blogQuery.GetCategoryDetailAsync(categoryId);
         }
@@ -149,7 +149,7 @@ namespace HxCore.WebApi.Controllers.Admin
         /// <param name="tagModel">标签信息</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<bool> AddOrUpdateTag(TagModel tagModel)
+        public async Task<bool> AddOrUpdateTag(TagManageModel tagModel)
         {
             return await _blogService.AddOrUpdateTagAsync(tagModel);
         }
@@ -160,7 +160,7 @@ namespace HxCore.WebApi.Controllers.Admin
         /// <param name="categoryModel">栏目信息</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<bool> AddOrUpdateCategory(CategoryModel categoryModel)
+        public async Task<bool> AddOrUpdateCategory(CategoryManageModel categoryModel)
         {
             return await _blogService.AddOrUpdateCategoryAsync(categoryModel);
         }

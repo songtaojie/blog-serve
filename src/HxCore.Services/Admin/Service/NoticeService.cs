@@ -14,7 +14,7 @@ namespace HxCore.Services
         {
         }
         #region 新增编辑
-        public async Task<bool> InsertAsync(NoticeCreateModel createModel)
+        public async Task<bool> InsertAsync(NoticeManageCreateModel createModel)
         {
             var entity = this.Mapper.Map<T_NoticeInfo>(createModel);
             this.BeforeInsert(entity);
@@ -23,7 +23,7 @@ namespace HxCore.Services
             return await this.Repository.SaveNowAsync() > 0;
         }
 
-        public async Task<bool> UpdateAsync(NoticeCreateModel updateModel)
+        public async Task<bool> UpdateAsync(NoticeManageCreateModel updateModel)
         {
             if (string.IsNullOrEmpty(updateModel.Id)) throw new UserFriendlyException("无效的标识", ErrorCodeEnum.ParamsNullError);
             var entity = await this.FindAsync(updateModel.Id);

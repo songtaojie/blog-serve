@@ -17,13 +17,13 @@ namespace HxCore.IServices
         /// 获取友情链接列表
         /// </summary>
         /// <returns></returns>
-        Task<SqlSugarPageModel<FriendLinkQueryModel>> QueryFriendLinkPageAsync(FriendLinkQueryParam param);
+        Task<SqlSugarPageModel<FriendLinkManageQueryModel>> QueryFriendLinkPageAsync(FriendLinkManageQueryParam param);
 
         /// <summary>
         /// 获取友情链接详情数据
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<FriendLinkDetailModel> GetDetailAsync(string id);
+        Task<FriendLinkManageDetailModel> GetDetailAsync(string id);
     }
 }

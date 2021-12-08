@@ -17,7 +17,7 @@ namespace HxCore.Services
         {
         }
         #region 新增编辑
-        public async Task<bool> InsertAsync(FriendLinkCreateModel createModel)
+        public async Task<bool> InsertAsync(FriendLinkManageCreateModel createModel)
         {
             if(await this.ExistAsync(r=>r.SiteCode == createModel.SiteCode)) throw new UserFriendlyException("网站Code已存在", ErrorCodeEnum.AddError);
             var entity = this.Mapper.Map<T_FriendLink>(createModel);
@@ -27,7 +27,7 @@ namespace HxCore.Services
             return await this.Repository.SaveNowAsync() > 0;
         }
 
-        public async Task<bool> UpdateAsync(FriendLinkCreateModel updateModel)
+        public async Task<bool> UpdateAsync(FriendLinkManageCreateModel updateModel)
         {
             if (string.IsNullOrEmpty(updateModel.Id)) throw new UserFriendlyException("无效的标识", ErrorCodeEnum.ParamsNullError);
             if (await this.ExistAsync(r => r.SiteCode == updateModel.SiteCode && r.Id != updateModel.Id)) throw new UserFriendlyException("网站Code已存在", ErrorCodeEnum.AddError);

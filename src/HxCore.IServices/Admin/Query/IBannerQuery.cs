@@ -17,13 +17,13 @@ namespace HxCore.IServices
         /// 获取首页横幅列表
         /// </summary>
         /// <returns></returns>
-        Task<SqlSugarPageModel<BannerQueryModel>> QueryNoticePageAsync(BannerQueryParam param);
+        Task<SqlSugarPageModel<BannerManageQueryModel>> QueryNoticePageAsync(BannerManageQueryParam param);
 
         /// <summary>
         /// 获取首页横幅详情数据
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<BannerDetailModel> GetDetailAsync(string id);
+        Task<BannerManageDetailModel> GetDetailAsync(string id);
     }
 }
