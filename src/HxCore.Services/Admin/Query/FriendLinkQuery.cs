@@ -70,6 +70,7 @@ namespace HxCore.Services
                    .OrderBy(r => r.CreateTime, OrderByType.Desc)
                    .Select(r => new FriendLinkModel
                    {
+                       Id=r.Id,
                        Link = r.Link,
                        SiteName = r.SiteName,
                        Logo = r.Logo

@@ -12,6 +12,11 @@ namespace HxCore.Model.Client
     public class BannerModel
     {
         /// <summary>
+        /// 主键
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
         /// 标题
         /// </summary>
         public string Title { get; set; }

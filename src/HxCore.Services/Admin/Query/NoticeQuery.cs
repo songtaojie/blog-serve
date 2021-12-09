@@ -62,6 +62,7 @@ namespace HxCore.Services
                   .OrderBy(r => r.CreateTime, OrderByType.Desc)
                   .Select(r => new NoticeModel
                   {
+                      Id = r.Id,
                       Link = r.Link,
                       Content = r.Content,
                       Target = r.Target

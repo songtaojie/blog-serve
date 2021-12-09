@@ -29,6 +29,24 @@ namespace HxCore.WebApi.Controllers.Client
         }
 
         /// <summary>
+        /// 获取所有数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/api/home/all")]
+        public async Task<HomeAllDataModel> GetAllList()
+        {
+            var result = new HomeAllDataModel
+            {
+                Notices = await _noticeQuery.GetListAsync(5),
+                Banners = await _bannerQuery.GetListAsync(5),
+                FriendLinks = await _friendLinkQuery.GetListAsync()
+            };
+            return result;
+        }
+
+
+        /// <summary>
         /// 获取首页横幅
         /// </summary>
         /// <returns></returns>

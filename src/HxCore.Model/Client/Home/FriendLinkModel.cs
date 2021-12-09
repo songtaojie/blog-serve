@@ -12,6 +12,11 @@ namespace HxCore.Model.Client
     public class FriendLinkModel
     {
         /// <summary>
+        /// 主键
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
         /// 网站名称
         /// </summary>
         public string SiteName { get; set; }

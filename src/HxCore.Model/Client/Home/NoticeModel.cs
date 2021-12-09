@@ -12,6 +12,11 @@ namespace HxCore.Model.Client
     public  class NoticeModel
     {
         /// <summary>
+        /// 主键
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
         /// 通知内容
         /// </summary>
         public string Content { get; set; }

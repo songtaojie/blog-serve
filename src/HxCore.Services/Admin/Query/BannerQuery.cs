@@ -64,6 +64,7 @@ namespace HxCore.Services
                     .Take(count)
                     .Select(r => new BannerModel
                     {
+                        Id  = r.Id,
                         Title = r.Title,
                         Link = r.Link,
                         ImgUrl = r.ImgUrl,
