@@ -145,8 +145,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 //c.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 //c.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 c.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                //c.DefaultChallengeScheme = nameof(JwtAuthenticationHandler);
-                //c.DefaultForbidScheme = nameof(JwtAuthenticationHandler);
+                c.DefaultChallengeScheme = nameof(JwtAuthenticationHandler);
+                c.DefaultForbidScheme = nameof(JwtAuthenticationHandler);
             })
             // 添加JwtBearer服务
             .AddJwtBearer(c =>
@@ -175,8 +175,8 @@ namespace Microsoft.Extensions.DependencyInjection
                     //OnTokenValidated = context => TokenValidated(context),
                     OnAuthenticationFailed = context => AuthenticationFailed(context)
                 };
-            });
-            //.AddScheme<AuthenticationSchemeOptions, JwtAuthenticationHandler>(nameof(JwtAuthenticationHandler), o => { });
+            })
+            .AddScheme<AuthenticationSchemeOptions, JwtAuthenticationHandler>(nameof(JwtAuthenticationHandler), o => { });
         }
         /// <summary>
         /// 认证失败时
