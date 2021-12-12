@@ -58,14 +58,6 @@ namespace HxCore.Model.Admin.Blog
         }
 
         /// <summary>
-        /// 博客标签
-        /// </summary>
-        public string BlogTags
-        {
-            get; set;
-        }
-
-        /// <summary>
         /// 是否置顶
         /// </summary>
         public string IsTop { get; set; } = ConstKey.No;
@@ -94,29 +86,8 @@ namespace HxCore.Model.Admin.Blog
         } = ConstKey.No;
 
         /// <summary>
-        /// 个人标签
+        /// 博客标签
         /// </summary>
-        public List<BlogManagePersonTag> PersonTags { get; set; }
-    }
-
-    /// <summary>
-    /// 博客个人标签
-    /// </summary>
-    public class BlogManagePersonTag
-    { 
-        /// <summary>
-        /// 个人标签的id
-        /// </summary>
-        public string Id { get; set; }
-
-        /// <summary>
-        /// 个人标签的名称
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// 是否可编辑
-        /// </summary>
-        public bool Editable { get; set; } = false;
+        public List<string> BlogTags { get; set; }
     }
 }

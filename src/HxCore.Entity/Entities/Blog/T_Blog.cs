@@ -44,12 +44,6 @@ namespace HxCore.Entity.Entities
         /// </summary>
         [Column(TypeName = "char(1)")]
         public string IsTop { get; set; } = ConstKey.No;
-      
-        /// <summary>
-        /// 博客的个人标签，对应的是Tag表中主键，以，号隔开
-        /// </summary>
-        [MaxLength(40)]
-        public string BlogTags { get; set; }
 
         /// <summary>
         /// 允许评论

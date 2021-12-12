@@ -30,10 +30,7 @@ namespace HxCore.Services
             var entity = this.Mapper.Map<T_Blog>(blogModel);
             if (blogModel.IsPublish) entity.PublishDate = DateTime.Now;
             entity.PureContent = HtmlHelper.FilterHtml(blogModel.Content, 100);
-            if (blogModel.BlogTags != null && blogModel.BlogTags.Any())
-            {
-                entity.BlogTags = string.Join(",", blogModel.BlogTags);
-            }
+           
             this.BeforeInsert(entity);
             // 扩展表
             var blogExtend = new T_BlogExtend
@@ -42,6 +39,23 @@ namespace HxCore.Services
                 Content = blogModel.Content,
                 ContentHtml = blogModel.ContentHtml
             };
+            // 博客标签
+            if (blogModel.BlogTags != null && blogModel.BlogTags.Any())
+            {
+                var tagRepository = this.Repository.Change<T_BlogTag>();
+                var tags = new List<T_BlogTag>();
+                blogModel.BlogTags.ForEach(tagId =>
+                {
+                    tags.Add(new T_BlogTag
+                    {
+                        Id = Helper.GetSnowId(),
+                        BlogId = entity.Id,
+                        TagId = tagId
+                    });
+                });
+                await tagRepository.InsertAsync(tags);
+            }
+
             await this.ExtendRepository.InsertAsync(blogExtend);
             await this.Repository.InsertAsync(entity);
             return await this.Repository.SaveNowAsync() > 0;
@@ -54,17 +68,29 @@ namespace HxCore.Services
             var extendEntity = await this.ExtendRepository.FindAsync(blogModel.Id);
             if (entity == null && extendEntity == null) throw new UserFriendlyException("文章不存在",ErrorCodeEnum.DataNull);
             entity = this.Mapper.Map(blogModel, entity);
-            entity.BlogTags = String.Empty;
-            if (blogModel.BlogTags != null && blogModel.BlogTags.Any())
-            {
-                entity.BlogTags = string.Join(",", blogModel.BlogTags);
-            }
             if (blogModel.IsPublish) entity.PublishDate = DateTime.Now;
             entity.PureContent = HtmlHelper.FilterHtml(blogModel.Content, 100);
             this.BeforeUpdate(entity);
             //扩展表
             extendEntity.Content = blogModel.Content;
             extendEntity.ContentHtml = blogModel.ContentHtml;
+            // 博客标签,先删除再添加
+            this.Repository.SqlNonQuery("delete from T_BlogTag where BlogId=@BlogId", new Dictionary<string, object> { { "BlogId", entity.Id } });
+            if (blogModel.BlogTags != null && blogModel.BlogTags.Any())
+            {
+                var tagRepository = this.Repository.Change<T_BlogTag>();
+                var tags = new List<T_BlogTag>();
+                blogModel.BlogTags.ForEach(tagId =>
+                {
+                    tags.Add(new T_BlogTag
+                    {
+                        Id = Helper.GetSnowId(),
+                        BlogId = entity.Id,
+                        TagId = tagId
+                    });
+                });
+                await tagRepository.InsertAsync(tags);
+            }
             await this.ExtendRepository.UpdateIncludeAsync(extendEntity, new string[] { "Content", "ContentHtml" });
             await this.Repository.UpdateAsync(entity);
             await this.Repository.SaveNowAsync();

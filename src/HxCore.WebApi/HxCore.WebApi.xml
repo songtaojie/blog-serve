@@ -749,13 +749,14 @@
             网站首页控制器
             </summary>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Client.HomeController.#ctor(HxCore.IServices.IBannerQuery,HxCore.IServices.INoticeQuery,HxCore.IServices.IFriendLinkQuery)">
+        <member name="M:HxCore.WebApi.Controllers.Client.HomeController.#ctor(HxCore.IServices.IBannerQuery,HxCore.IServices.INoticeQuery,HxCore.IServices.IFriendLinkQuery,HxCore.IServices.IBlogQuery)">
             <summary>
             首页控制器
             </summary>
             <param name="bannerQuery">首页横幅查询接口</param>
             <param name="noticeQuery">公告通知查询接口</param>
             <param name="friendLinkQuery">友情链接查询接口</param>
+            <param name="blogQuery">博客查询接口</param>
         </member>
         <member name="M:HxCore.WebApi.Controllers.Client.HomeController.GetAllList">
             <summary>

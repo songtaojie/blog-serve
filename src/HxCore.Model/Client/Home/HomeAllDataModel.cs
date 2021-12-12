@@ -25,5 +25,10 @@ namespace HxCore.Model.Client
         /// 首页友情链接列表数据
         /// </summary>
         public List<FriendLinkModel> FriendLinks { get; set; }
+
+        /// <summary>
+        /// 标签列表数据
+        /// </summary>
+        public List<TagModel> Tags { get; set; }
     }
 }

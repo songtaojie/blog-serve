@@ -29,7 +29,7 @@ namespace HxCore.Services
             _tagRepository = tagRepository;
         }
 
-        #region 客户端-查询
+        #region 博客-客户端-查询
         [CacheData(AbsoluteExpiration = 5)]
         public async Task<SqlSugarPageModel<BlogQueryModel>> GetBlogsAsync(BlogQueryParam param)
         {
@@ -73,39 +73,30 @@ namespace HxCore.Services
                 })
                 .FirstAsync();
             if (detail == null || detail.Publish == ConstKey.No) throw new UserFriendlyException("找不到您访问的页面", ErrorCodeEnum.DataNull);
-            //获取上一个和下一个博客
-            //await GetPreBlogInfo(blogModel);
-            //await GetNextBlogInfo(blogModel);
             return detail;
-        }
-        private async Task GetPreBlogInfo(BlogDetailModel blogModel)
-        {
-            var preBlog = await this.Db.Queryable<T_Blog>()
-                    .Where(b => b.CreaterId == blogModel.UserId && b.PublishDate < blogModel.PublishDate)
-                    .OrderBy(b=>b.PublishDate,OrderByType.Desc)
-                    .FirstAsync();
-            if (preBlog != null)
-            {
-                blogModel.PreId = preBlog.Id.ToString();
-                blogModel.PreTitle = preBlog.Title;
-            }
-        }
-
-        private async Task GetNextBlogInfo(BlogDetailModel blogModel)
-        {
-            var nextBlog = await this.Db.Queryable<T_Blog>()
-                .Where(b => b.CreaterId == blogModel.UserId && b.PublishDate > blogModel.PublishDate)
-                .OrderBy(b => b.CreateTime)
-                .FirstAsync();
-            if (nextBlog != null)
-            {
-                blogModel.NextId = nextBlog.Id.ToString();
-                blogModel.NextTitle = nextBlog.Title;
-            }
         }
         #endregion
 
-        #region 后台管理-查询
+        #region 标签/栏目-客户端
+
+        /// <summary>
+        /// 获取博客标签列表-客户端使用
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<TagModel>> GetTagListAsync()
+        {
+            return await _tagRepository.Entities.Where(t => t.Deleted == ConstKey.No)
+                .Select(t => new TagModel
+                {
+                    Id = t.Id,
+                    Name = t.Name,
+                    BGColor = t.BGColor
+                }).ToListAsync();
+        }
+
+        #endregion
+
+        #region 博客-后台管理-查询
         /// <summary>
         /// 获取博客标签列表
         /// </summary>
@@ -143,7 +134,6 @@ namespace HxCore.Services
                    CanCmt = b.CanCmt,
                    Content = be.Content,
                    Publish = b.Publish,
-                   BlogTags = b.BlogTags,
                    IsTop = b.IsTop,
                    CategoryId = b.CategoryId,
                    CoverImgUrl = b.CoverImgUrl,
@@ -151,34 +141,25 @@ namespace HxCore.Services
                }).FirstAsync();
 
             if (detailModel == null) throw new UserFriendlyException("该文章不存在", ErrorCodeEnum.DataNull);
-            if (!string.IsNullOrEmpty(detailModel.BlogTags))
-            {
-                var tagRepository = this.Repository.Change<T_TagInfo>();
-                var blogtagIds = detailModel.BlogTags.Split(",").ToArray();
-                detailModel.PersonTags = await tagRepository.Entities.Where(t => blogtagIds.Contains(t.Id))
-                    .Select(t => new BlogManagePersonTag
-                    {
-                        Id = t.Id,
-                        Name = t.Name
-                    }).ToListAsync();
-            }
+            detailModel.BlogTags = await this.Db.Queryable < T_BlogTag>().Where(bt=>bt.BlogId == detailModel.Id)
+                .Select(bt=>bt.BlogId)
+                .ToListAsync();
             return detailModel;
         }
 
         /// <summary>
-        /// 获取博客标签列表
+        /// 获取博客标签列表-后台使用
         /// </summary>
         /// <returns></returns>
-        public async Task<List<BlogManagePersonTag>> GetTagListAsync()
+        public async Task<List<TagManageModel>> GetTagManageListAsync()
         {
             return await _tagRepository.Entities.Where(t => t.Deleted == ConstKey.No)
-                .Select(t => new BlogManagePersonTag
+                .Select(t => new TagManageModel
                 {
                     Id = t.Id,
                     Name = t.Name
                 }).ToListAsync();
         }
-
         #endregion
 
         #region 标签/栏目-后台管理

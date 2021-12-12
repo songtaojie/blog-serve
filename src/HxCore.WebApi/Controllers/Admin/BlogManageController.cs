@@ -45,9 +45,9 @@ namespace HxCore.WebApi.Controllers.Admin
         /// <returns></returns>
         [HttpPost]
         [SkipRouteAuthorization]
-        public async Task<List<BlogManagePersonTag>> GetTagList()
+        public async Task<List<TagManageModel>> GetTagList()
         {
-            return await _blogQuery.GetTagListAsync();
+            return await _blogQuery.GetTagManageListAsync();
         }
 
         /// <summary>

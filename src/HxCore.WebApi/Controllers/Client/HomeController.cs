@@ -15,17 +15,20 @@ namespace HxCore.WebApi.Controllers.Client
         private readonly IBannerQuery _bannerQuery;
         private readonly INoticeQuery _noticeQuery;
         private readonly IFriendLinkQuery _friendLinkQuery;
+        private readonly IBlogQuery _blogQuery;
         /// <summary>
         /// 首页控制器
         /// </summary>
         /// <param name="bannerQuery">首页横幅查询接口</param>
         /// <param name="noticeQuery">公告通知查询接口</param>
         /// <param name="friendLinkQuery">友情链接查询接口</param>
-        public HomeController(IBannerQuery bannerQuery, INoticeQuery noticeQuery, IFriendLinkQuery friendLinkQuery)
+        /// <param name="blogQuery">博客查询接口</param>
+        public HomeController(IBannerQuery bannerQuery, INoticeQuery noticeQuery, IFriendLinkQuery friendLinkQuery, IBlogQuery blogQuery)
         {
             _bannerQuery = bannerQuery;
             _noticeQuery = noticeQuery;
             _friendLinkQuery = friendLinkQuery;
+            _blogQuery = blogQuery;
         }
 
         /// <summary>
@@ -40,7 +43,8 @@ namespace HxCore.WebApi.Controllers.Client
             {
                 Notices = await _noticeQuery.GetListAsync(5),
                 Banners = await _bannerQuery.GetListAsync(5),
-                FriendLinks = await _friendLinkQuery.GetListAsync()
+                FriendLinks = await _friendLinkQuery.GetListAsync(),
+                Tags = await _blogQuery.GetTagListAsync()
             };
             return result;
         }

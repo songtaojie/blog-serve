@@ -10,7 +10,7 @@ namespace HxCore.IServices
 {
     public interface IBlogQuery
     {
-        #region 客户端
+        #region 博客-客户端
         /// <summary>
         /// 获取博客标签列表
         /// </summary>
@@ -25,7 +25,15 @@ namespace HxCore.IServices
         Task<BlogDetailModel> Detail(string id);
         #endregion
 
-        #region 管理后台
+        #region 标签/栏目-客户端
+        /// <summary>
+        /// 获取博客标签列表
+        /// </summary>
+        /// <returns></returns>
+        Task<List<TagModel>> GetTagListAsync();
+        #endregion
+
+        #region 博客-管理后台
 
         /// <summary>
         /// 获取博客标签列表
@@ -41,11 +49,10 @@ namespace HxCore.IServices
         Task<BlogManageDetailModel> GetDetailAsync(string id);
 
         /// <summary>
-        /// 获取博客标签列表
+        /// 获取博客标签列表-后台使用
         /// </summary>
         /// <returns></returns>
-        Task<List<BlogManagePersonTag>> GetTagListAsync();
-
+        Task<List<TagManageModel>> GetTagManageListAsync();
         #endregion
 
         #region 标签/栏目-后台管理
