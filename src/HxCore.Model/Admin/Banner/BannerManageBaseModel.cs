@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,18 @@ namespace HxCore.Model.Admin.Banner
         /// 图片地址
         /// </summary>
         public string ImgUrl { get; set; }
+
+        /// <summary>
+        /// 图片名字
+        /// </summary>
+        public string ImgFileName
+        {
+            get 
+            { 
+                if(string.IsNullOrEmpty(ImgUrl))return string.Empty;
+                return Path.GetFileName(ImgUrl); 
+            }
+        }
 
         /// <summary>
         /// 链接
