@@ -5,13 +5,15 @@ using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Hx.Sdk.DependencyInjection;
 
 namespace HxCore.Aops
 {
     /// <summary>
     /// redis缓存,使用1号数据库进行缓存
     /// </summary>
-    public class BlogRedisCacheAOP : CacheAOPbase
+    [Injection(Pattern = InjectionPatterns.Self)]
+    public class BlogRedisCacheAOP : CacheAOPbase, IScopedDependency
     {
         private IRedisCache _redisCache;
         public BlogRedisCacheAOP(IRedisCache redisCache)

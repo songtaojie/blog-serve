@@ -6,6 +6,7 @@ using System.Text;
 using Hx.Sdk.Common.Extensions;
 using System.Linq;
 using HxCore.Entity;
+using Hx.Sdk.DependencyInjection;
 
 namespace HxCore.Aops
 {
