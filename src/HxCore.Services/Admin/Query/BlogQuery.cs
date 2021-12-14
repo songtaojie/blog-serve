@@ -69,6 +69,7 @@ namespace HxCore.Services
                     .ToListAsync();
                 foreach (var blog in result.Items)
                 {
+                    blog.PublishDate_V = GetDispayDate(blog.PublishDate);
                     blog.Tags = blogTags.Where(r => r.BlogId == blog.Id).Select(r => new TagModel { Id = r.Id, Name = r.Name, BGColor = r.BGColor });
                 }
             }
@@ -271,7 +272,32 @@ namespace HxCore.Services
             return list;
         }
 
-       
+
+        #endregion
+
+        #region  私有函数
+        #region 日期处理函数
+        private  string GetDispayDate(DateTime? date, bool showTime = false)
+        {
+            if (!date.HasValue) return "";
+            return GetDispayDate(date.Value, showTime);
+        }
+        private string GetDispayDate(DateTime date, bool showTime = false)
+        {
+            TimeSpan ts = DateTime.Now.Subtract(date);
+            if (ts.TotalMinutes < 10) return "刚刚";
+            if (ts.TotalMinutes < 60) return string.Format("{0} 分钟前", (int)Math.Floor(ts.TotalMinutes));
+            if (ts.TotalHours <= 24) return string.Format("{0} 小时前", (int)Math.Floor(ts.TotalHours));
+            if (ts.TotalDays <= 7) return string.Format("{0} 天前", (int)Math.Floor(ts.TotalDays));
+            if (date.Year == DateTime.Now.Year)
+            {
+                string timeFormat = showTime ? "MM-dd HH:ss" : "MM-dd";
+                return date.ToString(timeFormat);
+            }
+            string format = showTime ? "yyyy-MM-dd HH:ss" : "yyyy-MM-dd";
+            return date.ToString(format); ;
+        }
+        #endregion
         #endregion
     }
 }

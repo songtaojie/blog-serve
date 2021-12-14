@@ -64,7 +64,17 @@ namespace HxCore.Model.Client
         /// <summary>
         /// 发布日期
         /// </summary>
+        [JsonIgnore]
         public DateTime? PublishDate { get; set; }
+
+        /// <summary>
+        /// 发布日期
+        /// </summary>
+        public string PublishDate_V
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// 封面图片链接
@@ -81,6 +91,4 @@ namespace HxCore.Model.Client
         /// </summary>
         public IEnumerable<TagModel> Tags { get; set; }
     }
-
-   
 }
