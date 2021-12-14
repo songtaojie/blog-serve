@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace HxCore.Extensions.Aop
+namespace HxCore.Aops
 {
     /// <summary>
     /// redis缓存,使用1号数据库进行缓存
@@ -17,7 +17,6 @@ namespace HxCore.Extensions.Aop
         public BlogRedisCacheAOP(IRedisCache redisCache)
         {
             _redisCache = redisCache;
-            _redisCache.SetRedisDbNum(1);
         }
         public override void Intercept(IInvocation invocation)
         {

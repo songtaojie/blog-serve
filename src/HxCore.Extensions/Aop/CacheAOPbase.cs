@@ -7,7 +7,7 @@ using Hx.Sdk.Common.Extensions;
 using System.Linq;
 using HxCore.Entity;
 
-namespace HxCore.Extensions.Aop
+namespace HxCore.Aops
 {
     public abstract class CacheAOPbase : IInterceptor
     {

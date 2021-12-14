@@ -7,7 +7,7 @@ using Hx.Sdk.Attributes;
 using Hx.Sdk.Cache;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace HxCore.Extensions.Aop
+namespace HxCore.Aops
 {
     /// <summary>
     /// 缓存拦截器
