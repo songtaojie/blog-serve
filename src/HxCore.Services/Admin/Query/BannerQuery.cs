@@ -55,6 +55,7 @@ namespace HxCore.Services
         #endregion
 
         #region 客户端
+
         public async Task<List<BannerModel>> GetListAsync(int count)
         {
             return await this.Db.Queryable<T_BannerInfo>()

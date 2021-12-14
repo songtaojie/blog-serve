@@ -6,17 +6,17 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Hx.Sdk.DependencyInjection;
+using HxCore.Entity;
 
 namespace HxCore.Aops
 {
     /// <summary>
-    /// redis缓存,使用1号数据库进行缓存
+    /// 客户端首页数据缓存
     /// </summary>
-    [Injection(Pattern = InjectionPatterns.Self)]
-    public class BlogRedisCacheAOP : CacheAOPbase, IScopedDependency
+    public class HomeRedisCacheAOP : CacheAOPbase
     {
         private IRedisCache _redisCache;
-        public BlogRedisCacheAOP(IRedisCache redisCache)
+        public HomeRedisCacheAOP(IRedisCache redisCache)
         {
             _redisCache = redisCache;
         }
@@ -33,13 +33,13 @@ namespace HxCore.Aops
             if (cachingAttribute != null)
             {
                 //获取自定义缓存键
-                var cacheKey = CustomCacheKey(invocation);
+                var cacheKey = CustomCacheKey(invocation, CacheKeyConfig.HOME_KEY);
                 //注意是 string 类型，方法GetValue
                 var exist = _redisCache.KeyExists(cacheKey);
                 if (exist)
                 {
-                    var cacheValue = _redisCache.Get<object>(cacheKey);
-                    if (cacheValue != null)
+                    var cacheValue = _redisCache.StringGet(cacheKey);
+                    if (!string.IsNullOrEmpty(cacheValue))
                     {
                         //将当前获取到的缓存值，赋值给当前执行方法
                         Type returnType;
@@ -52,8 +52,8 @@ namespace HxCore.Aops
                         {
                             returnType = method.ReturnType;
                         }
-                        //dynamic _result = JsonConvert.DeserializeObject(cacheValue, returnType);
-                        invocation.ReturnValue = isTask ? Task.FromResult(cacheValue) : cacheValue;
+                        dynamic result = JsonConvert.DeserializeObject(cacheValue, returnType);
+                        invocation.ReturnValue = isTask ? Task.FromResult(result) : result;
                         return;
                     }
                 }

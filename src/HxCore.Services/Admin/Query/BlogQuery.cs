@@ -10,6 +10,7 @@ using HxCore.IServices;
 using HxCore.Model;
 using HxCore.Model.Admin.Blog;
 using HxCore.Model.Client;
+using Microsoft.Extensions.DependencyInjection;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
@@ -30,30 +31,51 @@ namespace HxCore.Services
         }
 
         #region 博客-客户端-查询
-        [CacheData(AbsoluteExpiration = 5)]
+        [CacheData]
         public async Task<SqlSugarPageModel<BlogQueryModel>> GetBlogsAsync(BlogQueryParam param)
         {
             var result = await this.Db.Queryable<T_Blog, T_Account>((b, u) => new JoinQueryInfos(JoinType.Inner, b.CreaterId == u.Id))
                 .Where((b, u) => b.Publish == ConstKey.Yes && b.Deleted == ConstKey.No)
+                .OrderBy((b, u) => b.IsTop, OrderByType.Desc)
                 .OrderBy((b, u) => b.PublishDate, OrderByType.Desc)
                 .Select((b, u) => new BlogQueryModel
                 {
                     Id = b.Id,
                     Publisher = b.Creater,
                     Title = b.Title,
+                    BlogType = b.BlogType,
+                    Top = b.IsTop,
                     PureContent = b.PureContent,
                     ReadCount = b.ReadCount,
                     CmtCount = b.CmtCount,
                     PublishDate = b.PublishDate,
                     CoverImgUrl = b.CoverImgUrl,
-                    AvatarUrl = u.AvatarUrl,
-                    MarkDown = b.MarkDown
+                    AvatarUrl = u.AvatarUrl
                 })
                 .ToPagedListAsync(param.PageIndex, param.PageSize);
+            //获取博客标签
+            if (result.Items.Any())
+            {
+                var blogIds = result.Items.Select(b => b.Id).ToArray();
+                var blogTags = await this.Db.Queryable<T_BlogTag,T_TagInfo>((bt, t) => new JoinQueryInfos(JoinType.Inner, bt.TagId == t.Id))
+                    .Where((bt, t) => blogIds.Contains(bt.BlogId))
+                    .Select((bt, t) => new
+                    {
+                        t.Id,
+                        bt.BlogId,
+                        t.Name,
+                        t.BGColor,
+                    })
+                    .ToListAsync();
+                foreach (var blog in result.Items)
+                {
+                    blog.Tags = blogTags.Where(r => r.BlogId == blog.Id).Select(r => new TagModel { Id = r.Id, Name = r.Name, BGColor = r.BGColor });
+                }
+            }
             return result;
         }
 
-        [CacheData(AbsoluteExpiration = 5)]
+        [CacheData]
         public async Task<BlogDetailModel> Detail(string id)
         {
             var detail = await this.Db.Queryable<T_Blog, T_BlogExtend>((b, be) => new JoinQueryInfos(JoinType.Inner, b.Id == be.Id))
@@ -62,18 +84,33 @@ namespace HxCore.Services
                 {
                     Id = b.Id,
                     Title = b.Title,
-                    Publish = b.Publish,
                     PublishDate = b.PublishDate,
                     Content = be.Content,
                     ReadCount = b.ReadCount,
                     CmtCount = b.CmtCount,
-                    UserId = b.CreaterId,
                     NickName = b.Creater,
                     MarkDown = b.MarkDown
                 })
                 .FirstAsync();
             if (detail == null || detail.Publish == ConstKey.No) throw new UserFriendlyException("找不到您访问的页面", ErrorCodeEnum.DataNull);
             return detail;
+        }
+
+        [CacheData]
+        public async Task<HomeAllDataModel> GetHomeAllDataAsync()
+        {
+            IBannerQuery bannerQuery = this.Repository.ServiceProvider.GetRequiredService<IBannerQuery>();
+            INoticeQuery noticeQuery = this.Repository.ServiceProvider.GetRequiredService<INoticeQuery>();
+            IFriendLinkQuery friendLinkQuery = this.Repository.ServiceProvider.GetRequiredService<IFriendLinkQuery>();
+
+            var result = new HomeAllDataModel
+            {
+                Notices = await noticeQuery.GetListAsync(5),
+                Banners = await bannerQuery.GetListAsync(5),
+                FriendLinks = await friendLinkQuery.GetListAsync(),
+                Tags = await GetTagListAsync()
+            };
+            return result;
         }
         #endregion
 
@@ -124,7 +161,7 @@ namespace HxCore.Services
         public async Task<BlogManageDetailModel> GetDetailAsync(string id)
         {
             var detailModel = await this.Db.Queryable<T_Blog, T_BlogExtend>((b, be) => new JoinQueryInfos(JoinType.Inner, b.Id == be.Id))
-               .Where((b, be) => b.Publish == ConstKey.Yes && b.Deleted == ConstKey.No)
+               .Where((b, be) => b.Id == id && b.Publish == ConstKey.Yes && b.Deleted == ConstKey.No)
                .OrderBy((b, be) => b.PublishDate, OrderByType.Desc)
                .Select((b, be) => new BlogManageDetailModel
                {
@@ -141,8 +178,8 @@ namespace HxCore.Services
                }).FirstAsync();
 
             if (detailModel == null) throw new UserFriendlyException("该文章不存在", ErrorCodeEnum.DataNull);
-            detailModel.BlogTags = await this.Db.Queryable < T_BlogTag>().Where(bt=>bt.BlogId == detailModel.Id)
-                .Select(bt=>bt.BlogId)
+            detailModel.BlogTags = await this.Db.Queryable <T_BlogTag>().Where(bt=>bt.BlogId == detailModel.Id)
+                .Select(bt=>bt.TagId)
                 .ToListAsync();
             return detailModel;
         }
@@ -233,6 +270,8 @@ namespace HxCore.Services
                 .ToPagedListAsync(param.PageIndex, param.PageSize);
             return list;
         }
+
+       
         #endregion
     }
 }

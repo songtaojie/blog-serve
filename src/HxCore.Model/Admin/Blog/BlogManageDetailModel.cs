@@ -44,10 +44,10 @@ namespace HxCore.Model.Admin.Blog
         /// </summary>
         public BlogType_Enum BlogType { get; set; }
 
-        /// <summary>
-        /// 文章类型-描述
-        /// </summary>
-        public string BlogType_V => BlogType.GetDescription();
+        ///// <summary>
+        ///// 文章类型-描述
+        ///// </summary>
+        //public string BlogType_V => BlogType.GetDescription();
 
         /// <summary>
         /// 系统分类

@@ -2,11 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.Text;
 using Hx.Sdk.Common.Extensions;
 using System.Linq;
-using HxCore.Entity;
-using Hx.Sdk.DependencyInjection;
 
 namespace HxCore.Aops
 {
@@ -17,23 +14,25 @@ namespace HxCore.Aops
         /// <summary>
         /// 自定义缓存的key
         /// </summary>
+        /// <param name="prefix">键的前缀</param>
         /// <param name="invocation"></param>
         /// <returns></returns>
-        protected string CustomCacheKey(IInvocation invocation)
+        protected string CustomCacheKey(IInvocation invocation, string prefix)
         {
             var typeName = invocation.TargetType.Name;
             var methodName = invocation.Method.Name;
             var keyList = new List<string>()
             {
-                typeName,
-                methodName
+                prefix,
+                typeName.ToUpper(),
+                methodName.ToUpper(),
             };
             foreach (var arg in invocation.Arguments)
             {
                 var param = GetArgumentValue(arg);
                 if(!string.IsNullOrEmpty(param)) keyList.Add(param);
             }
-            return string.Format("{0}{1}", CacheKeyConfig.BlogKey,string.Join(":", keyList));
+            return string.Join(":", keyList);
         }
 
 

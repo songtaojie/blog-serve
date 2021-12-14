@@ -6,16 +6,17 @@ using Newtonsoft.Json;
 using Hx.Sdk.Attributes;
 using Hx.Sdk.Cache;
 using Microsoft.Extensions.Caching.Memory;
+using HxCore.Entity;
 
 namespace HxCore.Aops
 {
     /// <summary>
     /// 缓存拦截器
     /// </summary>
-    internal class BlogMemoryCacheAop : CacheAOPbase
+    internal class HomeMemoryCacheAop : CacheAOPbase
     {
         private readonly IMemoryCache _cache;
-        public BlogMemoryCacheAop(IMemoryCache cache)
+        public HomeMemoryCacheAop(IMemoryCache cache)
         {
             _cache = cache;
         }
@@ -36,7 +37,7 @@ namespace HxCore.Aops
             else
             {
                 //获取自定义缓存键
-                var cacheKey = CustomCacheKey(invocation);
+                var cacheKey = CustomCacheKey(invocation, CacheKeyConfig.HOME_KEY);
                 //注意是 string 类型，方法GetValue
                 var cacheValue = _cache.Get<string>(cacheKey);
                 if (cacheValue != null)

@@ -63,6 +63,7 @@ namespace HxCore.Services
         #endregion
 
         #region 客户端查询
+
         public async Task<List<FriendLinkModel>> GetListAsync()
         {
             return await this.Repository.Entities.Where(r => r.Deleted == ConstKey.No && r.Disabled == ConstKey.No)

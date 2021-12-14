@@ -1,6 +1,8 @@
 ﻿using Hx.Sdk.Common.Helper;
 using Hx.Sdk.DatabaseAccessor;
 using HxCore.Entity.Entities;
+using HxCore.Enums;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,6 +26,20 @@ namespace HxCore.Model.Client
         {
             get; set;
         }
+        /// <summary>
+        /// 置顶
+        /// </summary>
+        [JsonIgnore]
+        public string Top { get; set; }
+        /// <summary>
+        /// 是否置顶
+        /// </summary>
+        public bool IsTop => Helper.IsYes(Top);
+
+        /// <summary>
+        /// 博客类型，是转发，原创，还是翻译等
+        /// </summary> 
+        public BlogType_Enum BlogType { get; set; }
         /// <summary>
         /// 发布者
         /// </summary>
@@ -61,9 +77,9 @@ namespace HxCore.Model.Client
         public string AvatarUrl { get; set; }
 
         /// <summary>
-        /// 是否是MarkDown编辑的
+        /// 博客标签
         /// </summary>
-        public string MarkDown { get; set; }
+        public IEnumerable<TagModel> Tags { get; set; }
     }
 
    

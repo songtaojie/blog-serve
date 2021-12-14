@@ -39,14 +39,7 @@ namespace HxCore.WebApi.Controllers.Client
         [Route("/api/home/all")]
         public async Task<HomeAllDataModel> GetAllList()
         {
-            var result = new HomeAllDataModel
-            {
-                Notices = await _noticeQuery.GetListAsync(5),
-                Banners = await _bannerQuery.GetListAsync(5),
-                FriendLinks = await _friendLinkQuery.GetListAsync(),
-                Tags = await _blogQuery.GetTagListAsync()
-            };
-            return result;
+            return await _blogQuery.GetHomeAllDataAsync();
         }
 
 

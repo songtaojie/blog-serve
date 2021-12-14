@@ -42,6 +42,7 @@ namespace HxCore.Services
             // 博客标签
             if (blogModel.BlogTags != null && blogModel.BlogTags.Any())
             {
+                blogModel.BlogTags = blogModel.BlogTags.Distinct().ToList();
                 var tagRepository = this.Repository.Change<T_BlogTag>();
                 var tags = new List<T_BlogTag>();
                 blogModel.BlogTags.ForEach(tagId =>
@@ -78,6 +79,7 @@ namespace HxCore.Services
             this.Repository.SqlNonQuery("delete from T_BlogTag where BlogId=@BlogId", new Dictionary<string, object> { { "BlogId", entity.Id } });
             if (blogModel.BlogTags != null && blogModel.BlogTags.Any())
             {
+                blogModel.BlogTags = blogModel.BlogTags.Distinct().ToList();
                 var tagRepository = this.Repository.Change<T_BlogTag>();
                 var tags = new List<T_BlogTag>();
                 blogModel.BlogTags.ForEach(tagId =>

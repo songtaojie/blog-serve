@@ -2,6 +2,7 @@
 using Hx.Sdk.DatabaseAccessor;
 using HxCore.Entity;
 using HxCore.Entity.Entities;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -32,10 +33,6 @@ namespace HxCore.Model.Client
             get; set;
         }
         /// <summary>
-        /// 这条记录属于哪个用户
-        /// </summary>
-        public string UserId { get; set; }
-        /// <summary>
         /// 昵称
         /// </summary>
         public string NickName { get; set; }
@@ -43,6 +40,7 @@ namespace HxCore.Model.Client
         /// <summary>
         /// 是否是MarkDown语法
         /// </summary>
+        [JsonIgnore]
         public string MarkDown { get; set; }
 
         /// <summary>
@@ -61,6 +59,7 @@ namespace HxCore.Model.Client
         /// <summary>
         /// 是否发布
         /// </summary>
+        [JsonIgnore]
         public string Publish { get; set; }
         /// <summary>
         /// 发布日期
@@ -74,30 +73,6 @@ namespace HxCore.Model.Client
         /// 系统分类名称
         /// </summary>
         public string CategoryName { get; set; }
-
-        /// <summary>
-        /// 封面图
-        /// </summary>
-        public string CoverImgUrl { get; set;  }
-        /// <summary>
-        /// 上一篇博客的id
-        /// </summary>
-        public string PreId { get; set; }
-
-        /// <summary>
-        /// 上一篇博客的名字
-        /// </summary>
-        public string PreTitle { get; set; }
-
-        /// <summary>
-        /// 下一篇博客的id
-        /// </summary>
-        public string NextId { get; set; }
-
-        /// <summary>
-        /// 下一篇博客的名字
-        /// </summary>
-        public string NextTitle { get; set; }
 
     }
     

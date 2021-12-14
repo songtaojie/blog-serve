@@ -15,6 +15,12 @@ namespace HxCore.IServices
         /// 获取博客标签列表
         /// </summary>
         /// <returns></returns>
+        Task<HomeAllDataModel> GetHomeAllDataAsync();
+
+        /// <summary>
+        /// 获取博客标签列表
+        /// </summary>
+        /// <returns></returns>
         Task<SqlSugarPageModel<BlogQueryModel>> GetBlogsAsync(BlogQueryParam param);
 
         /// <summary>
