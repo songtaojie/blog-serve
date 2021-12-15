@@ -242,6 +242,9 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                     b.Property<string>("MarkDown")
                         .HasColumnType("char(1)");
 
+                    b.Property<decimal>("OrderFactor")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.Property<string>("Publish")
                         .HasColumnType("char(1)");
 

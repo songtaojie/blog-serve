@@ -109,10 +109,31 @@ namespace HxCore.Services
                 Notices = await noticeQuery.GetListAsync(5),
                 Banners = await bannerQuery.GetListAsync(5),
                 FriendLinks = await friendLinkQuery.GetListAsync(),
-                Tags = await GetTagListAsync()
+                Tags = await GetTagListAsync(),
+                Hots = await GetHotBlogAsync(3)
             };
             return result;
         }
+        /// <summary>
+        /// 获取博客标签列表-客户端使用
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<HotBlogModel>> GetHotBlogAsync(int count)
+        {
+           return await this.Repository.Entities.Where(b => b.Disabled == ConstKey.No && b.Deleted == ConstKey.No)
+                 .OrderBy(b => b.OrderFactor, OrderByType.Desc)
+                 .Take(count)
+                 .Select(b => new HotBlogModel
+                 {
+                     Id = b.Id,
+                     Title = b.Title,
+                     ReadCount = b.ReadCount,
+                     CmtCount = b.CmtCount,
+                     CoverImgUrl = b.CoverImgUrl,
+                 })
+                 .ToListAsync();
+        }
+
         #endregion
 
         #region 标签/栏目-客户端

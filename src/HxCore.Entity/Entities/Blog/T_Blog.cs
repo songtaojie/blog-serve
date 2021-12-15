@@ -65,6 +65,12 @@ namespace HxCore.Entity.Entities
         public int CmtCount { get; set; }
 
         /// <summary>
+        /// 热门程度
+        /// 浏览一次+1，评论一次+2，收藏一次+5
+        /// </summary>
+        public decimal OrderFactor { get; set; }
+
+        /// <summary>
         /// 封面图url地址
         /// </summary>
         [MaxLength(255)]

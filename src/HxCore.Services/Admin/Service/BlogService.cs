@@ -62,6 +62,11 @@ namespace HxCore.Services
             return await this.Repository.SaveNowAsync() > 0;
         }
 
+
+        private void AddTimeLine(BlogManageCreateModel blogModel)
+        {
+            var tagRepository = this.Repository.Change<T_TagInfo>();
+        }
         public async Task<bool> UpdateAsync(BlogManageCreateModel blogModel)
         {
             if (string.IsNullOrEmpty(blogModel.Id)) throw new UserFriendlyException("无效的标识",ErrorCodeEnum.ParamsNullError);
@@ -195,7 +200,8 @@ namespace HxCore.Services
             var entity = await this.FindAsync(model.Id);
             if (entity == null) throw new UserFriendlyException("文章不存在", ErrorCodeEnum.DataNull);
             entity.ReadCount += 1;
-            await this.Repository.UpdateIncludeAsync(entity, new string[] { "ReadCount" });
+            entity.OrderFactor+=1;
+            await this.Repository.UpdateIncludeAsync(entity, new string[] { "ReadCount", "OrderFactor" });
             return await this.Repository.SaveNowAsync() > 1;
         }
         #endregion

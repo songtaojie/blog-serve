@@ -30,5 +30,10 @@ namespace HxCore.Model.Client
         /// 标签列表数据
         /// </summary>
         public List<TagModel> Tags { get; set; }
+
+        /// <summary>
+        /// 热点文章
+        /// </summary>
+        public List<HotBlogModel> Hots { get; set; }
     }
 }

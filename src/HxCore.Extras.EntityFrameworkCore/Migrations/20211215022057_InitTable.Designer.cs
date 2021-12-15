@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HxCore.Extras.EntityFrameworkCore.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    [Migration("20211201035611_InitTable")]
+    [Migration("20211215022057_InitTable")]
     partial class InitTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -190,10 +190,6 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("varchar(36)");
 
-                    b.Property<string>("BlogTags")
-                        .HasMaxLength(40)
-                        .HasColumnType("varchar(40)");
-
                     b.Property<int>("BlogType")
                         .HasColumnType("int");
 
@@ -248,6 +244,9 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                     b.Property<string>("MarkDown")
                         .HasColumnType("char(1)");
 
+                    b.Property<decimal>("OrderFactor")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.Property<string>("Publish")
                         .HasColumnType("char(1)");
 
@@ -290,6 +289,25 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("T_BlogExtend");
+                });
+
+            modelBuilder.Entity("HxCore.Entity.Entities.T_BlogTag", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<string>("BlogId")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<string>("TagId")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("T_BlogTag");
                 });
 
             modelBuilder.Entity("HxCore.Entity.Entities.T_Category", b =>

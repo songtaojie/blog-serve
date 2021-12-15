@@ -85,11 +85,11 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                     Publish = table.Column<string>(type: "char(1)", nullable: true),
                     PublishDate = table.Column<DateTime>(type: "datetime", nullable: true),
                     IsTop = table.Column<string>(type: "char(1)", nullable: true),
-                    BlogTags = table.Column<string>(type: "varchar(40)", maxLength: 40, nullable: true),
                     CanCmt = table.Column<string>(type: "char(1)", nullable: true),
                     ReadCount = table.Column<int>(type: "int", nullable: false),
                     FavCount = table.Column<int>(type: "int", nullable: false),
                     CmtCount = table.Column<int>(type: "int", nullable: false),
+                    OrderFactor = table.Column<decimal>(type: "decimal(18, 2)", nullable: false),
                     CoverImgUrl = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true),
                     CategoryId = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true),
                     BlogType = table.Column<int>(type: "int", nullable: false),
@@ -119,6 +119,19 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_T_BlogExtend", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "T_BlogTag",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: false),
+                    BlogId = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true),
+                    TagId = table.Column<string>(type: "varchar(36)", maxLength: 36, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_T_BlogTag", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -383,6 +396,9 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
 
             migrationBuilder.DropTable(
                 name: "T_BlogExtend");
+
+            migrationBuilder.DropTable(
+                name: "T_BlogTag");
 
             migrationBuilder.DropTable(
                 name: "T_Category");
