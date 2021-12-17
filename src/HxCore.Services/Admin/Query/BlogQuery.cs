@@ -76,7 +76,7 @@ namespace HxCore.Services
             return result;
         }
 
-        [CacheData]
+        [CacheData(AbsoluteExpiration =10)]
         public async Task<BlogDetailModel> Detail(string id)
         {
             var detail = await this.Db.Queryable<T_Blog, T_BlogExtend>((b, be) => new JoinQueryInfos(JoinType.Inner, b.Id == be.Id))

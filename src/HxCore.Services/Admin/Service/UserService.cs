@@ -47,7 +47,7 @@ namespace HxCore.Services
             var user = await this.Repository.FindAsync(model.Id);
             if (user == null) throw new UserFriendlyException("未找到用户信息", ErrorCodeEnum.DataNull);
             var entity = this.Mapper.Map(model, user);
-            entity.SetModifier(UserContext.UserId, UserContext.UserName);
+            entity.SetModifier(UserId, UserName);
             return await this.UpdatePartialAsync(entity,new string[] { "NickName", "AvatarUrl", "Lock",
                 "LastModifierId", "LastModifier", "LastModifyTime","UseMdEdit"});
         }
@@ -59,7 +59,7 @@ namespace HxCore.Services
             var user = await this.Repository.FindAsync(model.Id);
             if (user == null) throw new UserFriendlyException("未找到当前用户信息", ErrorCodeEnum.DataNull);
             var entity = this.Mapper.Map(model, user);
-            entity.SetModifier(UserContext.UserId, UserContext.UserName);
+            entity.SetModifier(UserId, UserName);
             return await this.UpdatePartialAsync(entity, new string[] { "NickName","AvatarUrl", "Lock",
                 "LastModifierId", "LastModifier", "LastModifyTime","UseMdEdit"});
         }
@@ -85,7 +85,7 @@ namespace HxCore.Services
         /// <inheritdoc cref="IUserService.ChangeMyPwdAsync"/>
         public async Task<bool> ChangeMyPwdAsync(ChangeMyPwdModel model)
         {
-            var user = await this.FindAsync(UserContext.UserId);
+            var user = await this.FindAsync(UserId);
             if (user == null) throw new UserFriendlyException("用户不存在", ErrorCodeEnum.DataNull);
             var pwd = model.PassWord.MD5TwoEncrypt();
             if(!pwd.Equals(user.PassWord)) throw new UserFriendlyException("用户密码错误", ErrorCodeEnum.UpdateError);
@@ -214,10 +214,7 @@ namespace HxCore.Services
             if (entity != null)
             {
                 entity.Id = Guid.NewGuid().ToString();
-                if (UserContext != null && UserContext.IsAuthenticated)
-                {
-                    entity.SetCreater(UserContext.UserId, UserContext.UserName);
-                }
+                entity.SetCreater(UserId, UserName);
             }
             return entity;
         }

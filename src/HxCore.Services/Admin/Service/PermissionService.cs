@@ -35,7 +35,7 @@ namespace HxCore.Services.Admin
         {
             var entity = this.Mapper.Map<T_Menu>(createModel);
             var disabled = createModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
-            entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
+            entity.SetDisable(disabled, UserId, UserName);
             this.BeforeInsert(entity);
             if (entity.MenuType == T_Menu_Enum.Button) entity.Path = string.Empty;
             //再添加
@@ -63,7 +63,7 @@ namespace HxCore.Services.Admin
             bool isSystem = entity.IsSystem;//是否是系统内置菜单
             entity = this.Mapper.Map(model, entity);
             var disabled = model.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
-            entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
+            entity.SetDisable(disabled, UserId, UserName);
             if (entity.MenuType == T_Menu_Enum.Button) entity.Path = string.Empty;
             //先删除原来关联的接口
             var removeList = this.Db.Set<T_MenuModule>().Where(r => r.PermissionId == entity.Id).ToList();
@@ -105,7 +105,7 @@ namespace HxCore.Services.Admin
         public async Task<List<MenuQueryModel>> GetListAsync()
         {
             List<MenuQueryModel> menuList = null;
-            var isSuperAdmin = await _userService.CheckIsSuperAdminAsync(UserContext.UserId);
+            var isSuperAdmin = await _userService.CheckIsSuperAdminAsync(UserId);
             if (isSuperAdmin)
             {
                 var query = from m in this.Repository.DetachedEntities
@@ -160,7 +160,7 @@ namespace HxCore.Services.Admin
         public async Task<List<MenuPullDownModel>> GetUserMenuTreeAsync()
         {
             List<MenuPullDownModel> menuList = new List<MenuPullDownModel>();
-            bool isSuperAdmin = await _userService.CheckIsSuperAdminAsync(UserContext.UserId);
+            bool isSuperAdmin = await _userService.CheckIsSuperAdminAsync(UserId);
             if (isSuperAdmin)
             {
                 menuList = await (from m in this.Repository.DetachedEntities
@@ -224,11 +224,11 @@ namespace HxCore.Services.Admin
         /// <returns></returns>
         public async Task<UserPermissionCached> GetUserPermissionAsync()
         {
-            var cacheKey = string.Format(CacheKeyConfig.AuthRouterKey, UserContext.UserId);
+            var cacheKey = string.Format(CacheKeyConfig.AuthRouterKey, UserId);
             UserPermissionCached cacheData = await _redisCache.GetAsync<UserPermissionCached>(cacheKey);
             if (cacheData != null) return cacheData;
 
-            var isSuperAdmin = await _userService.CheckIsSuperAdminAsync(UserContext.UserId);
+            var isSuperAdmin = await _userService.CheckIsSuperAdminAsync(UserId);
             List<RouterModel> menuList;
             var roleIds = new List<string>();
             if (isSuperAdmin)

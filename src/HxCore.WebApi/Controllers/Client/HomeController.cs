@@ -2,6 +2,7 @@
 using HxCore.Model.Client;
 using HxCore.WebApi.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
+using SqlSugar;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,22 +13,16 @@ namespace HxCore.WebApi.Controllers.Client
     /// </summary>
     public class HomeController : BaseApiController
     {
-        private readonly IBannerQuery _bannerQuery;
-        private readonly INoticeQuery _noticeQuery;
-        private readonly IFriendLinkQuery _friendLinkQuery;
+        private readonly ITimeLineQuery _timeLineQuery;
         private readonly IBlogQuery _blogQuery;
         /// <summary>
         /// 首页控制器
         /// </summary>
-        /// <param name="bannerQuery">首页横幅查询接口</param>
-        /// <param name="noticeQuery">公告通知查询接口</param>
-        /// <param name="friendLinkQuery">友情链接查询接口</param>
+        /// <param name="timeLineQuery">时间戳查询接口</param>
         /// <param name="blogQuery">博客查询接口</param>
-        public HomeController(IBannerQuery bannerQuery, INoticeQuery noticeQuery, IFriendLinkQuery friendLinkQuery, IBlogQuery blogQuery)
+        public HomeController(ITimeLineQuery timeLineQuery, IBlogQuery blogQuery)
         {
-            _bannerQuery = bannerQuery;
-            _noticeQuery = noticeQuery;
-            _friendLinkQuery = friendLinkQuery;
+            _timeLineQuery = timeLineQuery;
             _blogQuery = blogQuery;
         }
 
@@ -48,32 +43,11 @@ namespace HxCore.WebApi.Controllers.Client
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("/api/banners/{count?}")]
-        public async Task<List<BannerModel>> GetBannerList(int count = 5)
+        [Route("/api/timelines/{page}")]
+        public async Task<SqlSugarPageModel<TimeLineModel>> GetTimeLineList(int page)
         {
-            return await _bannerQuery.GetListAsync(count);
+            return await _timeLineQuery.GetPageAsync(page,20);
         }
-
-        /// <summary>
-        /// 获取公告通知列表
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("/api/notices/{count?}")]
-        public async Task<List<NoticeModel>> GetNoticeList(int count = 5)
-        {
-            return await _noticeQuery.GetListAsync(count);
-        }
-
-        /// <summary>
-        /// 获取友情链接
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("/api/friendlinks")]
-        public async Task<List<FriendLinkModel>> GetFriendLinkList()
-        {
-            return await _friendLinkQuery.GetListAsync();
-        }
+       
     }
 }

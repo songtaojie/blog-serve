@@ -28,7 +28,7 @@ namespace HxCore.Services
         {
             var entity = this.Mapper.Map<T_Role>(createModel);
             var disabled = createModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
-            entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
+            entity.SetDisable(disabled, UserId, UserName);
             return await this.InsertAsync(entity);
         }
 
@@ -40,7 +40,7 @@ namespace HxCore.Services
             if (entity == null) throw new UserFriendlyException("未找到角色信息",ErrorCodeEnum.DataNull);
             entity = this.Mapper.Map(createModel, entity);
             var disabled = createModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
-            entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
+            entity.SetDisable(disabled, UserId, UserName);
             return await this.UpdateAsync(entity);
         }
 

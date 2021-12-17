@@ -40,10 +40,7 @@ namespace HxCore.Services
 
         public virtual T BeforeDelete(T entity)
         {
-            if (entity != null && UserContext != null && UserContext.IsAuthenticated)
-            {
-                entity.SetDelete(UserContext.UserId, UserContext.UserName);
-            }
+            entity.SetDelete(UserId, UserName);
             return entity;
         }
 
@@ -79,21 +76,16 @@ namespace HxCore.Services
             if (entity != null)
             {
                 entity.Id = Helper.GetSnowId();
-                if (UserContext != null && UserContext.IsAuthenticated)
-                {
-                    string nickName = UserContext.GetClaimValueByType(System.Security.Claims.ClaimTypes.GivenName).FirstOrDefault();
-                    entity.SetCreater(UserContext.UserId, nickName??UserContext.UserName);
-                }
+                entity.SetCreater(UserId, UserName);
             }
             return entity;
         }
 
         public override T BeforeUpdate(T entity)
         {
-            if (entity != null && UserContext != null && UserContext.IsAuthenticated)
+            if (entity != null)
             {
-                string nickName = UserContext.GetClaimValueByType(System.Security.Claims.ClaimTypes.GivenName).FirstOrDefault();
-                entity.SetModifier(UserContext.UserId, nickName??UserContext.UserName);
+                entity.SetModifier(UserId, UserName);
             }
             return entity;
         }

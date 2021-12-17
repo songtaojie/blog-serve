@@ -749,13 +749,11 @@
             网站首页控制器
             </summary>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Client.HomeController.#ctor(HxCore.IServices.IBannerQuery,HxCore.IServices.INoticeQuery,HxCore.IServices.IFriendLinkQuery,HxCore.IServices.IBlogQuery)">
+        <member name="M:HxCore.WebApi.Controllers.Client.HomeController.#ctor(HxCore.IServices.ITimeLineQuery,HxCore.IServices.IBlogQuery)">
             <summary>
             首页控制器
             </summary>
-            <param name="bannerQuery">首页横幅查询接口</param>
-            <param name="noticeQuery">公告通知查询接口</param>
-            <param name="friendLinkQuery">友情链接查询接口</param>
+            <param name="timeLineQuery">时间戳查询接口</param>
             <param name="blogQuery">博客查询接口</param>
         </member>
         <member name="M:HxCore.WebApi.Controllers.Client.HomeController.GetAllList">
@@ -764,21 +762,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Client.HomeController.GetBannerList(System.Int32)">
+        <member name="M:HxCore.WebApi.Controllers.Client.HomeController.GetTimeLineList(System.Int32)">
             <summary>
             获取首页横幅
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:HxCore.WebApi.Controllers.Client.HomeController.GetNoticeList(System.Int32)">
-            <summary>
-            获取公告通知列表
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:HxCore.WebApi.Controllers.Client.HomeController.GetFriendLinkList">
-            <summary>
-            获取友情链接
             </summary>
             <returns></returns>
         </member>

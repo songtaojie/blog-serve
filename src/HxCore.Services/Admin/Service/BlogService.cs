@@ -10,6 +10,7 @@ using Hx.Sdk.FriendlyException;
 using HxCore.Enums;
 using System.Linq;
 using HxCore.Model.NotificationHandlers;
+using Hx.Sdk.Core;
 
 namespace HxCore.Services
 {
@@ -56,16 +57,30 @@ namespace HxCore.Services
                 });
                 await tagRepository.InsertAsync(tags);
             }
-
+            // 友情链接
+            await AddTimeLine(entity);
             await this.ExtendRepository.InsertAsync(blogExtend);
             await this.Repository.InsertAsync(entity);
             return await this.Repository.SaveNowAsync() > 0;
         }
 
-
-        private void AddTimeLine(BlogManageCreateModel blogModel)
+        /// <summary>
+        /// 添加时间轴
+        /// </summary>
+        /// <param name="blogModel"></param>
+        private async Task AddTimeLine(T_Blog blogEntity)
         {
-            var tagRepository = this.Repository.Change<T_TagInfo>();
+            var tlRepository = this.Repository.Change<T_TimeLine>();
+            var link = string.Format("{0}/article/{1}", AppSettings.GetConfig("Domain"), blogEntity.Id);
+            var timeLine = new T_TimeLine
+            {
+                Id = Helper.GetSnowId(),
+                Content = $"发布：《{blogEntity.Title}》",
+                Link = link,
+                Target = "_blank"
+            };
+            timeLine.SetCreater(UserId, UserName);
+            await tlRepository.InsertAsync(timeLine);
         }
         public async Task<bool> UpdateAsync(BlogManageCreateModel blogModel)
         {
@@ -74,7 +89,7 @@ namespace HxCore.Services
             var extendEntity = await this.ExtendRepository.FindAsync(blogModel.Id);
             if (entity == null && extendEntity == null) throw new UserFriendlyException("文章不存在",ErrorCodeEnum.DataNull);
             entity = this.Mapper.Map(blogModel, entity);
-            if (blogModel.IsPublish) entity.PublishDate = DateTime.Now;
+            if (blogModel.IsPublish && !entity.PublishDate.HasValue) entity.PublishDate = DateTime.Now;
             entity.PureContent = HtmlHelper.FilterHtml(blogModel.Content, 100);
             this.BeforeUpdate(entity);
             //扩展表
@@ -123,8 +138,8 @@ namespace HxCore.Services
                     BGColor = tagModel.BGColor,
                     OrderSort = tagModel.OrderSort
                 };
-                tag.SetCreater(UserContext.UserId, UserContext.UserName);
-                tag.SetDisable(tagModel.IsEnabled? StatusEntityEnum.No:StatusEntityEnum.Yes, UserContext.UserId, UserContext.UserName);
+                tag.SetCreater(UserId, UserName);
+                tag.SetDisable(tagModel.IsEnabled? StatusEntityEnum.No:StatusEntityEnum.Yes, UserId, UserName);
                 await tagRepository.InsertAsync(tag);
             }
             else
@@ -136,7 +151,7 @@ namespace HxCore.Services
                 tag.Name = tagModel.Name;
                 tag.BGColor = tagModel.BGColor;
                 tag.OrderSort = tagModel.OrderSort;
-                tag.SetDisable(tagModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes, UserContext.UserId, UserContext.UserName);
+                tag.SetDisable(tagModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes, UserId, UserName);
                 await tagRepository.UpdateAsync(tag);
             }
             return await tagRepository.SaveNowAsync() > 0;
@@ -161,8 +176,8 @@ namespace HxCore.Services
                     Description = categoryModel.Description,
                     OrderSort = categoryModel.OrderSort
                 };
-                category.SetCreater(UserContext.UserId, UserContext.UserName);
-                category.SetDisable(categoryModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes, UserContext.UserId, UserContext.UserName);
+                category.SetCreater(UserId, UserName);
+                category.SetDisable(categoryModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes, UserId, UserName);
                 await categoryRepository.InsertAsync(category);
             }
             else
@@ -174,7 +189,7 @@ namespace HxCore.Services
                 category.Name = categoryModel.Name;
                 category.Description = categoryModel.Description;
                 category.OrderSort = categoryModel.OrderSort;
-                category.SetDisable(categoryModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes, UserContext.UserId, UserContext.UserName);
+                category.SetDisable(categoryModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes, UserId, UserName);
                 await categoryRepository.UpdateAsync(category);
             }
             return await categoryRepository.SaveNowAsync() > 0;

@@ -1,4 +1,5 @@
 ﻿using HxCore.Model.Admin.TimeLine;
+using HxCore.Model.Client;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace HxCore.IServices
     /// </summary>
     public interface ITimeLineQuery
     {
+        #region 管理后台
         /// <summary>
         /// 获取时间轴列表
         /// </summary>
@@ -25,5 +27,16 @@ namespace HxCore.IServices
         /// <param name="id"></param>
         /// <returns></returns>
         Task<TimeLineManageDetailModel> GetDetailAsync(string id);
+        #endregion
+
+        #region 客户端
+        /// <summary>
+        /// 获取时间戳列表
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        Task<SqlSugarPageModel<TimeLineModel>> GetPageAsync(int pageIndex, int pageSize);
+        #endregion
     }
 }

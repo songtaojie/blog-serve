@@ -28,8 +28,8 @@ namespace HxCore.Services
         public async Task<bool> AddOperateLog(AddOperateLogModel model)
         {
             var optLog = this.Mapper.Map<T_OperateLog>(model);
-            optLog.OperaterId = this.UserContext.UserId;
-            optLog.Operater = this.UserContext.UserName;
+            optLog.OperaterId = UserId;
+            optLog.Operater = UserName;
             return await this.InsertAsync(optLog);
         }
 
@@ -38,11 +38,12 @@ namespace HxCore.Services
         {
             var beginDate = DateTime.Now.AddDays(-30);
             var endDate = DateTime.Now;
-            var isSuperAdmin = await _userService.CheckIsSuperAdminAsync(UserContext.UserId);
+            var userId = UserId;
+            var isSuperAdmin = await _userService.CheckIsSuperAdminAsync(userId);
             var rows = await (from op in this.Repository.DetachedEntities
                         join m in this.Db.Set<T_Module>() on new {op.ControllerName,op.ActionName } equals new { ControllerName = m.Controller, ActionName = m.Action } into m_temp
                         from m in m_temp.DefaultIfEmpty()
-                        where isSuperAdmin?m.Deleted == ConstKey.No: m.Deleted == ConstKey.No && op.OperaterId == UserContext.UserId
+                        where isSuperAdmin?m.Deleted == ConstKey.No: m.Deleted == ConstKey.No && op.OperaterId == userId
                         group op by new { op.ControllerName, op.ActionName, m.Description } into opgp
                         select new
                         { 
@@ -63,11 +64,11 @@ namespace HxCore.Services
         {
             if (param.IsWelcome)
             {
-                var isSuperAdmin = await _userService.CheckIsSuperAdminAsync(UserContext.UserId);
+                var isSuperAdmin = await _userService.CheckIsSuperAdminAsync(UserId);
                 if (!isSuperAdmin)
                 {
                     return await this.Repository.DetachedEntities
-                        .Where(o=>o.OperaterId == UserContext.UserId)
+                        .Where(o=>o.OperaterId == UserId)
                        .OrderByDescending(o => o.OperateTime)
                        .Select(o => this.Mapper.Map<OperateLogQueryModel>(o))
                        .ToOrderAndPageListAsync(param);

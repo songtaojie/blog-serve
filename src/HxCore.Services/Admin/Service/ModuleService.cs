@@ -28,15 +28,13 @@ namespace HxCore.Services
         {
             var entity = this.Mapper.Map<T_Module>(createModel);
             var disabled = createModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
-            entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
+            entity.SetDisable(disabled, UserId, UserName);
             return await this.InsertAsync(entity);
         }
 
         /// <inheritdoc cref="IModuleService.BatchAddOrUpdateAsync"/>
         public async Task<bool> BatchAddOrUpdateAsync(List<ModuleCreateModel> createModels)
         {
-            string userId = UserContext.UserId;
-            string userName = UserContext.UserName;
             List<T_Module> addEntitys = new List<T_Module>();
             List<T_Module> updateEntitys = new List<T_Module>();
             var names = createModels.Select(m => m.Name).ToArray();
@@ -48,7 +46,7 @@ namespace HxCore.Services
                 {
                     module = this.Mapper.Map<T_Module>(cm);
                     this.BeforeInsert(module);
-                    module.SetDisable(StatusEntityEnum.No, userId, userName);
+                    module.SetDisable(StatusEntityEnum.No, UserId, UserName);
                     addEntitys.Add(module);
                 }
                 else
@@ -71,7 +69,7 @@ namespace HxCore.Services
             if(entity == null) throw new UserFriendlyException("未找到接口信息", ErrorCodeEnum.DataNull);
             entity = this.Mapper.Map(createModel, entity);
             var disabled = createModel.IsEnabled ? StatusEntityEnum.No : StatusEntityEnum.Yes;
-            entity.SetDisable(disabled, UserContext.UserId, UserContext.UserName);
+            entity.SetDisable(disabled, UserId, UserName);
             return await this.UpdateAsync(entity);
         }
         #endregion
