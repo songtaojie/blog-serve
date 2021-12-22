@@ -205,18 +205,12 @@
             主页
             </summary>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.HomeController.#ctor(HxCore.IServices.IOperateLogService,HxCore.IServices.SignalR.IChatService)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.HomeController.#ctor(HxCore.IServices.IOperateLogQuery,HxCore.IServices.SignalR.IChatService)">
              <summary>
             构造函数
              </summary>
-             <param name="logService"></param>
+             <param name="logQuery"></param>
              <param name="chatService"></param>
-        </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.HomeController.GetLineData2Async">
-            <summary>
-             获取用户近三十天接口访问情况
-            </summary>
-            <returns></returns>
         </member>
         <member name="M:HxCore.WebApi.Controllers.Admin.HomeController.GetLineDataAsync">
             <summary>
@@ -400,11 +394,11 @@
             操作日志的控制器
             </summary>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Admin.OperateLogController.#ctor(HxCore.IServices.IOperateLogService)">
+        <member name="M:HxCore.WebApi.Controllers.Admin.OperateLogController.#ctor(HxCore.IServices.IOperateLogQuery)">
              <summary>
             构造函数
              </summary>
-             <param name="service"></param>
+             <param name="query"></param>
         </member>
         <member name="M:HxCore.WebApi.Controllers.Admin.OperateLogController.GetPageAsync(HxCore.Model.Admin.OperateLog.OperateLogQueryParam)">
             <summary>
@@ -731,7 +725,7 @@
              <param name="blogQuery"></param>
              <param name="mediator"></param>
         </member>
-        <member name="M:HxCore.WebApi.Controllers.Client.BlogController.Articles(HxCore.Model.Client.BlogQueryParam)">
+        <member name="M:HxCore.WebApi.Controllers.Client.BlogController.Articles(System.Int32)">
             <summary>
             获取博客列表
             </summary>

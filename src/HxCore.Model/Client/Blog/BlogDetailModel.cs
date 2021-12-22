@@ -40,13 +40,7 @@ namespace HxCore.Model.Client
         /// <summary>
         /// 是否是MarkDown语法
         /// </summary>
-        [JsonIgnore]
-        public string MarkDown { get; set; }
-
-        /// <summary>
-        /// 是否是MarkDown语法
-        /// </summary>
-        public bool IsMarkDown => Helper.IsYes(MarkDown);
+        public bool IsMarkDown { get; set; }
         /// <summary>
         /// 阅读量
         /// </summary>

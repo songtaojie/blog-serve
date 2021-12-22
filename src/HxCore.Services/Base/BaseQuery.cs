@@ -22,7 +22,6 @@ namespace HxCore.Services
         /// </summary>
         protected IUserContext UserContext { get; }
 
-
         public BaseQuery(ISqlSugarRepository<T> repository)
         {
             Repository = repository;

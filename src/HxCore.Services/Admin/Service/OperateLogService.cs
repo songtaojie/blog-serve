@@ -19,10 +19,8 @@ namespace HxCore.Services
     /// </summary>
     public class OperateLogService : Internal.PrivateService<T_OperateLog, MasterDbContextLocator>, IOperateLogService, IScopedDependency
     {
-        private IUserService _userService;
-        public OperateLogService(IRepository<T_OperateLog, MasterDbContextLocator> userDal, IUserService userService) : base(userDal)
+        public OperateLogService(IRepository<T_OperateLog, MasterDbContextLocator> userDal) : base(userDal)
         {
-            _userService = userService;
         }
 
         public async Task<bool> AddOperateLog(AddOperateLogModel model)
@@ -32,53 +30,6 @@ namespace HxCore.Services
             optLog.Operater = UserName;
             return await this.InsertAsync(optLog);
         }
-
-        /// <inheritdoc cref="IOperateLogService.GetLineDataAsync"/>
-        public async Task<OperateLogChars> GetLineDataAsync()
-        {
-            var beginDate = DateTime.Now.AddDays(-30);
-            var endDate = DateTime.Now;
-            var userId = UserId;
-            var isSuperAdmin = await _userService.CheckIsSuperAdminAsync(userId);
-            var rows = await (from op in this.Repository.DetachedEntities
-                        join m in this.Db.Set<T_Module>() on new {op.ControllerName,op.ActionName } equals new { ControllerName = m.Controller, ActionName = m.Action } into m_temp
-                        from m in m_temp.DefaultIfEmpty()
-                        where isSuperAdmin?m.Deleted == ConstKey.No: m.Deleted == ConstKey.No && op.OperaterId == userId
-                        group op by new { op.ControllerName, op.ActionName, m.Description } into opgp
-                        select new
-                        { 
-                            name = string.IsNullOrEmpty(opgp.Key.Description)
-                            ? string.Format("{0}.{1}", opgp.Key.ControllerName, opgp.Key.ActionName)
-                            : string.Format("{0}[{1}.{2}]", opgp.Key.Description, opgp.Key.ControllerName, opgp.Key.ActionName),
-                            count = opgp.Count()
-                        }).ToListAsync();
-            return new OperateLogChars
-            {
-                columns = new string[] { "name", "count" },
-                rows = rows
-            };
-        }
-
-        /// <inheritdoc cref="IOperateLogService.QueryPageAsync"/>
-        public async Task<PageModel<OperateLogQueryModel>> QueryPageAsync(OperateLogQueryParam param)
-        {
-            if (param.IsWelcome)
-            {
-                var isSuperAdmin = await _userService.CheckIsSuperAdminAsync(UserId);
-                if (!isSuperAdmin)
-                {
-                    return await this.Repository.DetachedEntities
-                        .Where(o=>o.OperaterId == UserId)
-                       .OrderByDescending(o => o.OperateTime)
-                       .Select(o => this.Mapper.Map<OperateLogQueryModel>(o))
-                       .ToOrderAndPageListAsync(param);
-                }
-            }
-            
-            return await this.Repository.DetachedEntities
-                .OrderByDescending(o=>o.OperateTime)
-                .Select(o => this.Mapper.Map<OperateLogQueryModel>(o))
-                .ToOrderAndPageListAsync(param);
-        }
+       
     }
 }

@@ -16,18 +16,6 @@ namespace HxCore.IServices
     public interface IOperateLogService : IBaseService<T_OperateLog>
     {
         /// <summary>
-        /// 获取操作日志列表数据
-        /// </summary>
-        /// <returns></returns>
-        Task<PageModel<OperateLogQueryModel>> QueryPageAsync(OperateLogQueryParam param);
-
-        /// <summary>
-        /// 获取用户近三十天接口访问情况
-        /// </summary>
-        /// <returns></returns>
-        Task<OperateLogChars> GetLineDataAsync();
-        
-        /// <summary>
         /// 添加操作日志
         /// </summary>
         /// <param name="model"></param>

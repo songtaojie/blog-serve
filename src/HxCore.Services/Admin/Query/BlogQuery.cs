@@ -90,7 +90,7 @@ namespace HxCore.Services
                     ReadCount = b.ReadCount,
                     CmtCount = b.CmtCount,
                     NickName = b.Creater,
-                    MarkDown = b.MarkDown
+                    IsMarkDown = SqlFunc.IF(b.MarkDown == ConstKey.Yes).Return(true).End(false),
                 })
                 .FirstAsync();
             if (detail == null || detail.Publish == ConstKey.No) throw new UserFriendlyException("找不到您访问的页面", ErrorCodeEnum.DataNull);
@@ -173,6 +173,7 @@ namespace HxCore.Services
                         Title = b.Title,
                         CmtCount = b.CmtCount,
                         CreateTime = b.CreateTime,
+                        IsTop = b.IsTop,
                         PublishDate = b.PublishDate,
                         Creater = b.Creater,
                         isMarkDown = b.MarkDown == ConstKey.Yes

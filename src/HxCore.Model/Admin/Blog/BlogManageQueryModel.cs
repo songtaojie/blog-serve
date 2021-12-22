@@ -30,6 +30,11 @@ namespace HxCore.Model.Admin.Blog
         public long CmtCount { get; set; }
 
         /// <summary>
+        /// 置顶
+        /// </summary>
+        public string IsTop { get; set; }
+
+        /// <summary>
         /// 是否发布
         /// </summary>
         public string Publish { get; set; }

@@ -37,11 +37,14 @@ namespace HxCore.WebApi.Controllers.Client
         /// 获取博客列表
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
-        [Route("/api/articles")]
-        public async Task<SqlSugarPageModel<BlogQueryModel>> Articles(BlogQueryParam param)
+        [HttpGet]
+        [Route("/api/articles/{page}")]
+        public async Task<SqlSugarPageModel<BlogQueryModel>> Articles(int page)
         {
-            var result = await _query.GetBlogsAsync(param);
+            var result = await _query.GetBlogsAsync(new BlogQueryParam
+            { 
+                PageIndex = page,
+            });
             return result;
         }
 
