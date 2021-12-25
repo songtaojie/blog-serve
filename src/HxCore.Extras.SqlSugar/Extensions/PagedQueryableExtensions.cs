@@ -31,7 +31,7 @@ namespace SqlSugar
                 Items = items,
                 TotalCount = (int)totalCount,
                 TotalPages = totalPages,
-                HasNextPage = pageIndex < totalPages - 1,
+                HasNextPage = pageIndex < totalPages,
                 HasPrevPage = pageIndex - 1 > 0
             };
         }
@@ -56,7 +56,7 @@ namespace SqlSugar
                 Items = items,
                 TotalCount = (int)totalCount,
                 TotalPages = totalPages,
-                HasNextPage = pageIndex < totalPages - 1,
+                HasNextPage = pageIndex < totalPages,
                 HasPrevPage = pageIndex - 1 > 0
             };
         }

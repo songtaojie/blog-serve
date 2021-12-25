@@ -10,5 +10,9 @@ namespace HxCore.Model.Client
     /// </summary>
     public class BlogQueryParam: BasePageParam
     {
+        /// <summary>
+        /// 标签id
+        /// </summary>
+        public string TagId { get; set; }
     }
 }

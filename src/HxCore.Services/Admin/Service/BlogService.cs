@@ -75,7 +75,7 @@ namespace HxCore.Services
             var timeLine = new T_TimeLine
             {
                 Id = Helper.GetSnowId(),
-                Content = $"发布：《{blogEntity.Title}》",
+                Content = $"发布文章《{blogEntity.Title}》",
                 Link = link,
                 Target = "_blank"
             };

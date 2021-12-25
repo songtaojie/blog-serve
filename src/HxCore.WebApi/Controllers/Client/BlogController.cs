@@ -44,6 +44,27 @@ namespace HxCore.WebApi.Controllers.Client
             var result = await _query.GetBlogsAsync(new BlogQueryParam
             { 
                 PageIndex = page,
+                PageSize = 5
+            });
+            return result;
+        }
+
+        /// <summary>
+        /// 获取博客列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/api/tag/articles")]
+        public async Task<SqlSugarPageModel<BlogQueryModel>> Articles()
+        {
+            var query = this.HttpContext.Request.Query;
+            var tagId = query["t"].ToString();
+            int.TryParse(query["p"].ToString(),out int page);
+            var result = await _query.GetBlogsAsync(new BlogQueryParam
+            {
+                TagId = tagId,
+                PageIndex = page,
+                PageSize = 5
             });
             return result;
         }

@@ -731,6 +731,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:HxCore.WebApi.Controllers.Client.BlogController.Articles">
+            <summary>
+            获取博客列表
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:HxCore.WebApi.Controllers.Client.BlogController.Detail(System.String)">
             <summary>
             根据博客id获取博客信息

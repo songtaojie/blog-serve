@@ -25,39 +25,66 @@ namespace HxCore.Services
     public class BlogQuery : BaseQuery<T_Blog>, IBlogQuery
     {
         private readonly ISqlSugarRepository<T_TagInfo> _tagRepository;
-        public BlogQuery(ISqlSugarRepository<T_Blog> repository, ISqlSugarRepository<T_TagInfo> tagRepository) :base(repository)
+        public BlogQuery(ISqlSugarRepository<T_Blog> repository, ISqlSugarRepository<T_TagInfo> tagRepository) : base(repository)
         {
             _tagRepository = tagRepository;
         }
 
         #region 博客-客户端-查询
-        [CacheData]
+        //[CacheData]
         public async Task<SqlSugarPageModel<BlogQueryModel>> GetBlogsAsync(BlogQueryParam param)
         {
-            var result = await this.Db.Queryable<T_Blog, T_Account>((b, u) => new JoinQueryInfos(JoinType.Inner, b.CreaterId == u.Id))
-                .Where((b, u) => b.Publish == ConstKey.Yes && b.Deleted == ConstKey.No)
-                .OrderBy((b, u) => b.IsTop, OrderByType.Desc)
-                .OrderBy((b, u) => b.PublishDate, OrderByType.Desc)
-                .Select((b, u) => new BlogQueryModel
-                {
-                    Id = b.Id,
-                    Publisher = b.Creater,
-                    Title = b.Title,
-                    BlogType = b.BlogType,
-                    Top = b.IsTop,
-                    PureContent = b.PureContent,
-                    ReadCount = b.ReadCount,
-                    CmtCount = b.CmtCount,
-                    PublishDate = b.PublishDate,
-                    CoverImgUrl = b.CoverImgUrl,
-                    AvatarUrl = u.AvatarUrl
-                })
-                .ToPagedListAsync(param.PageIndex, param.PageSize);
+            SqlSugarPageModel<BlogQueryModel> result;
+            if (string.IsNullOrEmpty(param.TagId) || param.TagId == "0")
+            {
+                result = await this.Db.Queryable<T_Blog, T_Account>((b, u) => new JoinQueryInfos(JoinType.Inner, b.CreaterId == u.Id))
+                   .Where((b, u) => b.Publish == ConstKey.Yes && b.Deleted == ConstKey.No)
+                   .OrderBy((b, u) => b.IsTop, OrderByType.Desc)
+                   .OrderBy((b, u) => b.PublishDate, OrderByType.Desc)
+                   .Select((b, u) => new BlogQueryModel
+                   {
+                       Id = b.Id,
+                       Publisher = b.Creater,
+                       Title = b.Title,
+                       BlogType = b.BlogType,
+                       Top = b.IsTop,
+                       PureContent = b.PureContent,
+                       ReadCount = b.ReadCount,
+                       CmtCount = b.CmtCount,
+                       PublishDate = b.PublishDate,
+                       CoverImgUrl = b.CoverImgUrl,
+                       AvatarUrl = u.AvatarUrl
+                   })
+                   .ToPagedListAsync(param.PageIndex, param.PageSize);
+            }
+            else
+            {
+                result = await this.Db.Queryable<T_Blog, T_Account, T_BlogTag>((b, u, bt) =>
+                     new JoinQueryInfos(JoinType.Inner, b.CreaterId == u.Id, JoinType.Left, b.Id == bt.BlogId))
+                   .Where((b, u, bt) => b.Publish == ConstKey.Yes && b.Deleted == ConstKey.No && bt.TagId == param.TagId)
+                   .OrderBy((b, u, bt) => b.IsTop, OrderByType.Desc)
+                   .OrderBy((b, u, bt) => b.PublishDate, OrderByType.Desc)
+                   .Select((b, u, bt) => new BlogQueryModel
+                   {
+                       Id = b.Id,
+                       Publisher = b.Creater,
+                       Title = b.Title,
+                       BlogType = b.BlogType,
+                       Top = b.IsTop,
+                       PureContent = b.PureContent,
+                       ReadCount = b.ReadCount,
+                       CmtCount = b.CmtCount,
+                       PublishDate = b.PublishDate,
+                       CoverImgUrl = b.CoverImgUrl,
+                       AvatarUrl = u.AvatarUrl
+                   })
+                   .ToPagedListAsync(param.PageIndex, param.PageSize);
+            }
             //获取博客标签
             if (result.Items.Any())
             {
                 var blogIds = result.Items.Select(b => b.Id).ToArray();
-                var blogTags = await this.Db.Queryable<T_BlogTag,T_TagInfo>((bt, t) => new JoinQueryInfos(JoinType.Inner, bt.TagId == t.Id))
+                var blogTags = await this.Db.Queryable<T_BlogTag, T_TagInfo>((bt, t) => new JoinQueryInfos(JoinType.Inner, bt.TagId == t.Id))
                     .Where((bt, t) => blogIds.Contains(bt.BlogId))
                     .Select((bt, t) => new
                     {
@@ -76,7 +103,7 @@ namespace HxCore.Services
             return result;
         }
 
-        [CacheData(AbsoluteExpiration =10)]
+        [CacheData(AbsoluteExpiration = 10)]
         public async Task<BlogDetailModel> Detail(string id)
         {
             var detail = await this.Db.Queryable<T_Blog, T_BlogExtend>((b, be) => new JoinQueryInfos(JoinType.Inner, b.Id == be.Id))
@@ -120,18 +147,18 @@ namespace HxCore.Services
         /// <returns></returns>
         public async Task<List<HotBlogModel>> GetHotBlogAsync(int count)
         {
-           return await this.Repository.Entities.Where(b => b.Disabled == ConstKey.No && b.Deleted == ConstKey.No)
-                 .OrderBy(b => b.OrderFactor, OrderByType.Desc)
-                 .Take(count)
-                 .Select(b => new HotBlogModel
-                 {
-                     Id = b.Id,
-                     Title = b.Title,
-                     ReadCount = b.ReadCount,
-                     CmtCount = b.CmtCount,
-                     CoverImgUrl = b.CoverImgUrl,
-                 })
-                 .ToListAsync();
+            return await this.Repository.Entities.Where(b => b.Disabled == ConstKey.No && b.Deleted == ConstKey.No)
+                  .OrderBy(b => b.OrderFactor, OrderByType.Desc)
+                  .Take(count)
+                  .Select(b => new HotBlogModel
+                  {
+                      Id = b.Id,
+                      Title = b.Title,
+                      ReadCount = b.ReadCount,
+                      CmtCount = b.CmtCount,
+                      CoverImgUrl = b.CoverImgUrl,
+                  })
+                  .ToListAsync();
         }
 
         #endregion
@@ -178,7 +205,7 @@ namespace HxCore.Services
                         Creater = b.Creater,
                         isMarkDown = b.MarkDown == ConstKey.Yes
                     });
-            return await query.ToPagedListAsync(param.PageIndex,param.PageSize);
+            return await query.ToPagedListAsync(param.PageIndex, param.PageSize);
         }
 
         public async Task<BlogManageDetailModel> GetDetailAsync(string id)
@@ -201,8 +228,8 @@ namespace HxCore.Services
                }).FirstAsync();
 
             if (detailModel == null) throw new UserFriendlyException("该文章不存在", ErrorCodeEnum.DataNull);
-            detailModel.BlogTags = await this.Db.Queryable <T_BlogTag>().Where(bt=>bt.BlogId == detailModel.Id)
-                .Select(bt=>bt.TagId)
+            detailModel.BlogTags = await this.Db.Queryable<T_BlogTag>().Where(bt => bt.BlogId == detailModel.Id)
+                .Select(bt => bt.TagId)
                 .ToListAsync();
             return detailModel;
         }
@@ -261,8 +288,8 @@ namespace HxCore.Services
         {
             var list = await _tagRepository.Entities
                 .Where(r => r.Deleted == ConstKey.No)
-                .OrderBy(r=>r.OrderSort, OrderByType.Desc)
-                .OrderBy(r=>r.CreateTime, OrderByType.Desc)
+                .OrderBy(r => r.OrderSort, OrderByType.Desc)
+                .OrderBy(r => r.CreateTime, OrderByType.Desc)
                 .Select(r => new TagManageModel
                 {
                     Id = r.Id,
@@ -279,7 +306,7 @@ namespace HxCore.Services
         {
             var categoryRepository = this.Repository.Change<T_Category>();
             var list = await categoryRepository.Entities
-                .Where(r=>r.Deleted == ConstKey.No)
+                .Where(r => r.Deleted == ConstKey.No)
                 .OrderBy(r => r.OrderSort, OrderByType.Desc)
                 .OrderBy(r => r.CreateTime, OrderByType.Desc)
                 .Select(r => new CategoryManageModel
@@ -299,7 +326,7 @@ namespace HxCore.Services
 
         #region  私有函数
         #region 日期处理函数
-        private  string GetDispayDate(DateTime? date, bool showTime = false)
+        private string GetDispayDate(DateTime? date, bool showTime = false)
         {
             if (!date.HasValue) return "";
             return GetDispayDate(date.Value, showTime);
