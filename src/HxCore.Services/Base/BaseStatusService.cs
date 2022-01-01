@@ -5,6 +5,7 @@ using Hx.Sdk.DependencyInjection;
 using Hx.Sdk.FriendlyException;
 using HxCore.Entity;
 using HxCore.Enums;
+using HxCore.IServices.Elastic;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -23,6 +24,10 @@ namespace HxCore.Services
         public BaseStatusService(IRepository<T, MasterDbContextLocator> repository) : base(repository)
         {
         }
+
+        public BaseStatusService(IRepository<T, MasterDbContextLocator> repository, IElasticClientProvider provider) : base(repository, provider)
+        {
+        }
     }
 
     /// <summary>
@@ -35,6 +40,10 @@ namespace HxCore.Services
         where TDbContextLocator : class, IDbContextLocator
     {
         public BaseStatusService(IRepository<T, TDbContextLocator> repository):base(repository)
+        {
+        }
+
+        public BaseStatusService(IRepository<T, TDbContextLocator> repository, IElasticClientProvider provider) : base(repository, provider)
         {
         }
 

@@ -2,6 +2,7 @@
 using Hx.Sdk.DatabaseAccessor;
 using HxCore.Entity.Entities;
 using HxCore.Enums;
+using Nest;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,16 +13,19 @@ namespace HxCore.Model.Client
     /// <summary>
     /// 博客查询实体类
     /// </summary>
+    [ElasticsearchType(IdProperty = "Id")]
     public class BlogQueryModel:IAutoMapper<T_Blog>
     {
         /// <summary>
         /// 博客id
         /// </summary>
+        [Keyword]
         public string Id { get; set; }
 
         /// <summary>
         /// 博客标题
         /// </summary>
+        [Keyword]
         public string Title
         {
             get; set;
@@ -47,6 +51,7 @@ namespace HxCore.Model.Client
         /// <summary>
         /// 纯粹的内容，首页列表需要显示的内容
         /// </summary>
+        [Text]
         public string PureContent
         {
             get;set;

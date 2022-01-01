@@ -14,5 +14,10 @@ namespace HxCore.Model.Client
         /// 标签id
         /// </summary>
         public string TagId { get; set; }
+
+        /// <summary>
+        /// 查询关键字
+        /// </summary>
+        public string Keyword { get; set; }
     }
 }

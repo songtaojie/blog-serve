@@ -9,6 +9,9 @@ namespace SqlSugar
     public class SqlSugarPageModel<TEntity>
         where TEntity : new()
     {
+
+        public SqlSugarPageModel() { }
+
         /// <summary>
         /// 页码
         /// </summary>

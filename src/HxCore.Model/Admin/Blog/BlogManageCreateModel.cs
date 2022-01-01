@@ -3,6 +3,7 @@ using Hx.Sdk.DatabaseAccessor;
 using HxCore.Entity;
 using HxCore.Entity.Entities;
 using HxCore.Enums;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,7 @@ namespace HxCore.Model.Admin.Blog
     /// <summary>
     /// 博客创建所用模型
     /// </summary>
+    
     public class BlogManageCreateModel : IAutoMapper<T_Blog>
     {
         /// <summary>

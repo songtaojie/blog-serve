@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Hx.Sdk.DatabaseAccessor;
 using Hx.Sdk.DependencyInjection;
+using HxCore.IServices.Elastic;
 
 namespace HxCore.Services
 {
@@ -18,6 +19,10 @@ namespace HxCore.Services
         public BaseService(IRepository<T, MasterDbContextLocator> repository) : base(repository)
         {
         }
+
+        public BaseService(IRepository<T, MasterDbContextLocator> repository, IElasticClientProvider provider) : base(repository, provider)
+        {
+        }
     }
     /// <summary>
     /// 基础服务实现基础类
@@ -29,6 +34,10 @@ namespace HxCore.Services
         where TDbContextLocator : class, IDbContextLocator
     {
         public BaseService(IRepository<T, TDbContextLocator> repository):base(repository)
+        {
+        }
+
+        public BaseService(IRepository<T, TDbContextLocator> repository, IElasticClientProvider provider) : base(repository, provider)
         {
         }
 

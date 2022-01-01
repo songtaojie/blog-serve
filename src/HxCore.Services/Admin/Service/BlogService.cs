@@ -11,6 +11,7 @@ using HxCore.Enums;
 using System.Linq;
 using HxCore.Model.NotificationHandlers;
 using Hx.Sdk.Core;
+using HxCore.IServices.Elastic;
 
 namespace HxCore.Services
 {
@@ -20,8 +21,8 @@ namespace HxCore.Services
     public class BlogService : BaseStatusService<T_Blog>, IBlogService
     {
         private IRepository<T_BlogExtend> ExtendRepository { get; }
-        public BlogService(IRepository<T_Blog,MasterDbContextLocator> dal, IRepository<T_BlogExtend> extendRepository)
-            : base(dal)
+        public BlogService(IRepository<T_Blog,MasterDbContextLocator> dal, IRepository<T_BlogExtend> extendRepository, IElasticClientProvider provider)
+            : base(dal, provider)
         {
             this.ExtendRepository = extendRepository;
         }
@@ -61,7 +62,21 @@ namespace HxCore.Services
             await AddTimeLine(entity);
             await this.ExtendRepository.InsertAsync(blogExtend);
             await this.Repository.InsertAsync(entity);
-            return await this.Repository.SaveNowAsync() > 0;
+            var result = await this.Repository.SaveNowAsync() > 0;
+            if (result) AddIntoElastic(entity);
+            return result;
+        }
+        /// <summary>
+        /// 添加数据到elastic
+        /// </summary>
+        /// <param name="entity"></param>
+        private void AddIntoElastic(T_Blog entity)
+        {
+            var elasticList = new List<Model.Client.BlogQueryModel>
+            {
+                this.Mapper.Map<Model.Client.BlogQueryModel>(entity)
+            };
+            this.ElasticInsert(elasticList);
         }
 
         /// <summary>

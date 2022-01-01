@@ -744,6 +744,19 @@
             <param name="id">博客id</param>
             <returns></returns>
         </member>
+        <member name="M:HxCore.WebApi.Controllers.Client.BlogController.AddToElasticAsync">
+            <summary>
+            搜索博客
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:HxCore.WebApi.Controllers.Client.BlogController.SearchAsync(System.String)">
+            <summary>
+            搜索博客
+            </summary>
+            <param name="keyword">查询关键字</param>
+            <returns></returns>
+        </member>
         <member name="T:HxCore.WebApi.Controllers.Client.HomeController">
             <summary>
             网站首页控制器

@@ -7,10 +7,12 @@ using HxCore.Entity.Entities;
 using HxCore.Enums;
 using HxCore.Extras.SqlSugar.Repositories;
 using HxCore.IServices;
+using HxCore.IServices.Elastic;
 using HxCore.Model;
 using HxCore.Model.Admin.Blog;
 using HxCore.Model.Client;
 using Microsoft.Extensions.DependencyInjection;
+using Nest;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
@@ -25,7 +27,8 @@ namespace HxCore.Services
     public class BlogQuery : BaseQuery<T_Blog>, IBlogQuery
     {
         private readonly ISqlSugarRepository<T_TagInfo> _tagRepository;
-        public BlogQuery(ISqlSugarRepository<T_Blog> repository, ISqlSugarRepository<T_TagInfo> tagRepository) : base(repository)
+        public BlogQuery(ISqlSugarRepository<T_Blog> repository, ISqlSugarRepository<T_TagInfo> tagRepository, IElasticClientProvider esClientProvider) 
+            : base(repository, esClientProvider)
         {
             _tagRepository = tagRepository;
         }
@@ -100,7 +103,34 @@ namespace HxCore.Services
                     blog.Tags = blogTags.Where(r => r.BlogId == blog.Id).Select(r => new TagModel { Id = r.Id, Name = r.Name, BGColor = r.BGColor });
                 }
             }
+           
             return result;
+        }
+        /// <summary>
+        /// 添加数据到elastic
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> AddToElasticAsync()
+        {
+            var result = await this.GetBlogsAsync(new BlogQueryParam
+            {
+                PageSize = 50
+            });
+            return await this.ElasticInsert(result.Items);
+        }
+
+        public async Task<List<BlogQueryModel>> SearchAsync(BlogQueryParam param)
+        {
+            var client = this.ElasticProvider.GetElasticLinqClient(IndexName);
+            var musts = new List<Func<QueryContainerDescriptor<BlogQueryModel>, QueryContainer>>
+            {
+                p => p.Term(m => m.Field(x => x.PureContent).Value(param.Keyword)),
+                p => p.Term(m => m.Field(x => x.Title).Value(param.Keyword))
+            };
+            var search = new SearchDescriptor<BlogQueryModel>();
+            search = search.Query(p => p.Bool(m => m.Must(musts))).From((param.PageIndex - 1) * param.PageSize).Take(param.PageSize);
+            var response = await client.SearchAsync<BlogQueryModel>(search);
+            return response.Documents.ToList();
         }
 
         [CacheData(AbsoluteExpiration = 10)]

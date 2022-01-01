@@ -8,10 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
+using HxCore.IServices.Elastic;
 
 namespace HxCore.Services.Internal
 {
-    public abstract class PrivateService<T, TDbContextLocator>
+    public abstract class PrivateService<T, TDbContextLocator>: Elastic.BaseElasticContext
         where T :class, Hx.Sdk.DatabaseAccessor.IEntity<TDbContextLocator>, new()
         where TDbContextLocator : class, IDbContextLocator
     {
@@ -40,11 +41,26 @@ namespace HxCore.Services.Internal
         /// AutoMapper映射对象
         /// </summary>
         protected IMapper Mapper { get; }
+
         /// <summary>
         /// 数据库上下文
         /// </summary>
         protected Microsoft.EntityFrameworkCore.DbContext Db { get; }
-        public PrivateService(IRepository<T, TDbContextLocator> repository)
+
+        public PrivateService(IRepository<T, TDbContextLocator> repository):base(null)
+        {
+            this.Repository = repository;
+            this.Mapper = repository.ServiceProvider.GetRequiredService<IMapper>();
+            this.UserContext = repository.ServiceProvider.GetRequiredService<IUserContext>();
+            this.Db = this.Repository.Context;
+        }
+        public override string IndexName => typeof(T).Name.ToLower();
+        /// <summary>
+        /// 带有elastic的构造函数
+        /// </summary>
+        /// <param name="repository"></param>
+        /// <param name="esClientProvider"></param>
+        public PrivateService(IRepository<T, TDbContextLocator> repository, IElasticClientProvider esClientProvider) :base(esClientProvider)
         {
             this.Repository = repository;
             this.Mapper = repository.ServiceProvider.GetRequiredService<IMapper>();

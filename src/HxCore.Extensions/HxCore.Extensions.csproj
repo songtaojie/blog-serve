@@ -15,4 +15,8 @@
     <ProjectReference Include="..\HxCore.Services\HxCore.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Elastic\" />
+  </ItemGroup>
+
 </Project>

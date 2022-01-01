@@ -24,6 +24,18 @@ namespace HxCore.IServices
         Task<SqlSugarPageModel<BlogQueryModel>> GetBlogsAsync(BlogQueryParam param);
 
         /// <summary>
+        /// 添加数据到elastic
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> AddToElasticAsync();
+
+        /// <summary>
+        /// 查询博客
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        Task<List<BlogQueryModel>> SearchAsync(BlogQueryParam param);
+        /// <summary>
         /// 获取博客详情数据
         /// </summary>
         /// <param name="id"></param>

@@ -39,6 +39,10 @@ namespace HxCore.WebApi
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            #region Options,Configure
+            services.AddCustomOptions();
+            #endregion
+
             services.AddWebManager();
             #region 缓存
             services.AddNativeMemoryCache();
@@ -107,13 +111,13 @@ namespace HxCore.WebApi
             services.AddCorsAccessor();
             #endregion
 
-            #region Options,Configure
-            services.AddCustomOptions();
-            #endregion
-
             #region CAP
             if(Configuration.GetValue<bool>("CapRabbitMQSettings:Enabled",false)) services.AddCapRabbitMQ();
             #endregion
+
+            #region ElasticSearch
+            services.AddElasticSearch();
+            #endregion 
             //#region 原生的依赖注入
             //使用时记得把ConfigureContainer中的Autofac注入去掉,
             //services.AddPrimitiveDI(Environment);

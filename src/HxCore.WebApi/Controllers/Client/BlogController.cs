@@ -9,6 +9,7 @@ using SqlSugar;
 using MediatR;
 using HxCore.Model.NotificationHandlers;
 using HxCore.Model.Client;
+using System.Collections.Generic;
 
 namespace HxCore.WebApi.Controllers.Client
 {
@@ -85,6 +86,33 @@ namespace HxCore.WebApi.Controllers.Client
             });
             return await _query.Detail(id);
         }
+
+        /// <summary>
+        /// 搜索博客
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("/api/elastic/add")]
+        public async Task<bool> AddToElasticAsync()
+        {
+            return await this._query.AddToElasticAsync();
+        }
+
+        /// <summary>
+        /// 搜索博客
+        /// </summary>
+        /// <param name="keyword">查询关键字</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/api/elastic/search/{keyword}")]
+        public async Task<List<BlogQueryModel>> SearchAsync(string keyword)
+        {
+            return await this._query.SearchAsync(new BlogQueryParam
+            {
+                Keyword = keyword
+            });
+        }
+
         #endregion 
     }
 }
