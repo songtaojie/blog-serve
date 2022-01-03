@@ -122,15 +122,64 @@ namespace HxCore.Services
         public async Task<List<BlogQueryModel>> SearchAsync(BlogQueryParam param)
         {
             var client = this.ElasticProvider.GetElasticLinqClient(IndexName);
+            #region 查询所有数据
+            //var searchRequest = new SearchRequest<BlogQueryModel>()
+            //{
+            //    Query = new MatchAllQuery()
+            //};
+            //var searchResponse = client.SearchAsync<BlogQueryModel>(searchRequest);
+            #endregion
+            var searchRequest = new SearchRequest<BlogQueryModel>
+            {
+                From = (param.PageIndex - 1) * param.PageSize,
+                Size = param.PageSize
+            };
+
+            //var list = new List<QueryContainer>();
+            //if (!string.IsNullOrWhiteSpace(param.Keyword))
+            //{
+            //    var sourceType = new MatchQuery() { Field = Infer.Field<BlogQueryModel>(f => f.Title), Query = param.Keyword };
+            //    var sourceType2 = new MatchQuery() { Field = Infer.Field<BlogQueryModel>(f => f.PureContent), Query = param.Keyword };
+            //    list.Add(sourceType);
+            //    list.Add(sourceType2);
+            //}
+            //var fields = new Field[] { Infer.Field<BlogQueryModel>(f => f.Title), Infer.Field<BlogQueryModel>(f => f.PureContent) };
+            //var searchResponse = await client.SearchAsync<BlogQueryModel>(s => s.Query(q => q.QueryString(p => 
+            //            p.Fields(f=>f.Field(m=>m.Title)).Query("*"+param.Keyword+"*")
+                        
+            //            )));
+            //searchRequest.Query = new MatchQuery() { Field = Infer.Field<BlogQueryModel>(f => f.Title), Query = param.Keyword };
+            //var searchResponse = await client.SearchAsync<BlogQueryModel>(searchRequest);
+            var mustQuerys = new List<Func<QueryContainerDescriptor<BlogQueryModel>, QueryContainer>>();
             var musts = new List<Func<QueryContainerDescriptor<BlogQueryModel>, QueryContainer>>
             {
-                p => p.Term(m => m.Field(x => x.PureContent).Value(param.Keyword)),
-                p => p.Term(m => m.Field(x => x.Title).Value(param.Keyword))
+                //q => q.QueryString(p=>p.DefaultField(f=>f.Title).Query("*"+param.Keyword+"*")),
+                q => q.QueryString(p=>p.DefaultField(f=>f.PureContent).Query("*"+param.Keyword+"*")),
             };
             var search = new SearchDescriptor<BlogQueryModel>();
-            search = search.Query(p => p.Bool(m => m.Must(musts))).From((param.PageIndex - 1) * param.PageSize).Take(param.PageSize);
-            var response = await client.SearchAsync<BlogQueryModel>(search);
-            return response.Documents.ToList();
+            search = search.Query(p => p.Bool(m => m.Should(musts)))
+                .From((param.PageIndex - 1) * param.PageSize)
+                .Take(param.PageSize);
+            var searchResponse = await client.SearchAsync<BlogQueryModel>(search);
+            //string[] fields = new string[] { nameof(BlogQueryModel.Title) };
+            //string term = string.Concat("*", string.Join("* *", "i u a n".Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)), "*");
+            //var result = await client.SearchAsync<BlogQueryModel>(p => p.Query(q => q.Bool(b => b.Must(t => t.QueryString(c =>
+            //      c.Fields(fields)
+            //      .Query(param.Keyword)
+            //      .Boost(1.1)
+            //      .Fuzziness(Fuzziness.Auto)
+            //      .MinimumShouldMatch(2)
+            //      .FuzzyRewrite(MultiTermQueryRewrite.ConstantScoreBoolean)
+            //      .TieBreaker(1)
+            //      .Lenient()
+            //     )).Filter(f => f.Term(t => t.Field(d => d.Title).Value(param.Keyword))
+            // ))).ScriptFields(sf => sf.ScriptField(nameof(BlogQueryModel.PublishDate), sc => sc.Source("doc['publishDate'].value")))
+            // .Source(true)
+            // .Index(IndexName)
+            // .From((param.PageIndex - 1) * param.PageSize)
+            // .Take(param.PageSize)
+            // .Sort(s => s.Descending(a => a.PublishDate)));
+            return searchResponse.Documents.ToList();
         }
 
         [CacheData(AbsoluteExpiration = 10)]

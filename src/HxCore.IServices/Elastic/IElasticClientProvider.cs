@@ -21,7 +21,7 @@ namespace HxCore.IServices.Elastic
         ElasticClient GetElasticLinqClient(string defaultIndex = "");
 
         /// <summary>
-        ///Js查询的官方Client
+        ///  Js查询的官方Client
         /// </summary>
         /// <param name="defaultIndex">默认索引</param>
         /// <returns></returns>
