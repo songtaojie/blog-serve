@@ -38,6 +38,7 @@ namespace HxCore.Model.Client
         /// <summary>
         /// 是否置顶
         /// </summary>
+        [Ignore]
         public bool IsTop => Helper.IsYes(Top);
 
         /// <summary>
@@ -51,7 +52,7 @@ namespace HxCore.Model.Client
         /// <summary>
         /// 纯粹的内容，首页列表需要显示的内容
         /// </summary>
-        [Text]
+        [Nest.Text(Analyzer = "standard")]
         public string PureContent
         {
             get;set;
@@ -75,6 +76,7 @@ namespace HxCore.Model.Client
         /// <summary>
         /// 发布日期
         /// </summary>
+        [Ignore]
         public string PublishDate_V
         {
             get;
