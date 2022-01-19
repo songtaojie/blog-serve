@@ -25,7 +25,7 @@ namespace HxCore.Model.Client
         /// <summary>
         /// 博客标题
         /// </summary>
-        [Keyword]
+        [Nest.Text(Analyzer = "ik_max_word")]
         public string Title
         {
             get; set;
@@ -34,11 +34,12 @@ namespace HxCore.Model.Client
         /// 置顶
         /// </summary>
         [JsonIgnore]
+        [Keyword]
         public string Top { get; set; }
         /// <summary>
         /// 是否置顶
         /// </summary>
-        [Ignore]
+        [Nest.Ignore]
         public bool IsTop => Helper.IsYes(Top);
 
         /// <summary>
@@ -48,11 +49,12 @@ namespace HxCore.Model.Client
         /// <summary>
         /// 发布者
         /// </summary>
+        [Keyword]
         public string Publisher { get; set; }
         /// <summary>
         /// 纯粹的内容，首页列表需要显示的内容
         /// </summary>
-        [Nest.Text(Analyzer = "standard")]
+        [Keyword]
         public string PureContent
         {
             get;set;
@@ -76,7 +78,7 @@ namespace HxCore.Model.Client
         /// <summary>
         /// 发布日期
         /// </summary>
-        [Ignore]
+        [Nest.Ignore]
         public string PublishDate_V
         {
             get;
@@ -86,11 +88,13 @@ namespace HxCore.Model.Client
         /// <summary>
         /// 封面图片链接
         /// </summary>
+        [Keyword]
         public string CoverImgUrl { get; set; }
 
         /// <summary>
         /// 头像链接
         /// </summary>
+        [Keyword]
         public string AvatarUrl { get; set; }
 
         /// <summary>

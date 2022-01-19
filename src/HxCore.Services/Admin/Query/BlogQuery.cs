@@ -133,8 +133,8 @@ namespace HxCore.Services
             var musts = new List<Func<QueryContainerDescriptor<BlogQueryModel>, QueryContainer>>
             {
                 //q => q.QueryString(p=>p.Fields(f=>f.Field(obj=>obj.Title)).Query("*"+param.Keyword+"*")),
-                //q=>q.Match(p=>p.Field(obj =>obj.Title).Query(param.Keyword))
-                q=>q.MultiMatch(t=>t.Fields(f=>f.Field(m=>m.Title)).Query(param.Keyword))
+                q=>q.Match(p=>p.Field(obj =>obj.Title).Query(param.Keyword))
+                //q=>q.MultiMatch(t=>t.Fields(f=>f.Field(m=>m.Title)).Query(param.Keyword))
             };
             var search = new SearchDescriptor<BlogQueryModel>();
             search = search.Query(p => p.Bool(m => m.Must(musts)))

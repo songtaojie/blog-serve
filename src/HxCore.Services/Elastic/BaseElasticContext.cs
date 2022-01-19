@@ -1,4 +1,5 @@
-﻿using HxCore.IServices.Elastic;
+﻿using Hx.Sdk.FriendlyException;
+using HxCore.IServices.Elastic;
 using Nest;
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ namespace HxCore.Services.Elastic
             }
             var response = await client.IndexManyAsync(tList);
             //var response = client.Bulk(p=>p.Index(IndexName).IndexMany(tList));
+            //if (!response.IsValid) throw new UserFriendlyException(response.ServerError.Error.Reason,500);
             return response.IsValid;
         }
 
