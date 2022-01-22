@@ -112,11 +112,13 @@ namespace HxCore.Services
         /// <returns></returns>
         public async Task<bool> AddToElasticAsync()
         {
-            var result = await this.GetBlogsAsync(new BlogQueryParam
+            var blogResult = await this.GetBlogsAsync(new BlogQueryParam
             {
                 PageSize = 50
             });
-            return await this.ElasticInsert(result.Items);
+            var result = await this.ElasticInsertAsync(blogResult.Items);
+            if(result.Succeeded)
+            return ;
         }
 
         public async Task<List<BlogQueryModel>> SearchAsync(BlogQueryParam param)
