@@ -6,35 +6,66 @@ using Hx.Sdk.Entity.Page;
 using HxCore.WebApi.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
 using SqlSugar;
+using MediatR;
+using HxCore.Model.NotificationHandlers;
+using HxCore.Model.Client;
 
-namespace HxCore.WebApi.Controllers
+namespace HxCore.WebApi.Controllers.Client
 {
     /// <summary>
     /// 博客相关的控制器类
     /// </summary>
-    [AllowAnonymous]
+    
     public class BlogController : BaseApiController
     {
-        private readonly IBlogQuery _blogQuery;
+        private readonly IBlogQuery _query;
+        private readonly IMediator _mediator;
 
         /// <summary>
         ///构造函数
         /// </summary>
         /// <param name="blogQuery"></param>
-        public BlogController(IBlogQuery blogQuery)
+        /// <param name="mediator"></param>
+        public BlogController(IBlogQuery blogQuery, IMediator mediator)
         {
-            _blogQuery = blogQuery;
+            _query = blogQuery;
+            _mediator = mediator;
         }
+
         #region 博客查询
         /// <summary>
         /// 获取博客列表
         /// </summary>
         /// <returns></returns>
-        [HttpPost]
-        [Route("/api/articles")]
-        public async Task<SqlSugarPageModel<BlogQueryModel>> GetPageAsync(BlogQueryParam param)
+        [HttpGet]
+        [Route("/api/articles/{page}")]
+        public async Task<SqlSugarPageModel<BlogQueryModel>> Articles(int page)
         {
-            var result = await _blogQuery.GetBlogsAsync(param);
+            var result = await _query.GetBlogsAsync(new BlogQueryParam
+            { 
+                PageIndex = page,
+                PageSize = 5
+            });
+            return result;
+        }
+
+        /// <summary>
+        /// 获取博客列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("/api/tag/articles")]
+        public async Task<SqlSugarPageModel<BlogQueryModel>> Articles()
+        {
+            var query = this.HttpContext.Request.Query;
+            var tagId = query["t"].ToString();
+            int.TryParse(query["p"].ToString(),out int page);
+            var result = await _query.GetBlogsAsync(new BlogQueryParam
+            {
+                TagId = tagId,
+                PageIndex = page,
+                PageSize = 5
+            });
             return result;
         }
 
@@ -45,9 +76,14 @@ namespace HxCore.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("/api/article/{id}")]
-        public Task<BlogDetailModel> FindById(string id)
+        public async Task<BlogDetailModel> Detail(string id)
         {
-            return _blogQuery.FindById(id);
+            //更新浏览次数
+            _ = _mediator.Publish(new UpdateBlogReadModel
+            {
+                Id = id
+            });
+            return await _query.Detail(id);
         }
         #endregion 
     }

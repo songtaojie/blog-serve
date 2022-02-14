@@ -45,9 +45,9 @@ namespace HxCore.WebApi.Controllers.Admin
         /// <returns></returns>
         [HttpPost]
         [SkipRouteAuthorization]
-        public async Task<List<BlogManagePersonTag>> GetTagList()
+        public async Task<List<TagManageModel>> GetTagList()
         {
-            return await _blogQuery.GetTagListAsync();
+            return await _blogQuery.GetTagManageListAsync();
         }
 
         /// <summary>
@@ -60,6 +60,51 @@ namespace HxCore.WebApi.Controllers.Admin
             return await _blogQuery.GetDetailAsync(id);
         }
 
+        #endregion
+
+        #region 标签栏目查询
+        /// <summary>
+        /// 获取博客标签列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<SqlSugarPageModel<TagManageModel>> GetTagPage(BasePageParam param)
+        {
+            return await _blogQuery.QueryTagPageAsync(param);
+        }
+
+        /// <summary>
+        /// 获取博客标签详情数据
+        /// </summary>
+        /// <param name="tagId">标签id</param>
+        /// <returns></returns>
+        [HttpGet("{tagId}")]
+        public async Task<TagManageModel> GetTagDetail(string tagId)
+        {
+            return await _blogQuery.GetTagDetailAsync(tagId);
+        }
+
+        /// <summary>
+        /// 获取博客栏目列表
+        /// </summary>
+        /// <param name="param">查询参数</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<SqlSugarPageModel<CategoryManageModel>> GetCategoryPage(BasePageParam param)
+        {
+            return await _blogQuery.QueryCategoryPageAsync(param);
+        }
+
+        /// <summary>
+        /// 获取博客栏目详情数据
+        /// </summary>
+        /// <param name="categoryId">栏目id</param>
+        /// <returns></returns>
+        [HttpGet("{categoryId}")]
+        public async Task<CategoryManageModel> GetCategoryDetail(string categoryId)
+        {
+            return await _blogQuery.GetCategoryDetailAsync(categoryId);
+        }
         #endregion
 
         #region 博客操作作
@@ -94,6 +139,52 @@ namespace HxCore.WebApi.Controllers.Admin
         public async Task<bool> Delete(string id)
         {
             return await _blogService.DeleteAsync(id);
+        }
+        #endregion
+
+        #region 标签/栏目操作
+        /// <summary>
+        /// 添加或者更新标签
+        /// </summary>
+        /// <param name="tagModel">标签信息</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<bool> AddOrUpdateTag(TagManageModel tagModel)
+        {
+            return await _blogService.AddOrUpdateTagAsync(tagModel);
+        }
+
+        /// <summary>
+        /// 添加或者更新栏目
+        /// </summary>
+        /// <param name="categoryModel">栏目信息</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<bool> AddOrUpdateCategory(CategoryManageModel categoryModel)
+        {
+            return await _blogService.AddOrUpdateCategoryAsync(categoryModel);
+        }
+
+        /// <summary>
+        /// 博客标签
+        /// </summary>
+        /// <param name="tagId">要删除的标签id</param>
+        /// <returns></returns>
+        [HttpDelete("{tagId}")]
+        public async Task<bool> DeleteTag(string tagId)
+        {
+            return await _blogService.DeleteTagAsync(tagId);
+        }
+
+        /// <summary>
+        /// 博客博客栏目
+        /// </summary>
+        /// <param name="categoryId">要删除的栏目id</param>
+        /// <returns></returns>
+        [HttpDelete("{categoryId}")]
+        public async Task<bool> DeleteCategory(string categoryId)
+        {
+            return await _blogService.DeleteCategoryAsync(categoryId);
         }
         #endregion
     }

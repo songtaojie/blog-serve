@@ -40,16 +40,10 @@ namespace HxCore.Entity.Entities
         [DataType(DataType.DateTime)]
         public DateTime? PublishDate { get; set; }
         /// <summary>
-        /// 置顶 Y权值加10年
+        /// 置顶
         /// </summary>
         [Column(TypeName = "char(1)")]
         public string IsTop { get; set; } = ConstKey.No;
-      
-        /// <summary>
-        /// 博客的个人标签，对应的是Tag表中主键，以，号隔开
-        /// </summary>
-        [MaxLength(40)]
-        public string BlogTags { get; set; }
 
         /// <summary>
         /// 允许评论
@@ -69,6 +63,12 @@ namespace HxCore.Entity.Entities
         /// 被评论次数
         /// </summary>
         public int CmtCount { get; set; }
+
+        /// <summary>
+        /// 热门程度
+        /// 浏览一次+1，评论一次+2，收藏一次+5
+        /// </summary>
+        public decimal OrderFactor { get; set; }
 
         /// <summary>
         /// 封面图url地址

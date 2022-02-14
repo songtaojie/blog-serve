@@ -51,58 +51,58 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddAuthentication(o =>
             {
                 o.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                o.DefaultChallengeScheme = nameof(MyJwtBearerHandler);
-                o.DefaultForbidScheme = nameof(MyJwtBearerHandler);
+                //o.DefaultChallengeScheme = nameof(MyJwtBearerHandler);
+                //o.DefaultForbidScheme = nameof(MyJwtBearerHandler);
             })
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme,options =>
-            {
-                var authority = AppSettings.GetConfig(new string[] { "Ids4Settings", "Authority" });
-                var audience = AppSettings.GetConfig(new string[] { "Ids4Settings", "Audience" });
-                var requireHttps = AppSettings.GetConfig(new string[] { "Ids4Settings", "RequireHttps" }).ToBool();
-                options.Audience = audience;
-                options.Authority = authority;
-                options.RequireHttpsMetadata = requireHttps??false;
-                //options.TokenValidationParameters = new TokenValidationParameters
-                //{
-                //    ValidateAudience = false
-                //};
-                options.Events = new JwtBearerEvents()
-                {
-                    OnChallenge = context =>
-                    {
-                        context.Response.Headers.Add("Token-Error", context.ErrorDescription);
-                        return Task.CompletedTask;
-                    },
-                    OnMessageReceived = context =>
-                    {
-                        var token = context.Request.Headers[HeaderNames.Authorization];
-                        return Task.CompletedTask;
-                    },
-                    OnTokenValidated = context =>
-                    {
-                        var token = context.Request.Headers[HeaderNames.Authorization];
-                        return Task.CompletedTask;
-                    },
-                    OnAuthenticationFailed = context =>
-                    {
-                        var token = context.Request.Headers["Authorization"].ObjToString().Replace("Bearer ", "");
-                        var jwtToken = (new JwtSecurityTokenHandler()).ReadJwtToken(token);
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+             {
+                 var authority = AppSettings.GetConfig(new string[] { "Ids4Settings", "Authority" });
+                 var audience = AppSettings.GetConfig(new string[] { "Ids4Settings", "Audience" });
+                 var requireHttps = AppSettings.GetConfig(new string[] { "Ids4Settings", "RequireHttps" }).ToBool();
+                 options.Audience = audience;
+                 options.Authority = authority;
+                 options.RequireHttpsMetadata = requireHttps ?? false;
+                 //options.TokenValidationParameters = new TokenValidationParameters
+                 //{
+                 //    ValidateAudience = false
+                 //};
+                 options.Events = new JwtBearerEvents()
+                 {
+                     OnChallenge = context =>
+                     {
+                         context.Response.Headers.Add("Token-Error", context.ErrorDescription);
+                         return Task.CompletedTask;
+                     },
+                     OnMessageReceived = context =>
+                     {
+                         var token = context.Request.Headers[HeaderNames.Authorization];
+                         return Task.CompletedTask;
+                     },
+                     OnTokenValidated = context =>
+                     {
+                         var token = context.Request.Headers[HeaderNames.Authorization];
+                         return Task.CompletedTask;
+                     },
+                     OnAuthenticationFailed = context =>
+                     {
+                         var token = context.Request.Headers["Authorization"].ObjToString().Replace("Bearer ", "");
+                         var jwtToken = (new JwtSecurityTokenHandler()).ReadJwtToken(token);
 
-                        if (jwtToken.Audiences.FirstOrDefault() != audience)
-                        {
-                            context.Response.Headers.Add("Token-Error-Audience", "true");
-                        }
+                         if (jwtToken.Audiences.FirstOrDefault() != audience)
+                         {
+                             context.Response.Headers.Add("Token-Error-Audience", "true");
+                         }
 
-                        if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                        {
-                            context.Response.Headers.Add("Token-Expired", "true");
-                        }
-                        return Task.CompletedTask;
-                    }
-                };
-                //options.Audience = AppSettings.Get(new string[] { "Startup", "IdentityServer4", "Audience" });
-            })
-            .AddScheme<AuthenticationSchemeOptions, MyJwtBearerHandler>(nameof(MyJwtBearerHandler), o => { });
+                         if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                         {
+                             context.Response.Headers.Add("Token-Expired", "true");
+                         }
+                         return Task.CompletedTask;
+                     }
+                 };
+                 //options.Audience = AppSettings.Get(new string[] { "Startup", "IdentityServer4", "Audience" });
+             });
+            //.AddScheme<AuthenticationSchemeOptions, MyJwtBearerHandler>(nameof(MyJwtBearerHandler), o => { });
         }
 
         /// <summary>
@@ -145,8 +145,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 //c.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 //c.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 c.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                c.DefaultChallengeScheme = nameof(MyJwtBearerHandler);
-                c.DefaultForbidScheme = nameof(MyJwtBearerHandler);
+                c.DefaultChallengeScheme = nameof(JwtAuthenticationHandler);
+                c.DefaultForbidScheme = nameof(JwtAuthenticationHandler);
             })
             // 添加JwtBearer服务
             .AddJwtBearer(c =>
@@ -161,12 +161,11 @@ namespace Microsoft.Extensions.DependencyInjection
                     //},
                     OnMessageReceived = context =>
                     {
+                        //signalr token获取
                         var accessToken = context.Request.Query["access_token"];
-
                         // If the request is for our hub...
                         var path = context.HttpContext.Request.Path;
-                        if (!string.IsNullOrEmpty(accessToken) &&
-                            (path.StartsWithSegments("/api/chathub")))
+                        if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chathub"))
                         {
                             // Read the token out of the query string
                             context.Token = accessToken;
@@ -177,7 +176,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     OnAuthenticationFailed = context => AuthenticationFailed(context)
                 };
             })
-            .AddScheme<AuthenticationSchemeOptions, MyJwtBearerHandler>(nameof(MyJwtBearerHandler), o => { });
+            .AddScheme<AuthenticationSchemeOptions, JwtAuthenticationHandler>(nameof(JwtAuthenticationHandler), o => { });
         }
         /// <summary>
         /// 认证失败时

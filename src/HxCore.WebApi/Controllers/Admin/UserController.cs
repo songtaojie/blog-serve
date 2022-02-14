@@ -1,11 +1,10 @@
 ﻿using Hx.Sdk.Entity.Page;
-using HxCore.IServices.Admin;
+using HxCore.IServices;
 using HxCore.Model.Admin.User;
 using HxCore.WebApi.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using SqlSugar;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace HxCore.WebApi.Controllers.Admin
@@ -16,13 +15,16 @@ namespace HxCore.WebApi.Controllers.Admin
     public class UserController : BaseAdminController
     {
         private readonly IUserService _service;
+        private readonly IUserQuery _query;
         /// <summary>
         ///构造函数
         /// </summary>
         /// <param name="service"></param>
-        public UserController(IUserService service)
+        /// <param name="query"></param>
+        public UserController(IUserService service, IUserQuery query)
         {
             _service = service;
+            _query = query;
         }
 
         #region 查询
@@ -31,9 +33,9 @@ namespace HxCore.WebApi.Controllers.Admin
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageModel<UserQueryModel>> GetPageAsync(UserQueryParam param)
+        public async Task<SqlSugarPageModel<UserQueryModel>> GetPageAsync(UserQueryParam param)
         {
-            var result = await _service.QueryUserPageAsync(param);
+            var result = await _query.QueryUserPageAsync(param);
             return result;
         }
 
@@ -44,7 +46,7 @@ namespace HxCore.WebApi.Controllers.Admin
         [HttpGet("{id}")]
         public async Task<UserDetailModel> GetAsync(string id)
         {
-            var result = await _service.GetAsync(id);
+            var result = await _query.GetAsync(id);
             return result;
         }
 
@@ -55,7 +57,7 @@ namespace HxCore.WebApi.Controllers.Admin
         [HttpGet]
         public async Task<UserDetailModel> GetCurrentUserInfoAsync()
         {
-            var result = await _service.GetCurrentUserInfoAsync();
+            var result = await _query.GetCurrentUserInfoAsync();
             return result;
         }
 
@@ -67,7 +69,7 @@ namespace HxCore.WebApi.Controllers.Admin
         [HttpGet("{accountId}")]
         public async Task<List<UserRoleModel>> GetRoleByIdAsync(string accountId)
         {
-            var result = await _service.GetRoleByIdAsync(accountId);
+            var result = await _query.GetRoleByIdAsync(accountId);
             return result;
         }
         #endregion

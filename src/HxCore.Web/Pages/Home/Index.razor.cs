@@ -1,4 +1,5 @@
 ﻿using HxCore.Model;
+using HxCore.Model.Client;
 using HxCore.Web.Application;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.WebUtilities;

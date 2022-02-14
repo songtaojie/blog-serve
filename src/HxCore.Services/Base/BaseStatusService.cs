@@ -6,6 +6,7 @@ using Hx.Sdk.FriendlyException;
 using HxCore.Entity;
 using HxCore.Enums;
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -39,10 +40,7 @@ namespace HxCore.Services
 
         public virtual T BeforeDelete(T entity)
         {
-            if (entity != null && UserContext != null && UserContext.IsAuthenticated)
-            {
-                entity.SetDelete(UserContext.UserId, UserContext.UserName);
-            }
+            entity.SetDelete(UserId, UserName);
             return entity;
         }
 
@@ -78,19 +76,16 @@ namespace HxCore.Services
             if (entity != null)
             {
                 entity.Id = Helper.GetSnowId();
-                if (UserContext != null && UserContext.IsAuthenticated)
-                {
-                    entity.SetCreater(UserContext.UserId, UserContext.UserName);
-                }
+                entity.SetCreater(UserId, UserName);
             }
             return entity;
         }
 
         public override T BeforeUpdate(T entity)
         {
-            if (entity != null && UserContext != null && UserContext.IsAuthenticated)
+            if (entity != null)
             {
-                entity.SetModifier(UserContext.UserId, UserContext.UserName);
+                entity.SetModifier(UserId, UserName);
             }
             return entity;
         }

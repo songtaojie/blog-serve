@@ -6,8 +6,8 @@
     <ItemGroup>
 	    <FrameworkReference Include="Microsoft.AspNetCore.App" />
     </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="SqlSugarCore" Version="5.0.4.5" />
-  </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="SqlSugarCore" Version="5.0.4.6" />
+    </ItemGroup>
 
 </Project>

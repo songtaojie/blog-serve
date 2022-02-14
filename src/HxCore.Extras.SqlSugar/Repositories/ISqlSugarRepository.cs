@@ -83,7 +83,7 @@ namespace HxCore.Extras.SqlSugar.Repositories
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        TEntity Single(dynamic Id);
+        TEntity Single(object Id);
 
         /// <summary>
         /// 获取一个实体

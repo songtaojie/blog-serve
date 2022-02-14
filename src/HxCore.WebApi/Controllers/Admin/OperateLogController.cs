@@ -1,12 +1,10 @@
 ﻿using Hx.Sdk.Attributes;
 using Hx.Sdk.Entity.Page;
-using HxCore.IServices.Admin;
+using HxCore.IServices;
 using HxCore.Model.Admin.OperateLog;
 using HxCore.WebApi.Controllers.Base;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using SqlSugar;
 using System.Threading.Tasks;
 
 namespace HxCore.WebApi.Controllers.Admin
@@ -17,14 +15,14 @@ namespace HxCore.WebApi.Controllers.Admin
     [SkipOperateLog]
     public class OperateLogController : BaseAdminController
     {
-        private readonly IOperateLogService _service;
+        private readonly IOperateLogQuery _query;
         /// <summary>
         ///构造函数
         /// </summary>
-        /// <param name="service"></param>
-        public OperateLogController(IOperateLogService service)
+        /// <param name="query"></param>
+        public OperateLogController(IOperateLogQuery query)
         {
-            _service = service;
+            _query = query;
         }
 
         /// <summary>
@@ -33,9 +31,9 @@ namespace HxCore.WebApi.Controllers.Admin
         /// <param name="param">请求参数</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageModel<OperateLogQueryModel>> GetPageAsync(OperateLogQueryParam param)
+        public async Task<SqlSugarPageModel<OperateLogQueryModel>> GetPageAsync(OperateLogQueryParam param)
         {
-            return await _service.QueryPageAsync(param);
+            return await _query.QueryPageAsync(param);
         }
     }
 }

@@ -16,12 +16,14 @@ namespace HxCore.Entity.Entities
         /// 标题
         /// </summary>
         [MaxLength(50)]
+        [Required]
         public string Title { get; set; }
 
         /// <summary>
         /// 图片地址
         /// </summary>
         [MaxLength(500)]
+        [Required]
         public string ImgUrl { get; set; }
 
         /// <summary>
@@ -39,6 +41,6 @@ namespace HxCore.Entity.Entities
         /// <summary>
         /// 排序
         /// </summary>
-        public int? OrderIndex { get; set; }
+        public int OrderSort { get; set; }
     }
 }

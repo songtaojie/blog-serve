@@ -11,11 +11,8 @@ using HxCore.Enums;
 using Hx.Sdk.Common.Helper;
 using System.Linq;
 using HxCore.Entity;
-using HxCore.IServices.Admin;
-using Hx.Sdk.Core;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
-using HxCore.Extensions.Common;
 using HxCore.Extensions.Authentication;
 using Hx.Sdk.Attributes;
 
@@ -110,8 +107,7 @@ namespace HxCore.WebApi.Controllers.Admin
                 IsSuperAdmin = Helper.IsYes(userInfo.SuperAdmin),
                 UserId = userInfo.Id,
                 NickName = userInfo.NickName,
-                UserName = userInfo.AccountName,
-                Expiration = TimeSpan.FromSeconds(1 * 60),
+                UserName = userInfo.AccountName
             };
             var roleList = await _roleService.GetListByUserAsync(userInfo.Id);
             if (roleList.Count > 0)

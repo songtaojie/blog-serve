@@ -16,6 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>服务集合</returns>
         public static IServiceCollection AddCustomOptions(this IServiceCollection services)
         {
+            services.AddConfigureOptions<AttachSettingsOptions>();
             return services;
         }
     }

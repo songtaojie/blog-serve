@@ -9,7 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace HxCore.Extensions.Aop
+namespace HxCore.Aops
 {
     internal class BlogLogAop : IInterceptor
     {

@@ -8,6 +8,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using HxCore.Web.Common;
 using Microsoft.JSInterop;
+using Microsoft.Extensions.Caching.Distributed;
+using HxCore.Model.Client;
 
 namespace HxCore.Web.Pages.Home
 {
@@ -18,6 +20,12 @@ namespace HxCore.Web.Pages.Home
 
         [Inject]
         private IWebManager WebManager { get; set; }
+
+        /// <summary>
+        /// 缓存
+        /// </summary>
+        [Inject]
+        private IDistributedCache Cache { get; set; }
 
         [Inject]
         private IJSRuntime JS { get; set; }
@@ -35,10 +43,6 @@ namespace HxCore.Web.Pages.Home
         }
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (firstRender)
-            {
-                await JS.InvokeAsync<IJSObjectReference>("import", "./my.js");
-            }
             await base.OnAfterRenderAsync(firstRender);
         }
         public async Task Articles()

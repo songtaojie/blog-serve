@@ -3,12 +3,13 @@ using System.Threading.Tasks;
 using Hx.Sdk.Attributes;
 using Hx.Sdk.Core;
 using Hx.Sdk.Entity.Page;
-using HxCore.IServices.Admin;
+using HxCore.IServices;
 using HxCore.IServices.SignalR;
 using HxCore.Model.Admin.OperateLog;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SqlSugar;
 
 namespace HxCore.WebApi.Controllers.Admin
 {
@@ -19,27 +20,17 @@ namespace HxCore.WebApi.Controllers.Admin
     [SkipRouteAuthorization]
     public class HomeController : Base.BaseAdminController
     {
-        private readonly IOperateLogService _logService;
+        private readonly IOperateLogQuery _logQuery;
         private readonly IChatService _chatService;
         /// <summary>
         ///构造函数
         /// </summary>
-        /// <param name="logService"></param>
+        /// <param name="logQuery"></param>
         /// <param name="chatService"></param>
-        public HomeController(IOperateLogService logService, IChatService chatService)
+        public HomeController(IOperateLogQuery logQuery, IChatService chatService)
         {
-            _logService = logService;
+            _logQuery = logQuery;
             _chatService = chatService;
-        }
-
-        /// <summary>
-        ///  获取用户近三十天接口访问情况
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<OperateLogChars> GetLineData2Async()
-        {
-            return await _logService.GetLineDataAsync();
         }
 
         /// <summary>
@@ -49,7 +40,7 @@ namespace HxCore.WebApi.Controllers.Admin
         [HttpPost]
         public async Task<OperateLogChars> GetLineDataAsync()
         {
-            return await _logService.GetLineDataAsync();
+            return await _logQuery.GetLineDataAsync();
         }
 
         /// <summary>
@@ -58,9 +49,9 @@ namespace HxCore.WebApi.Controllers.Admin
         /// <param name="param">请求参数</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<PageModel<OperateLogQueryModel>> GetLogsPageAsync(OperateLogQueryParam param)
+        public async Task<SqlSugarPageModel<OperateLogQueryModel>> GetLogsPageAsync(OperateLogQueryParam param)
         {
-            return await _logService.QueryPageAsync(param);
+            return await _logQuery.QueryPageAsync(param);
         }
 
         /// <summary>

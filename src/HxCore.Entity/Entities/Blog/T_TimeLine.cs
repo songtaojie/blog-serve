@@ -15,7 +15,8 @@ namespace HxCore.Entity.Entities
         /// <summary>
         /// 内容
         /// </summary>
-        [MaxLength(500)]
+        [MaxLength(1000)]
+        [Required]
         public string Content { get; set; }
         /// <summary>
         /// 链接
@@ -28,9 +29,5 @@ namespace HxCore.Entity.Entities
         /// </summary>
         [MaxLength(10)]
         public string Target { get; set; }
-        /// <summary>
-        /// 发布日期
-        /// </summary>
-        public System.DateTime PublishDate { get; set; }
     }
 }

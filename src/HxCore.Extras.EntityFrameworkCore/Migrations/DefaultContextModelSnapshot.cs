@@ -145,6 +145,7 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasColumnType("char(1)");
 
                     b.Property<string>("ImgUrl")
+                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
@@ -163,7 +164,7 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
-                    b.Property<int?>("OrderIndex")
+                    b.Property<int>("OrderSort")
                         .HasColumnType("int");
 
                     b.Property<string>("Target")
@@ -171,6 +172,7 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasColumnType("varchar(10)");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
@@ -185,10 +187,6 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasMaxLength(36)
                         .HasColumnType("varchar(36)");
-
-                    b.Property<string>("BlogTags")
-                        .HasMaxLength(40)
-                        .HasColumnType("varchar(40)");
 
                     b.Property<int>("BlogType")
                         .HasColumnType("int");
@@ -244,6 +242,9 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                     b.Property<string>("MarkDown")
                         .HasColumnType("char(1)");
 
+                    b.Property<decimal>("OrderFactor")
+                        .HasColumnType("decimal(18, 2)");
+
                     b.Property<string>("Publish")
                         .HasColumnType("char(1)");
 
@@ -286,6 +287,25 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("T_BlogExtend");
+                });
+
+            modelBuilder.Entity("HxCore.Entity.Entities.T_BlogTag", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<string>("BlogId")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.Property<string>("TagId")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("T_BlogTag");
                 });
 
             modelBuilder.Entity("HxCore.Entity.Entities.T_Category", b =>
@@ -331,7 +351,7 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("varchar(40)");
 
-                    b.Property<int?>("OrderIndex")
+                    b.Property<int>("OrderSort")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -382,15 +402,18 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
 
-                    b.Property<int?>("OrderIndex")
+                    b.Property<int>("OrderSort")
                         .HasColumnType("int");
 
-                    b.Property<string>("SiteName")
+                    b.Property<string>("SiteCode")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<sbyte>("SortCode")
-                        .HasColumnType("tinyint");
+                    b.Property<string>("SiteName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
@@ -563,8 +586,9 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasColumnType("varchar(36)");
 
                     b.Property<string>("Content")
-                        .HasMaxLength(2000)
-                        .HasColumnType("varchar(2000)");
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime");
@@ -598,7 +622,7 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
-                    b.Property<int?>("OrderIndex")
+                    b.Property<int>("OrderSort")
                         .HasColumnType("int");
 
                     b.Property<string>("Target")
@@ -793,7 +817,7 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("varchar(36)");
 
-                    b.Property<int?>("OrderIndex")
+                    b.Property<int>("OrderSort")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -809,8 +833,9 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                         .HasColumnType("varchar(36)");
 
                     b.Property<string>("Content")
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime");
@@ -843,9 +868,6 @@ namespace HxCore.Extras.EntityFrameworkCore.Migrations
                     b.Property<string>("Link")
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
-
-                    b.Property<DateTime>("PublishDate")
-                        .HasColumnType("datetime");
 
                     b.Property<string>("Target")
                         .HasMaxLength(10)

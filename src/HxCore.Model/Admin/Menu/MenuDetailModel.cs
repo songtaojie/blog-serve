@@ -66,6 +66,11 @@ namespace HxCore.Model.Admin.Menu
         public string Icon { get; set; }
 
         /// <summary>
+        /// 是否是系统内置菜单
+        /// </summary>
+        public bool IsSystem { get; set; }
+
+        /// <summary>
         /// 接口的id，多个以逗号隔开
         /// </summary>
         public List<string> ModuleIds { get; set; }

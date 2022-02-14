@@ -1,6 +1,8 @@
 ﻿using Hx.Sdk.Core;
 using Hx.Sdk.Entity.Page;
+using Hx.Sdk.UnifyResult;
 using HxCore.Model;
+using HxCore.Model.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,16 +32,9 @@ namespace HxCore.Web.Application
                 PageIndex = pageIndex,
                 PageSize = 10
             };
-            try
-            {
-                var result = await _client.PostAsync<Hx.Sdk.UnifyResult.RESTfulResult<PageModel<BlogQueryModel>>>(url, param);
-                if (!result.Succeeded) throw new Exception(result.Message);
-                return result.Data;
-            }
-            catch
-            {
-                return new PageModel<BlogQueryModel>() { };
-            }
+            var result = await _client.PostAsync<RESTfulResult<PageModel<BlogQueryModel>>>(url, param);
+            if (!result.Succeeded) throw new Exception(result.Message);
+            return result.Data;
         }
 
         /// <summary>
@@ -50,8 +45,9 @@ namespace HxCore.Web.Application
         public async Task<BlogDetailModel> GetArticle(string id)
         {
             string url = string.Format("{0}/api/article/{1}", blogServiceApi, id);
-            var result = await _client.GetAsync<BlogDetailModel>(url);
-            return result;
+            var result = await _client.GetAsync<RESTfulResult<BlogDetailModel>>(url);
+            if (!result.Succeeded) throw new Exception(result.Message);
+            return result.Data;
         }
 
     }

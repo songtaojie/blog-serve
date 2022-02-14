@@ -27,6 +27,6 @@ namespace HxCore.Entity.Entities
         /// <summary>
         /// 排序
         /// </summary>
-        public int? OrderIndex { get; set; }
+        public int OrderSort { get; set; }
     }
 }

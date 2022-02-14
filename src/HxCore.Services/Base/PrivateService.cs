@@ -23,6 +23,19 @@ namespace HxCore.Services.Internal
         /// 用户上下文
         /// </summary>
         protected IUserContext UserContext { get; }
+
+        /// <summary>
+        /// 用户的id
+        /// </summary>
+        protected string UserId => UserContext.IsAuthenticated? UserContext.UserId:string.Empty;
+
+        /// <summary>
+        /// 用户名字，如果有昵称取昵称，没有的话取用户名
+        /// </summary>
+        protected string UserName => UserContext.IsAuthenticated
+            ? UserContext.GetClaimValueByType(System.Security.Claims.ClaimTypes.GivenName).FirstOrDefault() ?? UserContext.UserName
+            :string.Empty;
+
         /// <summary>
         /// AutoMapper映射对象
         /// </summary>

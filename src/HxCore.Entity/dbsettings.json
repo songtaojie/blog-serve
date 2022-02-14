@@ -10,12 +10,10 @@
     "EnabledSqlLog": true,
     "MigrationAssemblyName": "HxCore.Extras.EntityFrameworkCore"
   },
-  "SqlSugarSettings": [
-    {
-      "ConnectionString": "",
-      "DbType": 0,
-      "InitKeyType": 1,
-      "IsAutoCloseConnection": true
-    }
-  ]
+  "SqlSugarSettings": {
+    "ConnectionString": "",
+    "DbType": 0,
+    "InitKeyType": 1,
+    "IsAutoCloseConnection": true
+  }
 }

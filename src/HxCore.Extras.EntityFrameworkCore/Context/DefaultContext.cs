@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Hx.Sdk.DatabaseAccessor;
+using HxCore.Entity.EntityConfiguration;
 
 namespace HxCore.Extras.EntityFrameworkCore
 {
@@ -16,5 +17,10 @@ namespace HxCore.Extras.EntityFrameworkCore
         public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
         {
         }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.ApplyConfiguration(new UserInfoEtc());
+        //    base.OnModelCreating(modelBuilder);
+        //}
     }
 }

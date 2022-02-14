@@ -1,42 +1,40 @@
 ﻿@using HxCore.Web.Common;
-<article class="blog-list d-flex flex-column justify-content-start">
+<article class="hx-article d-flex flex-column flex-fill justify-content-start">
     @foreach (var blog in blogList)
     {
-        <div class="blog-item  mb-2 bg-white " data-id="@blog.Id" data-scroll-reveal="enter bottom over 1s">
-            <div class="blog-item-content">
-                <div class="blog-item-title">
+        <div class="hx-article-item d-flex  mb-2 bg-white" data-id="@blog.Id" data-scroll-reveal="enter bottom over 1s">
+            <div class="hx-article-cover  mr-3">
+                <img src="@blog.CoverImgUrl" />
+            </div>
+            <div class="hx-article-abstract d-flex flex-fill flex-column">
+                 <div class="hx-article-title">
                     <h4>
                         <a target="_blank" href="@(WebManager.GetFullUrl("","/article/"+blog.Id))">@blog.Title</a>
                     </h4>
                 </div>
-            </div>
-            <div class="blog-item-summary blog-content-nowrap">
-                <p>
-                    @blog.PureContent
-                </p>
-            </div>
-            <div class="blog-item-user d-flex justify-content-start align-items-center">
-                <div class="hx-avatar _32x32  hx-circle mr-2">
-                    <a>
-                        <img src="@blog.AvatarUrl" />
-                    </a>
+                <div class="hx-article-content hx-nowrap">
+                    <p>@blog.PureContent</p>
                 </div>
-                <div class="mr-1">@blog.UserName</div>
-                <div class="mr-1">@(WebHelper.GetDispayDate(blog.PublishDate))</div>
-                <div class="blog-read ml-auto">
-                    <a>
-                        <span class="hx-text-gray">阅读</span>
-                        <span class="hx-text-blue">@blog.ReadCount</span>
-                    </a>
-                </div>
-                <div class="blog-comment ml-2">
-                    <a>
-                        <span class="hx-text-gray">评论</span>
-                        <span class="hx-text-blue">@blog.CmtCount</span>
-                    </a>
+                <div class="hx-article-footer d-flex justify-content-start align-items-center mt-auto">
+                    <div class="hx-avatar _32x32  hx-circle mr-2">
+                        <img src="@(string.IsNullOrEmpty(blog.AvatarUrl)?"static/avatar1.jpg":blog.AvatarUrl)" />
+                    </div>
+                    <div class="mr-1">@blog.Publisher</div>
+                    <div class="mr-1">@(WebHelper.GetDispayDate(blog.PublishDate))</div>
+                    <div class="hx-article-read ml-auto">
+                        <a>
+                            <span class="hx-text-gray">阅读</span>
+                            <span class="hx-text-blue">@blog.ReadCount</span>
+                        </a>
+                    </div>
+                    <div class="hx-article-cmt ml-2">
+                        <a>
+                            <span class="hx-text-gray">评论</span>
+                            <span class="hx-text-blue">@blog.CmtCount</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     }
-
 </article>

@@ -20,9 +20,9 @@ namespace HxCore.Entity
         public const string AuthRouterKey = ":AUTH:USER_PERMISSION_{0}";
 
         /// <summary>
-        /// Permission
+        /// 首页blog key
         /// </summary>
-        public const string BlogKey = ":Blog";
+        public const string HOME_KEY = ":HOME";
 
         /// <summary>
         /// 系统内置数据

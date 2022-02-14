@@ -38,20 +38,14 @@ namespace HxCore.Services
             if (entity != null)
             {
                 entity.Id = Helper.GetSnowId();
-                if (UserContext!=null && UserContext.IsAuthenticated)
-                {
-                    entity.SetCreater(UserContext.UserId, UserContext.UserName);
-                }
+                entity.SetCreater(UserId, UserName);
             }
             return entity;
         }
 
         public override T BeforeUpdate(T entity)
         {
-            if (entity != null && UserContext != null && UserContext.IsAuthenticated)
-            {
-                entity.SetModifier(UserContext.UserId, UserContext.UserName);
-            }
+            entity.SetModifier(UserId, UserName);
             return entity;
         }
         #endregion
