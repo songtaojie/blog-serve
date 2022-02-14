@@ -263,3 +263,4 @@ __pycache__/
 *.Production.json
 resources/
 
+/src/HxCore.WebApi/wwwroot/resources
