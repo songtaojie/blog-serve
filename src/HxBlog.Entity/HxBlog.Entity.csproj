@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+	<NoWarn>1701;1702;1591;8632</NoWarn>
+	<DocumentationFile></DocumentationFile>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <None Remove="HxBlog.Entity.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="dbsettings.Production.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
