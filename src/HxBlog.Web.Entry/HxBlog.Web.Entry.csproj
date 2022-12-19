@@ -65,4 +65,13 @@
 		</Content>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Update="HxBlog.Admin.db">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	  <None Update="HxBlog.Core.db">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 </Project>

@@ -5,7 +5,7 @@
 /// </summary>
 [SugarTable(null, "博客扩展表")]
 [TenantBusiness]
-[Tenant(ApplicationConst.ConfigId)]
+[Tenant(ApplicationConst.Blog_ConfigId)]
 public class HtBlogExtend : EntityBaseId
 {
     /// <summary>

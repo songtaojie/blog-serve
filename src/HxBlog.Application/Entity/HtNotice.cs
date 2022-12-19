@@ -4,7 +4,7 @@
 /// </summary>
 [SugarTable(null, "公告通知表")]
 [TenantBusiness]
-[Tenant(ApplicationConst.ConfigId)]
+[Tenant(ApplicationConst.Blog_ConfigId)]
 public class HtNotice : EntityTenantBaseData
 {
     /// <summary>

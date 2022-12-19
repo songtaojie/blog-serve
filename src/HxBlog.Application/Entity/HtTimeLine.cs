@@ -10,7 +10,7 @@ namespace HxBlog.Application.Entity;
 /// </summary>
 [SugarTable(null, "时间轴表")]
 [TenantBusiness]
-[Tenant(ApplicationConst.ConfigId)]
+[Tenant(ApplicationConst.Blog_ConfigId)]
 public class HtTimeLine : EntityTenantBaseData
 {
     /// <summary>

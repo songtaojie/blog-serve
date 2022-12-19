@@ -5,7 +5,7 @@
 /// </summary>
 [SugarTable(null, "友情链接表")]
 [TenantBusiness]
-[Tenant(ApplicationConst.ConfigId)]
+[Tenant(ApplicationConst.Blog_ConfigId)]
 public class HtFriendLink : EntityTenantBaseData
 {
     /// <summary>

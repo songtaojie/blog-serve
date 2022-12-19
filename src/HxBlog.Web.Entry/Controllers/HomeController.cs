@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using HxBlog.Core;
+using HxBlog.Core.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HxBlog.Web.Entry.Controllers
@@ -6,16 +8,16 @@ namespace HxBlog.Web.Entry.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
-        //private readonly ISystemService _systemService;
+        private readonly SysConfigService _sysConfigService;
 
-        //public HomeController(ISystemService systemService)
-        //{
-        //    _systemService = systemService;
-        //}
+        public HomeController(SysConfigService sysConfigService)
+        {
+            _sysConfigService = sysConfigService;
+        }
 
         public IActionResult Index()
         {
-            //ViewBag.Description = _systemService.GetDescription();
+            ViewBag.Description = _sysConfigService.GetConfigValue<string>(CommonConst.SysDescription);
 
             return View();
         }

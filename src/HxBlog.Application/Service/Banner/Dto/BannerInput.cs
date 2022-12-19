@@ -1,23 +1,28 @@
-﻿namespace HxBlog.Application.Entity;
+﻿// Apache-2.0 License
+// Copyright (c) 2021-2022 zuohuaijun
+// 电话/微信：18020030720  QQ群：87333204
 
-/// <summary>
-/// Banner图
-/// </summary>
-[SugarTable(null, "Banner图表")]
-[TenantBusiness]
-[Tenant(ApplicationConst.Blog_ConfigId)]
-public class HtBanner : EntityTenantBaseData
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HxBlog.Application.Service.Banner.Dto;
+public class AddBannerInput
 {
     /// <summary>
     /// 标题
     /// </summary>
-    [SugarColumn(ColumnDescription = "标题", IsNullable = false, Length = 256)]
+    [Required(ErrorMessage ="Banner标题不能为空")]
+    [MaxLength(256,ErrorMessage ="Banner标题长度不能大于{1}")]
     public string Title { get; set; }
 
     /// <summary>
     /// 图片地址
     /// </summary>
-    [SugarColumn(ColumnDescription = "图片地址", IsNullable = false, Length = 500)]
+    [Required(ErrorMessage = "图片地址不能为空")]
+    [MaxLength(256, ErrorMessage = "Banner标题长度不能大于{1}")]
     public string ImgUrl { get; set; }
 
     /// <summary>

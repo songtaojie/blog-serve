@@ -42,6 +42,11 @@ public class CommonConst
     public const string SysAdminRole = "sys_admin";
 
     /// <summary>
+    /// 系统管理员角色编码
+    /// </summary>
+    public const string SysDescription = "sys_desc";
+
+    /// <summary>
     /// 开启全局脱敏处理（默认不开启）
     /// </summary>
     public static bool SysSensitiveDetection = false;

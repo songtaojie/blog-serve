@@ -5,7 +5,7 @@
 /// </summary>
 [SugarTable(null, "博客分类表")]
 [TenantBusiness]
-[Tenant(ApplicationConst.ConfigId)]
+[Tenant(ApplicationConst.Blog_ConfigId)]
 public class HtCategory : EntityTenantBaseData
 {
     /// <summary>

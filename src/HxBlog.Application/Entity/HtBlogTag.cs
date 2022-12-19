@@ -4,7 +4,7 @@
 /// </summary>
 [SugarTable(null, "博客标签映射表")]
 [TenantBusiness]
-[Tenant(ApplicationConst.ConfigId)]
+[Tenant(ApplicationConst.Blog_ConfigId)]
 public class HtBlogTag : EntityBaseId
 {
     /// <summary>

@@ -8,10 +8,10 @@ public class ApplicationConst
     /// <summary>
     /// API分组名称
     /// </summary>
-    public const string GroupName = "博客API";
+    public const string Blog_GroupName = "博客API";
 
     /// <summary>
     /// 数据库标识
     /// </summary>
-    public const string ConfigId = "123456780000001";
+    public const string Blog_ConfigId = "123456780000001";
 }

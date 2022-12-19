@@ -217,6 +217,11 @@
             系统管理员角色编码
             </summary>
         </member>
+        <member name="F:HxBlog.Core.CommonConst.SysDescription">
+            <summary>
+            系统管理员角色编码
+            </summary>
+        </member>
         <member name="F:HxBlog.Core.CommonConst.SysSensitiveDetection">
             <summary>
             开启全局脱敏处理（默认不开启）
