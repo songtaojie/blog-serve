@@ -16,21 +16,28 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
         if (typeof(T).IsDefined(typeof(TenantBusinessAttribute), false))
         {
             var tenantId = App.GetRequiredService<UserManager>().TenantId; // 根据租户Id切库
-
-            if (!iTenant.IsAnyConnection(tenantId.ToString()))
+            var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant)
+                   .FirstOrDefault(u => u.Id == tenantId);
+            if (tenant != null && tenant.TenantType == TenantTypeEnum.Db)
             {
-                var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant)
-                    .FirstOrDefault(u => u.Id == tenantId);
-                iTenant.AddConnection(new ConnectionConfig()
+                if (!iTenant.IsAnyConnection(tenantId.ToString()))
                 {
-                    ConfigId = tenant.Id,
-                    DbType = tenant.DbType,
-                    ConnectionString = tenant.Connection,
-                    IsAutoCloseConnection = true
-                });
-                SqlSugarSetup.SetDbAop(iTenant.GetConnectionScope(tenantId.ToString()));
+
+                    iTenant.AddConnection(new ConnectionConfig()
+                    {
+                        ConfigId = tenant.Id,
+                        DbType = tenant.DbType,
+                        ConnectionString = tenant.Connection,
+                        IsAutoCloseConnection = true
+                    });
+                    SqlSugarSetup.SetDbAop(iTenant.GetConnectionScope(tenantId.ToString()));
+                }
+                base.Context = iTenant.GetConnectionScope(tenantId.ToString());
             }
-            base.Context = iTenant.GetConnectionScope(tenantId.ToString());
+            else
+            {
+                base.Context = iTenant.GetConnectionScopeWithAttr<T>();
+            }
         }
         else
         {

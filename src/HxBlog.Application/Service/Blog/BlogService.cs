@@ -2,6 +2,7 @@
 using HxBlog.Application.Service.Blog.Dto;
 using HxBlog.Core;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HxBlog.Application.Service.Blog
 {
@@ -22,6 +23,7 @@ namespace HxBlog.Application.Service.Blog
         /// </summary>
         /// <returns></returns>
         [HttpGet("/blog/page")]
+        [AllowAnonymous]
         public async Task<SqlSugarPagedList<PageBlogOutput>> GetBlogPage([FromQuery]PageBlogInput input)
         {
             var result = await _htBlogRep.AsQueryable()
