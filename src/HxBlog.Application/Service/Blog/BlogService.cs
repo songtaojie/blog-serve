@@ -59,5 +59,15 @@ namespace HxBlog.Application.Service.Blog
             var blog = input.Adapt<HtBlog>();
             return await _htBlogRep.InsertAsync(blog);
         }
+
+        /// <summary>
+        /// 删除博客
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("/blog/delete")]
+        public async Task<bool> DeleteBlog(DeleteBlogInput input)
+        {
+            return await _htBlogRep.DeleteAsync(r=>r.Id == input.Id);
+        }
     }
 }
